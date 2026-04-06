@@ -226,12 +226,12 @@ const COS=[
   {n:"Factory",s:"Dev Tools",y:2023,rev:60,val:300,st:"active"},
   {n:"Fuse",s:"Fintech",y:2019,st:"shutdown"},
   {n:"GenLogs",s:"Supply Chain",y:2023,val:375,st:"active"},
-  {n:"Headroom",s:"Proptech",y:2022,st:"acquired"},
+  {n:"Headroom",s:"Proptech",y:2022,st:"exited"},
   {n:"Hippo Build",s:"Vertical SaaS",y:2022,val:15,st:"active"},
   {n:"HomeOptions",s:"Proptech",y:2022,st:"shutdown"},
-  {n:"HomeRoom",s:"Proptech",y:2022,st:"exit"},
+  {n:"HomeRoom",s:"Proptech",y:2022,st:"exited"},
   {n:"Humand",s:"Vertical SaaS",y:2022,val:225,st:"active"},
-  {n:"Innerworld",s:"Healthcare",y:2022,st:"exit"},
+  {n:"Innerworld",s:"Healthcare",y:2022,st:"exited"},
   {n:"K-Scale Labs",s:"Robotics",y:2024,st:"shutdown"},
   {n:"Kairn",s:"Healthcare",y:2022,st:"shutdown"},
   {n:"Keep",s:"Fintech",y:2021,rev:21.2,val:150,st:"active"},
@@ -254,26 +254,25 @@ const COS=[
   {n:"Reforge",s:"HR Tech",y:2022,val:450,st:"active"},
   {n:"Regression Games",s:"Gaming",y:2022,st:"shutdown"},
   {n:"Senra Systems",s:"Manufacturing",y:2023,val:145,st:"active"},
-  {n:"Skylink",s:"Vertical SaaS",y:2022,st:"acquired"},
+  {n:"Skylink",s:"Vertical SaaS",y:2022,st:"exited"},
   {n:"Starpath Robotics",s:"Spacetech",y:2022,val:32.5,st:"active"},
   {n:"Superorder",s:"Vertical SaaS",y:2019,rev:4.6,run:22,val:45,st:"active"},
   {n:"Superpower",s:"Healthcare",y:2024,val:150,st:"active"},
-  {n:"Swapstack",s:"Vertical SaaS",y:2021,st:"exit"},
+  {n:"Swapstack",s:"Vertical SaaS",y:2021,st:"exited"},
   {n:"Tags",s:"Vertical SaaS",y:2021,st:"shutdown"},
   {n:"Taiv",s:"Vertical SaaS",y:2023,rev:20.7,run:12,val:92,st:"active"},
   {n:"TeamHuddle",s:"Vertical SaaS",y:2021,st:"shutdown"},
-  {n:"Tranch",s:"Fintech",y:2022,st:"acquired"},
+  {n:"Tranch",s:"Fintech",y:2022,st:"exited"},
   {n:"Union",s:"Defense Tech",y:2025,val:150,st:"active"},
   {n:"Veria Labs",s:"Cybersecurity",y:2025,run:20,val:30,st:"active"},
   {n:"Wingback",s:"Vertical SaaS",y:2022,st:"shutdown"},
-  {n:"Yofi",s:"Vertical SaaS",y:2022,st:"acquired"},
+  {n:"Yofi",s:"Vertical SaaS",y:2022,st:"exited"},
 ];
 
 const ST_CFG={
   active:{label:"Active",bg:"#14532D",color:"#86EFAC"},
   shutdown:{label:"Shut Down",bg:"#3F1313",color:"#FCA5A5"},
-  exit:{label:"Exit",bg:"#1E3A5F",color:"#93C5FD"},
-  acquired:{label:"Acquired",bg:"#3B2A14",color:"#FDE68A"}
+  exited:{label:"Exited",bg:"#1E3A5F",color:"#93C5FD"}
 };
 
 // Populate sector filter
@@ -285,7 +284,7 @@ const ST_CFG={
 // Status filter pills
 let activeStatus='all';
 const sfEl=document.getElementById('status-filters');
-[{k:'all',label:'All'},{k:'active',label:'Active'},{k:'shutdown',label:'Shut Down'},{k:'exit',label:'Exit'},{k:'acquired',label:'Acquired'}].forEach(({k,label})=>{
+[{k:'all',label:'All'},{k:'active',label:'Active'},{k:'shutdown',label:'Shut Down'},{k:'exited',label:'Exited'}].forEach(({k,label})=>{
   const b=document.createElement('button');
   b.className='sp'+(k==='all'?' sel':'');
   b.textContent=k==='all'?'All ('+COS.length+')':label+' ('+COS.filter(c=>c.st===k).length+')';
@@ -299,7 +298,7 @@ const totalVal=active.filter(c=>c.val).reduce((s,c)=>s+c.val,0);
 const totalRev=COS.filter(c=>c.rev).reduce((s,c)=>s+c.rev,0);
 document.getElementById('port-stats').innerHTML=`
   <div class="sc"><div class="sc-l">Total portfolio</div><div class="sc-v">${COS.length}</div><div class="sc-s">Companies</div></div>
-  <div class="sc"><div class="sc-l">Active</div><div class="sc-v" style="color:#34D399">${active.length}</div><div class="sc-s">${COS.filter(c=>c.st==='shutdown').length} shut down · ${COS.filter(c=>c.st==='acquired'||c.st==='exit').length} exits/acq</div></div>
+  <div class="sc"><div class="sc-l">Active</div><div class="sc-v" style="color:#34D399">${active.length}</div><div class="sc-s">${COS.filter(c=>c.st==='shutdown').length} shut down · ${COS.filter(c=>c.st==='exited').length} exited</div></div>
   <div class="sc"><div class="sc-l">Total Revenue</div><div class="sc-v">$${totalRev.toFixed(1)}M</div><div class="sc-s">${COS.filter(c=>c.rev).length} reporting</div></div>
   <div class="sc"><div class="sc-l">Active Val.</div><div class="sc-v">$${(totalVal/1000).toFixed(1)}B</div><div class="sc-s">Active companies only</div></div>
 `;
