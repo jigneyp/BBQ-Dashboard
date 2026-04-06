@@ -3,1689 +3,427 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BBQ Capital - Portfolio Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:wght@400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<title>BBQ Capital — Portfolio Dashboard</title>
 <style>
-:root {
-  --bg-dark: #000000;
-  --bg-card: #0A0A0A;
-  --bg-secondary: #111111;
-  --text-primary: #FFFFFF;
-  --text-secondary: #999999;
-  --text-muted: #666666;
-  --gold: #D4AF37;
-  --orange: #FF6B35;
-  --blue: #4A9EFF;
-  --green: #00C896;
-  --red: #FF4C4C;
-  --yellow: #F5C842;
-  --border: #1A1A1A;
-  --border-light: #2A2A2A;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg-dark);
-  color: var(--text-primary);
-  line-height: 1.6;
-}
-
-.sidebar {
-  position: fixed;
-  left: 0; top: 0; bottom: 0;
-  width: 50px;
-  background: var(--bg-card);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-  z-index: 100;
-}
-
-.sidebar-logo { font-size: 20px; margin-bottom: 40px; cursor: pointer; }
-.sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-
-.nav-item {
-  width: 32px; height: 32px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; cursor: pointer;
-  color: var(--text-muted); transition: all 0.2s;
-  font-size: 18px;
-}
-
-.nav-item:hover { color: var(--text-primary); background: var(--bg-secondary); }
-.nav-item.active { color: var(--gold); background: var(--bg-secondary); }
-
-.main { margin-left: 50px; min-height: 100vh; }
-
-.topbar {
-  height: 60px; border-bottom: 1px solid var(--border);
-  padding: 0 40px; display: flex; align-items: center;
-  justify-content: space-between;
-}
-
-.topbar-title {
-  font-size: 14px; font-weight: 500;
-  color: var(--text-secondary);
-  text-transform: uppercase; letter-spacing: 1.5px;
-}
-
-.topbar-actions { display: flex; gap: 12px; align-items: center; }
-
-.btn {
-  padding: 8px 16px; border-radius: 6px;
-  font-size: 12px; font-weight: 600;
-  cursor: pointer; border: none;
-  transition: all 0.2s; font-family: 'Inter', sans-serif;
-}
-
-.btn-primary { background: var(--gold); color: var(--bg-dark); }
-.btn-primary:hover { background: #E5C350; }
-.btn-outline {
-  background: transparent;
-  border: 1px solid var(--border-light);
-  color: var(--text-secondary);
-}
-.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-
-.content { padding: 40px; }
-
-.page { display: none; }
-.page.active { display: block; }
-
-.hero {
-  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 40px 60px;
-  margin-bottom: 40px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.hero-content { position: relative; z-index: 1; }
-
-.hero-label {
-  font-size: 36px;
-  font-family: 'DM Serif Display', serif;
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.hero-subtitle {
-  font-size: 13px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
-.hero-number {
-  font-family: 'DM Serif Display', serif;
-  font-size: 72px;
-  color: var(--gold);
-}
-
-.stats-bar {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 24px;
-}
-
-.stat-box {
-  background: var(--bg-card);
-  padding: 20px;
-  text-align: center;
-}
-
-.stat-value {
-  font-family: 'DM Serif Display', serif;
-  font-size: 32px;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.stat-value.gold { color: var(--gold); }
-
-.stat-label {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--text-muted);
-}
-
-.stat-sublabel {
-  font-size: 10px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-}
-
-.alert {
-  background: linear-gradient(90deg, rgba(245,200,66,0.15) 0%, rgba(245,200,66,0.05) 100%);
-  border: 1px solid rgba(245,200,66,0.3);
-  border-radius: 8px;
-  padding: 14px 20px;
-  margin-bottom: 24px;
-  font-size: 12px;
-  color: var(--yellow);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.alert-icon { font-size: 16px; }
-
-.section {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 40px;
-  margin-bottom: 32px;
-}
-
-.section-header {
-  margin-bottom: 32px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
-}
-
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
-}
-
-.bar-chart {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.bar-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.bar-label {
-  width: 180px;
-  font-size: 12px;
-  color: var(--text-secondary);
-  text-align: right;
-  font-weight: 500;
-}
-
-.bar-track {
-  flex: 1;
-  height: 22px;
-  background: var(--bg-secondary);
-  border-radius: 3px;
-  position: relative;
-  overflow: hidden;
-}
-
-.bar-fill {
-  height: 100%;
-  border-radius: 3px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  transition: width 1s ease-out;
-  justify-content: flex-end;
-}
-
-.bar-fill.hot { background: var(--orange); }
-.bar-fill.warm { background: #CC5A2E; }
-.bar-fill.cool { background: #3D7AC7; }
-.bar-fill.cold { background: var(--blue); }
-
-.bar-number {
-  position: absolute;
-  right: -35px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-thead th {
-  padding: 12px 16px;
-  text-align: left;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border);
-}
-
-tbody td {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-tbody tr:hover { background: var(--bg-secondary); }
-
-.company-name { font-weight: 600; color: var(--text-primary); }
-
-.badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 3px;
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.badge-saas { background: rgba(74,158,255,0.15); color: var(--blue); }
-.badge-fintech { background: rgba(0,200,150,0.15); color: var(--green); }
-.badge-consumer { background: rgba(255,107,53,0.15); color: var(--orange); }
-.badge-deeptech { background: rgba(212,175,55,0.15); color: var(--gold); }
-.badge-partial { background: rgba(245,200,66,0.15); color: var(--yellow); }
-.badge-complete { background: rgba(0,200,150,0.15); color: var(--green); }
-
-.growth-pos { color: var(--green); font-weight: 600; }
-
-.charts-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-top: 32px;
-}
-
-.chart-box {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 24px;
-}
-
-.chart-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  margin-bottom: 20px;
-}
-
-.chart-wrapper {
-  position: relative;
-  height: 300px;
-}
-
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.news-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.news-card:hover {
-  border-color: var(--gold);
-  transform: translateY(-2px);
-}
-
-.news-badge {
-  display: inline-block;
-  padding: 4px 8px;
-  background: rgba(74,158,255,0.15);
-  color: var(--blue);
-  border-radius: 4px;
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.news-date {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-}
-
-.news-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-
-.news-source {
-  font-size: 10px;
-  color: var(--text-secondary);
-}
-
-.comp-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 32px;
-  margin-bottom: 24px;
-}
-
-.comp-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
-}
-
-.comp-company-name {
-  font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  margin-bottom: 6px;
-}
-
-.comp-sector {
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-}
-
-.comp-metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.comp-metric {
-  background: var(--bg-card);
-  padding: 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.comp-metric-label {
-  font-size: 9px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-
-.comp-metric-value {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--gold);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.comp-section {
-  margin-bottom: 18px;
-}
-
-.comp-section-title {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-}
-
-.comp-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.comp-tag {
-  padding: 5px 10px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-.comp-tag.investor {
-  background: rgba(74,158,255,0.1);
-  border-color: rgba(74,158,255,0.3);
-  color: var(--blue);
-}
-
-.comp-description {
-  font-size: 12px;
-  line-height: 1.7;
-  color: var(--text-secondary);
-}
-
-.jobs-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.job-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.job-card:hover {
-  border-color: var(--gold);
-  transform: translateY(-1px);
-}
-
-.job-company {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-
-.job-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-
-.job-meta {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-.filters {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.filter-select {
-  padding: 8px 14px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-primary);
-  font-size: 12px;
-  font-family: 'Inter', sans-serif;
-  min-width: 160px;
-}
-
-.filter-select:focus {
-  outline: none;
-  border-color: var(--gold);
-}
-
-@media (max-width: 1400px) {
-  .stats-bar { grid-template-columns: repeat(2, 1fr); }
-  .charts-grid { grid-template-columns: 1fr; }
-  .news-grid { grid-template-columns: 1fr; }
-  .jobs-grid { grid-template-columns: 1fr; }
-  .comp-metrics { grid-template-columns: repeat(2, 1fr); }
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0F0F0E;--bg2:#1A1A18;--bg3:#111110;--text:#F9FAFB;--text2:#9CA3AF;--text3:#6B7280;--border:#1F2937;--border2:#374151;--amber:#F59E0B;--green:#34D399;--red:#F87171;--blue:#60A5FA;--radius:10px;--radius-sm:6px}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,-apple-system,sans-serif;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+.header{display:flex;align-items:center;justify-content:space-between;padding:22px 0 18px;border-bottom:0.5px solid var(--border);margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{width:36px;height:36px;background:var(--amber);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.logo-name{font-size:17px;font-weight:600;letter-spacing:-.02em}
+.logo-sub{font-size:11px;color:var(--text3)}
+.sync{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.tabs{display:flex;gap:2px;background:var(--bg2);border-radius:var(--radius);padding:4px;width:fit-content;margin-bottom:24px;flex-wrap:wrap}
+.tab{padding:7px 18px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-size:13px;font-weight:500;background:transparent;color:var(--text3);transition:all .15s}
+.tab.active{background:var(--amber);color:var(--bg)}
+.panel{display:none}.panel.active{display:block}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sc{background:var(--bg2);border-radius:var(--radius);padding:16px 20px;flex:1;min-width:130px}
+.sc-l{font-size:10px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.sc-v{font-size:24px;font-weight:600;line-height:1}
+.sc-s{font-size:12px;color:var(--text3);margin-top:5px}
+.row2{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.card{background:var(--bg2);border-radius:var(--radius);padding:14px 18px;flex:1;min-width:240px}
+.card-t{font-size:10px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+.search-row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.search-row input,.search-row select{font-size:13px;padding:8px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none}
+.search-row input{flex:1;min-width:160px}
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius);border:0.5px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
+th{padding:10px 12px;background:var(--bg3);color:var(--text3);font-weight:500;text-align:left;font-size:10px;letter-spacing:.07em;text-transform:uppercase;border-bottom:0.5px solid var(--border);white-space:nowrap}
+td{padding:9px 12px;border-bottom:0.5px solid var(--border);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+.badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500;white-space:nowrap;display:inline-block}
+.bar-r{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bar-l{font-size:11px;color:var(--text2);width:140px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-t{flex:1;background:var(--bg3);border-radius:3px;height:7px;overflow:hidden}
+.bar-f{height:100%;border-radius:3px;background:var(--amber)}
+.bar-n{font-size:11px;color:var(--text3);width:24px;text-align:right;flex-shrink:0}
+.pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:0.5px solid var(--border);border-radius:7px;padding:6px 10px}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.note{margin-top:14px;padding:10px 14px;background:var(--bg2);border-radius:var(--radius-sm);border:0.5px dashed var(--border2);font-size:12px;color:var(--text3)}
+.status-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.sp{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid var(--border);background:var(--bg2);color:var(--text2)}
+.sp.sel{border-color:var(--amber);color:var(--amber)}
+.job-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.job-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.press-item{padding:12px 0;border-bottom:0.5px solid var(--border)}
+.press-item:last-child{border-bottom:none}
+.req-item{padding:12px 0;border-bottom:0.5px solid var(--border)}
+.req-item:last-child{border-bottom:none}
+@media(max-width:600px){.stats{flex-direction:column}.sc{min-width:unset}}
 </style>
 </head>
 <body>
+<div class="wrap">
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">🔥</div>
+    <div><div class="logo-name">BBQ Capital</div><div class="logo-sub">Portfolio Dashboard</div></div>
+  </div>
+  <div class="sync"><div class="sync-dot"></div><span id="sync-date"></span></div>
+</div>
 
-<aside class="sidebar">
-  <div class="sidebar-logo">💼</div>
-  <nav class="sidebar-nav">
-    <div class="nav-item active" title="Portfolio" onclick="switchPage('portfolio')">◈</div>
-    <div class="nav-item" title="Dealflow" onclick="switchPage('dealflow')">⊞</div>
-    <div class="nav-item" title="Sources" onclick="switchPage('sources')">◎</div>
-    <div class="nav-item" title="Press" onclick="switchPage('press')">📰</div>
-    <div class="nav-item" title="Requests" onclick="switchPage('requests')">✦</div>
-    <div class="nav-item" title="Competitive" onclick="switchPage('competitive')">⚡</div>
-    <div class="nav-item" title="Jobs" onclick="switchPage('jobs')">💼</div>
-  </nav>
-</aside>
+<div class="tabs">
+  <button class="tab active" onclick="show('portfolio',this)">Portfolio</button>
+  <button class="tab" onclick="show('dealflow',this)">Dealflow</button>
+  <button class="tab" onclick="show('press',this)">Press</button>
+  <button class="tab" onclick="show('requests',this)">Requests</button>
+  <button class="tab" onclick="show('jobs',this)">Jobs</button>
+</div>
 
-<main class="main">
-  <div class="topbar">
-    <span class="topbar-title" id="currentView">Portfolio Overview</span>
-    <div class="topbar-actions">
-      <span style="font-size:11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">📧 Synced from Gmail · Mar 3, 2026</span>
-      <button class="btn btn-outline">Export CSV</button>
-      <button class="btn btn-primary">+ Add Company</button>
+<!-- PORTFOLIO -->
+<div id="portfolio" class="panel active">
+  <div class="stats" id="port-stats"></div>
+  <div class="status-pills" id="status-filters"></div>
+  <div class="search-row">
+    <input id="co-search" placeholder="Search companies…" oninput="filterCos()">
+    <select id="co-sector" onchange="filterCos()"><option value="">All sectors</option></select>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>Company</th><th>Sector</th><th>Year</th>
+        <th style="text-align:right">Revenue</th>
+        <th style="text-align:right">Runway</th>
+        <th style="text-align:right">Valuation</th>
+        <th>Status</th>
+      </tr></thead>
+      <tbody id="co-body"></tbody>
+    </table>
+  </div>
+  <div class="note">⚡ Grey = no data yet · Red runway = &lt;12mo · Cowork auto-fills from Gmail investor updates → Notion</div>
+</div>
+
+<!-- DEALFLOW -->
+<div id="dealflow" class="panel">
+  <div class="stats">
+    <div class="sc"><div class="sc-l">Total seen</div><div class="sc-v">100</div><div class="sc-s">This view</div></div>
+    <div class="sc"><div class="sc-l">In Docket</div><div class="sc-v" style="color:#34D399">11</div><div class="sc-s">Active review</div></div>
+    <div class="sc"><div class="sc-l">Passed</div><div class="sc-v" style="color:#F87171">33</div><div class="sc-s">Not a fit</div></div>
+    <div class="sc"><div class="sc-l">Pass rate</div><div class="sc-v">33%</div><div class="sc-s">Of reviewed</div></div>
+  </div>
+  <div class="row2">
+    <div class="card" style="flex:1.2">
+      <div class="card-t">Pipeline stages</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+        <div class="pill"><div class="dot" style="background:#34D399"></div><span style="font-size:12px;color:var(--text2)">Docket</span><span style="font-size:12px;font-weight:600;color:#34D399;margin-left:4px">11</span></div>
+        <div class="pill"><div class="dot" style="background:#60A5FA"></div><span style="font-size:12px;color:var(--text2)">Move to 2nd Call</span><span style="font-size:12px;font-weight:600;color:#60A5FA;margin-left:4px">1</span></div>
+        <div class="pill"><div class="dot" style="background:#F59E0B"></div><span style="font-size:12px;color:var(--text2)">Hold – Not Raising</span><span style="font-size:12px;font-weight:600;color:#F59E0B;margin-left:4px">1</span></div>
+        <div class="pill"><div class="dot" style="background:#F87171"></div><span style="font-size:12px;color:var(--text2)">Passing – Not a Fit</span><span style="font-size:12px;font-weight:600;color:#F87171;margin-left:4px">33</span></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:14px;padding-top:12px;border-top:0.5px solid var(--border)">
+        <div style="text-align:center;flex:1"><div style="font-size:20px;font-weight:600;color:#34D399">11%</div><div style="font-size:10px;color:var(--text3)">Active rate</div></div>
+        <div style="text-align:center;flex:1"><div style="font-size:20px;font-weight:600;color:#F87171">33%</div><div style="font-size:10px;color:var(--text3)">Pass rate</div></div>
+        <div style="text-align:center;flex:1"><div style="font-size:20px;font-weight:600;color:var(--text3)">56%</div><div style="font-size:10px;color:var(--text3)">Pending review</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-t">By source</div>
+      <div class="bar-r"><div class="bar-l">Jigney's Connection</div><div class="bar-t"><div class="bar-f" style="width:100%"></div></div><div class="bar-n">33</div></div>
+      <div class="bar-r"><div class="bar-l">YC</div><div class="bar-t"><div class="bar-f" style="width:79%"></div></div><div class="bar-n">26</div></div>
+      <div class="bar-r"><div class="bar-l">Cold Outreach</div><div class="bar-t"><div class="bar-f" style="width:55%"></div></div><div class="bar-n">18</div></div>
+      <div class="bar-r"><div class="bar-l">Nemke Connection</div><div class="bar-t"><div class="bar-f" style="width:6%"></div></div><div class="bar-n">2</div></div>
     </div>
   </div>
-
-  <div class="content">
-
-    <!-- PORTFOLIO PAGE -->
-    <div id="portfolioPage" class="page active">
-      <div class="stats-bar">
-        <div class="stat-box">
-          <div class="stat-value">$103.0M</div>
-          <div class="stat-label">TOTAL ARR</div>
-          <div class="stat-sublabel">7 active companies</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">27.7%</div>
-          <div class="stat-label">AVG QOQ GROWTH</div>
-          <div class="stat-sublabel">Across reporting companies</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">$401.0M</div>
-          <div class="stat-label">PORTFOLIO VALUATION</div>
-          <div class="stat-sublabel">7 companies with valuation</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">12</div>
-          <div class="stat-label">OPEN REQUESTS</div>
-          <div class="stat-sublabel">Needing your attention</div>
-        </div>
-      </div>
-
-      <div class="alert">
-        <span class="alert-icon">⚠</span>
-        <span>Missing data: NET (Awoo), BIOPTIC, Andromeda Surgical, Lavo Life Sciences have no ARR reported</span>
-      </div>
-
-      <div class="section">
-        <div class="section-header">
-          <h2 class="section-title">Portfolio Companies</h2>
-        </div>
-        
-        <table>
-          <thead>
-            <tr>
-              <th>COMPANY ↓</th>
-              <th>SECTOR</th>
-              <th>STAGE</th>
-              <th>ARR ↓</th>
-              <th>QOQ ↑</th>
-              <th>RUNWAY ↑</th>
-              <th>VALUATION ↑</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="company-name">ENTR</td>
-              <td><span class="badge badge-saas">SAAS</span></td>
-              <td>PRE-SEED</td>
-              <td>$420K</td>
-              <td class="growth-pos">↑ 18.3%</td>
-              <td>—</td>
-              <td>$6.0M</td>
-              <td><span class="badge badge-partial">PARTIAL</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">Keep</td>
-              <td><span class="badge badge-fintech">FINTECH</span></td>
-              <td>SERIES B</td>
-              <td>$21.2M</td>
-              <td class="growth-pos">↑ 24.7%</td>
-              <td>—</td>
-              <td>$150.0M</td>
-              <td><span class="badge badge-partial">PARTIAL</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">Bree</td>
-              <td><span class="badge badge-fintech">FINTECH</span></td>
-              <td>SEED</td>
-              <td>$52.0M</td>
-              <td class="growth-pos">↑ 33.3%</td>
-              <td>—</td>
-              <td>$15.0M</td>
-              <td><span class="badge badge-complete">COMPLETE</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">Taiv</td>
-              <td><span class="badge badge-saas">SAAS</span></td>
-              <td>SERIES A</td>
-              <td>$20.7M</td>
-              <td class="growth-pos">↑ 83.2%</td>
-              <td>12mo</td>
-              <td>$92.0M</td>
-              <td><span class="badge badge-partial">PARTIAL</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">222</td>
-              <td><span class="badge badge-consumer">CONSUMER</span></td>
-              <td>SERIES A</td>
-              <td>$3.7M</td>
-              <td class="growth-pos">↑ 17.0%</td>
-              <td>38mo</td>
-              <td>$68.0M</td>
-              <td><span class="badge badge-complete">COMPLETE</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">NET (Awoo)</td>
-              <td><span class="badge badge-consumer">CONSUMER</span></td>
-              <td>PRE-SEED</td>
-              <td>—</td>
-              <td>—</td>
-              <td>38mo</td>
-              <td>$33.0M</td>
-              <td><span class="badge badge-complete">COMPLETE</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">Superorder</td>
-              <td><span class="badge badge-saas">SAAS</span></td>
-              <td>SERIES A</td>
-              <td>$4.6M</td>
-              <td class="growth-pos">↑ 8.2%</td>
-              <td>22mo</td>
-              <td>$45.0M</td>
-              <td><span class="badge badge-complete">COMPLETE</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">BIOPTIC</td>
-              <td><span class="badge badge-deeptech">DEEP TECH</span></td>
-              <td>SEED</td>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
-              <td><span class="badge badge-partial">PARTIAL</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">Readyfy</td>
-              <td><span class="badge badge-saas">SAAS</span></td>
-              <td>PRE-SEED</td>
-              <td>$390K</td>
-              <td class="growth-pos">↑ 8.3%</td>
-              <td>17mo</td>
-              <td>—</td>
-              <td><span class="badge badge-partial">PARTIAL</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">Andromeda Surgical</td>
-              <td><span class="badge badge-deeptech">DEEP TECH</span></td>
-              <td>SAFE</td>
-              <td>—</td>
-              <td>—</td>
-              <td>8mo</td>
-              <td>—</td>
-              <td><span class="badge badge-complete">COMPLETE</span></td>
-            </tr>
-            <tr>
-              <td class="company-name">Lavo Life Sciences</td>
-              <td><span class="badge badge-deeptech">DEEP TECH</span></td>
-              <td>SAFE</td>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
-              <td><span class="badge badge-partial">PARTIAL</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- CHARTS -->
-      <div class="charts-grid">
-        <div class="chart-box">
-          <div class="chart-title">ARR by Company</div>
-          <div class="chart-wrapper">
-            <canvas id="arrChart"></canvas>
-          </div>
-        </div>
-        <div class="chart-box">
-          <div class="chart-title">QoQ Growth Rate</div>
-          <div class="chart-wrapper">
-            <canvas id="growthChart"></canvas>
-          </div>
-        </div>
-      </div>
+  <div class="row2">
+    <div class="card">
+      <div class="card-t">By sector</div>
+      <div class="bar-r"><div class="bar-l">SaaS</div><div class="bar-t"><div class="bar-f" style="width:100%;background:#60A5FA"></div></div><div class="bar-n">12</div></div>
+      <div class="bar-r"><div class="bar-l">Robotics</div><div class="bar-t"><div class="bar-f" style="width:33%;background:#FB923C"></div></div><div class="bar-n">4</div></div>
+      <div class="bar-r"><div class="bar-l">Defense Tech</div><div class="bar-t"><div class="bar-f" style="width:25%;background:#94A3B8"></div></div><div class="bar-n">3</div></div>
+      <div class="bar-r"><div class="bar-l">Climate Tech</div><div class="bar-t"><div class="bar-f" style="width:25%;background:#4ADE80"></div></div><div class="bar-n">3</div></div>
+      <div class="bar-r"><div class="bar-l">Fintech</div><div class="bar-t"><div class="bar-f" style="width:25%"></div></div><div class="bar-n">3</div></div>
+      <div class="bar-r"><div class="bar-l">Spacetech</div><div class="bar-t"><div class="bar-f" style="width:25%;background:#818CF8"></div></div><div class="bar-n">3</div></div>
     </div>
-
-    <!-- DEALFLOW PAGE -->
-    <div id="dealflowPage" class="page">
-      <div class="hero">
-        <div class="hero-content">
-          <h1 class="hero-label">DEALFLOW</h1>
-          <p class="hero-subtitle">BBQ Capital — 2025 Sector Heat Map</p>
-        </div>
-        <div class="hero-number">865</div>
-      </div>
-
-      <div class="stats-bar">
-        <div class="stat-box">
-          <div class="stat-value gold">19</div>
-          <div class="stat-label">Sectors Covered</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">120</div>
-          <div class="stat-label">Top Sector (H. SaaS)</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">53%</div>
-          <div class="stat-label">PreSeed Mix</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">47%</div>
-          <div class="stat-label">Seed Mix</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="bar-chart">
-          <div class="bar-row">
-            <div class="bar-label">Horizontal SaaS</div>
-            <div class="bar-track">
-              <div class="bar-fill hot" style="width: 100%;">
-                <div class="bar-number">120</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Healthcare</div>
-            <div class="bar-track">
-              <div class="bar-fill hot" style="width: 83%;">
-                <div class="bar-number">100</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Fintech</div>
-            <div class="bar-track">
-              <div class="bar-fill hot" style="width: 75%;">
-                <div class="bar-number">90</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Consumer</div>
-            <div class="bar-track">
-              <div class="bar-fill warm" style="width: 67%;">
-                <div class="bar-number">80</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Manufacturing</div>
-            <div class="bar-track">
-              <div class="bar-fill warm" style="width: 58%;">
-                <div class="bar-number">70</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Climate Tech</div>
-            <div class="bar-track">
-              <div class="bar-fill warm" style="width: 50%;">
-                <div class="bar-number">60</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">AI Infrastructure</div>
-            <div class="bar-track">
-              <div class="bar-fill cool" style="width: 42%;">
-                <div class="bar-number">50</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Robotics Tech</div>
-            <div class="bar-track">
-              <div class="bar-fill cool" style="width: 38%;">
-                <div class="bar-number">45</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">SpaceTech</div>
-            <div class="bar-track">
-              <div class="bar-fill cool" style="width: 33%;">
-                <div class="bar-number">40</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">AgTech</div>
-            <div class="bar-track">
-              <div class="bar-fill cold" style="width: 29%;">
-                <div class="bar-number">35</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Logistics Supply Chain</div>
-            <div class="bar-track">
-              <div class="bar-fill cold" style="width: 25%;">
-                <div class="bar-number">30</div>
-              </div>
-            </div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Cybersecurity</div>
-            <div class="bar-track">
-              <div class="bar-fill cold" style="width: 21%;">
-                <div class="bar-number">25</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="card" style="flex:1.3">
+      <div class="card-t">Recent deals</div>
+      <div id="recent-deals"></div>
     </div>
-
-    <!-- SOURCES PAGE -->
-    <div id="sourcesPage" class="page">
-      <div class="stats-bar">
-        <div class="stat-box">
-          <div class="stat-value gold">9</div>
-          <div class="stat-label">Investments Made</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">995</div>
-          <div class="stat-label">Passed — Not a Fit</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">44</div>
-          <div class="stat-label">Active Pipeline</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">0.55%</div>
-          <div class="stat-label">Overall Conv. Rate</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-header">
-          <h2 class="section-title">Top Sources by Volume</h2>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Source</th>
-              <th>Deals</th>
-              <th>Invested</th>
-              <th>Conv %</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="company-name">YC</td>
-              <td>372</td>
-              <td class="growth-pos">5</td>
-              <td>1.34%</td>
-            </tr>
-            <tr>
-              <td class="company-name">Warm Connection</td>
-              <td>360</td>
-              <td class="growth-pos">3</td>
-              <td>0.83%</td>
-            </tr>
-            <tr>
-              <td class="company-name">Craft Outreach</td>
-              <td>184</td>
-              <td>0</td>
-              <td>0.00%</td>
-            </tr>
-            <tr>
-              <td class="company-name">Inbound VC Agency</td>
-              <td>39</td>
-              <td>0</td>
-              <td>0.00%</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- PRESS PAGE -->
-    <div id="pressPage" class="page">
-      <div class="stats-bar">
-        <div class="stat-box">
-          <div class="stat-value gold">12</div>
-          <div class="stat-label">Total Articles</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">8</div>
-          <div class="stat-label">Companies Featured</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">4</div>
-          <div class="stat-label">Tier 1 Coverage</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">0</div>
-          <div class="stat-label">This Month</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-header">
-          <h2 class="section-title">Press & News</h2>
-        </div>
-        
-        <div class="news-grid">
-          <div class="news-card">
-            <span class="news-badge">NET (Awoo)</span>
-            <div class="news-date">Feb 28, 2026</div>
-            <div class="news-title">Awoo app launch announced — co-founder posts Agra Store screenshots</div>
-            <div class="news-source">📰 TechCrunch</div>
-          </div>
-
-          <div class="news-card">
-            <span class="news-badge">Taiv</span>
-            <div class="news-date">Jan 14, 2026</div>
-            <div class="news-title">Taiv raises $10M Series A to expand AI-powered venue solutions to restaurants</div>
-            <div class="news-source">📰 VentureBeat</div>
-          </div>
-
-          <div class="news-card">
-            <span class="news-badge">BIOPTIC</span>
-            <div class="news-date">Dec 21, 2025</div>
-            <div class="news-title">AI to accelerate renewable startups to justice EU Act compliance</div>
-            <div class="news-source">📰 EU Act Journal</div>
-          </div>
-
-          <div class="news-card">
-            <span class="news-badge">Readyfy</span>
-            <div class="news-date">Nov 30, 2025</div>
-            <div class="news-title">Readyfy trains the first government services AI</div>
-            <div class="news-source">📰 GovTech</div>
-          </div>
-
-          <div class="news-card">
-            <span class="news-badge">Andromeda Surgical</span>
-            <div class="news-date">Aug 11, 2025</div>
-            <div class="news-title">Andromeda Surgical announces strategic partnership with Richard Wolf and Guerbet System</div>
-            <div class="news-source">📰 MedicalNewsNetwork</div>
-          </div>
-
-          <div class="news-card">
-            <span class="news-badge">Superorder</span>
-            <div class="news-date">Aug 19, 2025</div>
-            <div class="news-title">Superorder raises $20M Series A to streamline restaurant ordering</div>
-            <div class="news-source">📰 TechCrunch</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- REQUESTS PAGE -->
-    <div id="requestsPage" class="page">
-      <div class="stats-bar">
-        <div class="stat-box">
-          <div class="stat-value gold">13</div>
-          <div class="stat-label">Total Requests</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">10</div>
-          <div class="stat-label">Open</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">1</div>
-          <div class="stat-label">Done</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">—</div>
-          <div class="stat-label">Avg Response</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-header">
-          <h2 class="section-title">All Requests</h2>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Company</th>
-              <th>Type</th>
-              <th>Request</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="company-name">Keep</td>
-              <td><span class="badge badge-fintech">Investor Intro</span></td>
-              <td>Looking for Series C lead — ideally growth-stage fintech specialists. $30M+ round planned</td>
-              <td>Dec 15, 2025</td>
-              <td><span class="badge badge-partial">Open</span></td>
-              <td>—</td>
-            </tr>
-            <tr>
-              <td class="company-name">Taiv</td>
-              <td><span class="badge badge-saas">Customer Intro</span></td>
-              <td>Needs intro to enterprise restaurant chains (1,000+ locations)</td>
-              <td>Jan 8, 2026</td>
-              <td><span class="badge badge-saas">In Prog</span></td>
-              <td>Connected with 2 contacts</td>
-            </tr>
-            <tr>
-              <td class="company-name">Bree</td>
-              <td><span class="badge badge-deeptech">Hiring Help</span></td>
-              <td>Seeking VP of Marketing with fintech experience. Comp $180-220K</td>
-              <td>Jan 20, 2026</td>
-              <td><span class="badge badge-partial">Open</span></td>
-              <td>—</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- COMPETITIVE PAGE -->
-    <div id="competitivePage" class="page">
-      <div class="hero">
-        <div class="hero-content">
-          <h1 class="hero-label">Competitive Intel</h1>
-          <p class="hero-subtitle">Market Landscape Analysis</p>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <div class="comp-card-header">
-          <div>
-            <h3 class="comp-company-name">Keep</h3>
-            <div class="comp-sector">Fintech • SMB Banking • Canada</div>
-          </div>
-          <span class="badge badge-complete">Active</span>
-        </div>
-        <div class="comp-metrics">
-          <div class="comp-metric">
-            <div class="comp-metric-label">Total Raised</div>
-            <div class="comp-metric-value">C$108M</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">ARR</div>
-            <div class="comp-metric-value">C$20M+</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Customers</div>
-            <div class="comp-metric-value">3,000+</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Target 2027</div>
-            <div class="comp-metric-value">100K</div>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Key Investors (26 total)</div>
-          <div class="comp-tags">
-            <span class="comp-tag investor">Tribe Capital (Lead)</span>
-            <span class="comp-tag investor">Treville Capital</span>
-            <span class="comp-tag investor">Rebel Fund</span>
-            <span class="comp-tag investor">Liquid2 Ventures</span>
-            <span class="comp-tag investor">Vlad Magdalin (Webflow)</span>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Top Competitors</div>
-          <div class="comp-tags">
-            <span class="comp-tag">Float Financial</span>
-            <span class="comp-tag">Brex</span>
-            <span class="comp-tag">Ramp</span>
-            <span class="comp-tag">Neo Financial</span>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Business Overview</div>
-          <p class="comp-description">
-            Corporate cards and payment solutions for Canadian SMBs. C$20M+ ARR serving 3,000+ businesses. Revenue from interchange fees, capital advances, and premium features. Target 100,000 businesses by 2027. First fintech business credit card in Canada with multi-currency capabilities.
-          </p>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <div class="comp-card-header">
-          <div>
-            <h3 class="comp-company-name">Bree</h3>
-            <div class="comp-sector">Fintech • Consumer Finance • Canada</div>
-          </div>
-          <span class="badge badge-complete">Active</span>
-        </div>
-        <div class="comp-metrics">
-          <div class="comp-metric">
-            <div class="comp-metric-label">Total Raised</div>
-            <div class="comp-metric-value">$2M</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Stage</div>
-            <div class="comp-metric-value">Seed</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Growth</div>
-            <div class="comp-metric-value">2-digit MoM</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Status</div>
-            <div class="comp-metric-value">Profitable</div>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Key Investors</div>
-          <div class="comp-tags">
-            <span class="comp-tag investor">Y Combinator (W21)</span>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Top Competitors</div>
-          <div class="comp-tags">
-            <span class="comp-tag">Earnin</span>
-            <span class="comp-tag">Dave</span>
-            <span class="comp-tag">Chime</span>
-            <span class="comp-tag">MoneyLion</span>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Business Overview</div>
-          <p class="comp-description">
-            Consumer finance platform serving Canadians living paycheck-to-paycheck (50%+ of population). Growing at double-digit monthly rate and profitable. Platform offers faster, cheaper financial services built for Canadian regulatory environment.
-          </p>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <div class="comp-card-header">
-          <div>
-            <h3 class="comp-company-name">Taiv</h3>
-            <div class="comp-sector">SaaS • Restaurant Tech • AI-Powered TV</div>
-          </div>
-          <span class="badge badge-complete">Active</span>
-        </div>
-        <div class="comp-metrics">
-          <div class="comp-metric">
-            <div class="comp-metric-label">Stage</div>
-            <div class="comp-metric-value">Series A</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Revenue Model</div>
-            <div class="comp-metric-value">Ad-share</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Renewal Rate</div>
-            <div class="comp-metric-value">99%</div>
-          </div>
-          <div class="comp-metric">
-            <div class="comp-metric-label">Venue Earnings</div>
-            <div class="comp-metric-value">$6K/yr</div>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Key Investors</div>
-          <div class="comp-tags">
-            <span class="comp-tag investor">Y Combinator</span>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Top Competitors</div>
-          <div class="comp-tags">
-            <span class="comp-tag">Atmosphere TV</span>
-            <span class="comp-tag">Loop TV</span>
-            <span class="comp-tag">Traditional Cable</span>
-          </div>
-        </div>
-        <div class="comp-section">
-          <div class="comp-section-title">Business Overview</div>
-          <p class="comp-description">
-            AI-powered TV platform for bars & restaurants. Uses computer vision to replace traditional commercials with contextually-relevant ads. Venues earn up to $6K/location/year. Free installation, 99% renewal rate. Automates AV management and blocks competitor ads.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- JOBS PAGE -->
-    <div id="jobsPage" class="page">
-      <div class="hero">
-        <div class="hero-content">
-          <h1 class="hero-label">Portfolio Jobs</h1>
-          <p class="hero-subtitle">Open positions across portfolio companies</p>
-        </div>
-        <div class="hero-number">28</div>
-      </div>
-
-      <div class="stats-bar">
-        <div class="stat-box">
-          <div class="stat-value gold">28</div>
-          <div class="stat-label">Open Positions</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">7</div>
-          <div class="stat-label">Companies Hiring</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">15</div>
-          <div class="stat-label">Engineering Roles</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value gold">6</div>
-          <div class="stat-label">Sales Roles</div>
-        </div>
-      </div>
-
-      <div class="filters">
-        <select class="filter-select" id="companyFilter" onchange="filterJobs()">
-          <option value="">All Companies</option>
-          <option value="Bree">Bree</option>
-          <option value="Keep">Keep</option>
-          <option value="Taiv">Taiv</option>
-          <option value="222">222</option>
-          <option value="Superorder">Superorder</option>
-          <option value="ENTR">ENTR</option>
-          <option value="Readyfy">Readyfy</option>
-        </select>
-        <select class="filter-select" id="deptFilter" onchange="filterJobs()">
-          <option value="">All Departments</option>
-          <option value="Engineering">Engineering</option>
-          <option value="Product">Product</option>
-          <option value="Sales">Sales</option>
-          <option value="Operations">Operations</option>
-          <option value="Design">Design</option>
-          <option value="Marketing">Marketing</option>
-        </select>
-      </div>
-
-      <div class="jobs-grid" id="jobsGrid">
-        <!-- Bree -->
-        <div class="job-card" data-company="Bree" data-dept="Engineering">
-          <div class="job-company">Bree</div>
-          <div class="job-title">Software Engineer, Product</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>💰 Competitive</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Bree" data-dept="Engineering">
-          <div class="job-company">Bree</div>
-          <div class="job-title">Head of Engineering</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>👔 Leadership</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Bree" data-dept="Engineering">
-          <div class="job-company">Bree</div>
-          <div class="job-title">Mobile Engineer (iOS)</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>📱 Swift/React Native</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Bree" data-dept="Product">
-          <div class="job-company">Bree</div>
-          <div class="job-title">Product Data Scientist</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>📊 Analytics</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Bree" data-dept="Operations">
-          <div class="job-company">Bree</div>
-          <div class="job-title">Business Operations Analyst</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>💼 Strategy</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Bree" data-dept="Operations">
-          <div class="job-company">Bree</div>
-          <div class="job-title">People Operations Manager</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>👥 HR</span>
-          </div>
-        </div>
-
-        <!-- Keep -->
-        <div class="job-card" data-company="Keep" data-dept="Engineering">
-          <div class="job-company">Keep</div>
-          <div class="job-title">Senior Software Engineer</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>💳 Fintech</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Keep" data-dept="Engineering">
-          <div class="job-company">Keep</div>
-          <div class="job-title">Backend Engineer</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>⚙️ Python/Go</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Keep" data-dept="Product">
-          <div class="job-company">Keep</div>
-          <div class="job-title">Product Manager</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>📱 Payments</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Keep" data-dept="Sales">
-          <div class="job-company">Keep</div>
-          <div class="job-title">Account Executive</div>
-          <div class="job-meta">
-            <span>📍 Toronto, ON</span>
-            <span>💼 SMB Sales</span>
-          </div>
-        </div>
-
-        <!-- Taiv -->
-        <div class="job-card" data-company="Taiv" data-dept="Sales">
-          <div class="job-company">Taiv</div>
-          <div class="job-title">Sr. Account Executive</div>
-          <div class="job-meta">
-            <span>📍 Winnipeg, MB</span>
-            <span>🎯 B2B</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Taiv" data-dept="Engineering">
-          <div class="job-company">Taiv</div>
-          <div class="job-title">Software Engineer</div>
-          <div class="job-meta">
-            <span>📍 Winnipeg, MB</span>
-            <span>🤖 AI/ML</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Taiv" data-dept="Operations">
-          <div class="job-company">Taiv</div>
-          <div class="job-title">Field Technician</div>
-          <div class="job-meta">
-            <span>📍 Multiple Locations</span>
-            <span>🔧 Hardware Install</span>
-          </div>
-        </div>
-
-        <!-- 222 -->
-        <div class="job-card" data-company="222" data-dept="Engineering">
-          <div class="job-company">222</div>
-          <div class="job-title">iOS Engineer</div>
-          <div class="job-meta">
-            <span>📍 New York, NY</span>
-            <span>💰 $140K-$270K + 0.25%-0.65%</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="222" data-dept="Design">
-          <div class="job-company">222</div>
-          <div class="job-title">Design Engineer</div>
-          <div class="job-meta">
-            <span>📍 New York, NY</span>
-            <span>🎨 Product Design</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="222" data-dept="Engineering">
-          <div class="job-company">222</div>
-          <div class="job-title">ML Research Engineer</div>
-          <div class="job-meta">
-            <span>📍 New York, NY</span>
-            <span>🧠 Human Prediction</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="222" data-dept="Operations">
-          <div class="job-company">222</div>
-          <div class="job-title">Operations Intern</div>
-          <div class="job-meta">
-            <span>📍 New York, NY</span>
-            <span>🎓 College Students</span>
-          </div>
-        </div>
-
-        <!-- Superorder -->
-        <div class="job-card" data-company="Superorder" data-dept="Sales">
-          <div class="job-company">Superorder</div>
-          <div class="job-title">Growth Account Executive</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>🎯 Restaurant Sales</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Superorder" data-dept="Operations">
-          <div class="job-company">Superorder</div>
-          <div class="job-title">Operations Generalist</div>
-          <div class="job-meta">
-            <span>📍 Remote (LATAM)</span>
-            <span>💼 Multi-country</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Superorder" data-dept="Engineering">
-          <div class="job-company">Superorder</div>
-          <div class="job-title">Senior Backend Engineer</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>⚙️ Node.js/Python</span>
-          </div>
-        </div>
-
-        <!-- ENTR -->
-        <div class="job-card" data-company="ENTR" data-dept="Engineering">
-          <div class="job-company">ENTR</div>
-          <div class="job-title">Full Stack Engineer</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>💻 React/Node</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="ENTR" data-dept="Product">
-          <div class="job-company">ENTR</div>
-          <div class="job-title">Founding Product Designer</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>🎨 UI/UX</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="ENTR" data-dept="Sales">
-          <div class="job-company">ENTR</div>
-          <div class="job-title">Account Executive (Early Stage)</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>💼 First Sales Hire</span>
-          </div>
-        </div>
-
-        <!-- Readyfy -->
-        <div class="job-card" data-company="Readyfy" data-dept="Engineering">
-          <div class="job-company">Readyfy</div>
-          <div class="job-title">AI/ML Engineer</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>🤖 NLP/LLMs</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Readyfy" data-dept="Product">
-          <div class="job-company">Readyfy</div>
-          <div class="job-title">Product Manager</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>🏛️ GovTech</span>
-          </div>
-        </div>
-
-        <div class="job-card" data-company="Readyfy" data-dept="Sales">
-          <div class="job-company">Readyfy</div>
-          <div class="job-title">Enterprise Sales Rep</div>
-          <div class="job-meta">
-            <span>📍 Remote</span>
-            <span>🏛️ Gov/Public Sector</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
-</main>
+  <div class="note">⚡ Live from your Notion dealflow database · 100 companies · Updates on page load</div>
+</div>
+
+<!-- PRESS -->
+<div id="press" class="panel">
+  <div class="stats">
+    <div class="sc"><div class="sc-l">Total coverage</div><div class="sc-v">6</div></div>
+    <div class="sc"><div class="sc-l">Tier 1</div><div class="sc-v">3</div><div class="sc-s">TechCrunch, VentureBeat</div></div>
+    <div class="sc"><div class="sc-l">Companies featured</div><div class="sc-v">6</div></div>
+  </div>
+  <div class="card"><div id="press-list"></div></div>
+  <div class="note">⚡ Cowork auto-adds new articles monthly by searching for each portfolio company</div>
+</div>
+
+<!-- REQUESTS -->
+<div id="requests" class="panel">
+  <div class="stats">
+    <div class="sc"><div class="sc-l">Total requests</div><div class="sc-v">3</div></div>
+    <div class="sc"><div class="sc-l">Open</div><div class="sc-v" style="color:#F59E0B">2</div></div>
+    <div class="sc"><div class="sc-l">In progress</div><div class="sc-v" style="color:#60A5FA">1</div></div>
+    <div class="sc"><div class="sc-l">Done</div><div class="sc-v" style="color:#34D399">0</div></div>
+  </div>
+  <div class="card"><div id="req-list"></div></div>
+  <div class="note">⚡ Cowork auto-populates new requests from investor update emails each month</div>
+</div>
+
+<!-- JOBS -->
+<div id="jobs" class="panel">
+  <div class="stats">
+    <div class="sc"><div class="sc-l">Open roles</div><div class="sc-v">26</div></div>
+    <div class="sc"><div class="sc-l">Companies hiring</div><div class="sc-v">7</div></div>
+    <div class="sc"><div class="sc-l">Engineering</div><div class="sc-v">11</div></div>
+    <div class="sc"><div class="sc-l">Sales</div><div class="sc-v">6</div></div>
+  </div>
+  <div class="search-row">
+    <input id="job-search" placeholder="Search roles…" oninput="filterJobs()">
+    <select id="job-co" onchange="filterJobs()"><option value="">All companies</option><option>Bree</option><option>Keep</option><option>Taiv</option><option>222</option><option>Superorder</option><option>ENTR</option><option>Readyly</option></select>
+    <select id="job-dept" onchange="filterJobs()"><option value="">All depts</option><option>Engineering</option><option>Product</option><option>Sales</option><option>Operations</option><option>Design</option></select>
+  </div>
+  <div class="job-grid" id="job-grid"></div>
+</div>
+</div>
 
 <script>
-function switchPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  
-  document.getElementById(page + 'Page').classList.add('active');
-  event.target.classList.add('active');
-  
-  const titles = {
-    portfolio: 'Portfolio Overview',
-    dealflow: 'Dealflow',
-    sources: 'Sources & Funnel',
-    press: 'Press & News',
-    requests: 'Asks & Requests',
-    competitive: 'Competitive Intel',
-    jobs: 'Portfolio Jobs'
-  };
-  document.getElementById('currentView').textContent = titles[page] || page;
+document.getElementById('sync-date').textContent='Updated Apr 6, 2026';
+
+const SC={"Fintech":"#F59E0B","Vertical SaaS":"#60A5FA","Consumer":"#34D399","Cybersecurity":"#F87171","Healthcare":"#A78BFA","Robotics":"#FB923C","Biotech":"#2DD4BF","Spacetech":"#818CF8","Climate Tech":"#4ADE80","Crypto/Web3":"#C084FC","Supply Chain":"#FCD34D","Dev Tools":"#67E8F9","Proptech":"#F9A8D4","Govtech":"#86EFAC","Defense Tech":"#94A3B8","Media":"#FDE68A","HR Tech":"#BAE6FD","Gaming":"#DDD6FE","Manufacturing":"#FED7AA","D2C":"#FCA5A5"};
+
+const COS=[
+  {n:"222",s:"Consumer",y:2023,rev:3.7,run:38,val:60,st:"active"},
+  {n:"Agency",s:"Cybersecurity",y:2022,val:20,st:"active"},
+  {n:"Alga Biosciences",s:"Biotech",y:2022,val:50,st:"active"},
+  {n:"Andi",s:"Consumer",y:2022,val:50,st:"active"},
+  {n:"Andromeda Surgical",s:"Robotics",y:2023,val:67,st:"active"},
+  {n:"Arch",s:"Crypto/Web3",y:2022,val:50,st:"active"},
+  {n:"Argo",s:"Consumer",y:2022,st:"shutdown"},
+  {n:"Array Labs",s:"Spacetech",y:2022,val:145,st:"active"},
+  {n:"AstroForge",s:"Spacetech",y:2022,val:150,st:"active"},
+  {n:"Aviato",s:"Vertical SaaS",y:2022,val:15,st:"active"},
+  {n:"BIOPTIC",s:"Crypto/Web3",y:2022,val:110,st:"active"},
+  {n:"Bonzai",s:"Climate Tech",y:2024,st:"shutdown"},
+  {n:"Bree",s:"Fintech",y:2022,rev:52,val:15,st:"active"},
+  {n:"Brella",s:"Consumer",y:2018,val:21,st:"active"},
+  {n:"Cache",s:"Fintech",y:2022,val:125,st:"active"},
+  {n:"Centered",s:"Consumer",y:2022,st:"shutdown"},
+  {n:"Cobbery",s:"Vertical SaaS",y:2022,val:15,st:"active"},
+  {n:"Coco Robotics",s:"Robotics",y:2019,val:215,st:"active"},
+  {n:"Coherence",s:"Cybersecurity",y:2021,st:"shutdown"},
+  {n:"Copilot",s:"Consumer",y:2022,val:15,st:"active"},
+  {n:"CreatorDao",s:"Crypto/Web3",y:2022,val:65,st:"active"},
+  {n:"Duplo",s:"Fintech",y:2022,val:34.5,st:"active"},
+  {n:"Durin",s:"Robotics",y:2024,val:75,st:"active"},
+  {n:"ENTR",s:"Vertical SaaS",y:2023,rev:0.42,val:6,st:"active"},
+  {n:"Evolv",s:"Biotech",y:2024,val:16,st:"active"},
+  {n:"Exits Media",s:"Media",y:2023,st:"shutdown"},
+  {n:"Factory",s:"Dev Tools",y:2023,rev:60,val:300,st:"active"},
+  {n:"Fuse",s:"Fintech",y:2019,st:"shutdown"},
+  {n:"GenLogs",s:"Supply Chain",y:2023,val:375,st:"active"},
+  {n:"Headroom",s:"Proptech",y:2022,st:"acquired"},
+  {n:"Hippo Build",s:"Vertical SaaS",y:2022,val:15,st:"active"},
+  {n:"HomeOptions",s:"Proptech",y:2022,st:"shutdown"},
+  {n:"HomeRoom",s:"Proptech",y:2022,st:"exit"},
+  {n:"Humand",s:"Vertical SaaS",y:2022,val:225,st:"active"},
+  {n:"Innerworld",s:"Healthcare",y:2022,st:"exit"},
+  {n:"K-Scale Labs",s:"Robotics",y:2024,st:"shutdown"},
+  {n:"Kairn",s:"Healthcare",y:2022,st:"shutdown"},
+  {n:"Keep",s:"Fintech",y:2021,rev:21.2,val:150,st:"active"},
+  {n:"Kick",s:"Consumer",y:2023,val:90,st:"active"},
+  {n:"Lavo Life Sciences",s:"Biotech",y:2023,st:"shutdown"},
+  {n:"Lingo Health",s:"Healthcare",y:2021,st:"shutdown"},
+  {n:"Lotus",s:"Fintech",y:2022,st:"shutdown"},
+  {n:"Makini",s:"Vertical SaaS",y:2022,val:25,st:"active"},
+  {n:"Meadow",s:"D2C",y:2019,val:30,st:"active"},
+  {n:"Mederva Health",s:"Healthcare",y:2022,val:30,st:"active"},
+  {n:"Nabis",s:"Supply Chain",y:2019,val:155,st:"active"},
+  {n:"Navi",s:"Vertical SaaS",y:2024,val:36,st:"active"},
+  {n:"NET (Awoo)",s:"Consumer",y:2024,run:38,val:33,st:"active"},
+  {n:"Operant",s:"Cybersecurity",y:2023,val:50,st:"active"},
+  {n:"Pallando Therapeutics",s:"Biotech",y:2024,val:18,st:"active"},
+  {n:"Portal AI",s:"Healthcare",y:2024,val:50,st:"active"},
+  {n:"Quinn",s:"Consumer",y:2019,val:26,st:"active"},
+  {n:"Rainmaker",s:"Climate Tech",y:2023,val:155,st:"active"},
+  {n:"Readyly",s:"Govtech",y:2024,rev:0.39,run:17,val:12,st:"active"},
+  {n:"Reforge",s:"HR Tech",y:2022,val:450,st:"active"},
+  {n:"Regression Games",s:"Gaming",y:2022,st:"shutdown"},
+  {n:"Senra Systems",s:"Manufacturing",y:2023,val:145,st:"active"},
+  {n:"Skylink",s:"Vertical SaaS",y:2022,st:"acquired"},
+  {n:"Starpath Robotics",s:"Spacetech",y:2022,val:32.5,st:"active"},
+  {n:"Superorder",s:"Vertical SaaS",y:2019,rev:4.6,run:22,val:45,st:"active"},
+  {n:"Superpower",s:"Healthcare",y:2024,val:150,st:"active"},
+  {n:"Swapstack",s:"Vertical SaaS",y:2021,st:"exit"},
+  {n:"Tags",s:"Vertical SaaS",y:2021,st:"shutdown"},
+  {n:"Taiv",s:"Vertical SaaS",y:2023,rev:20.7,run:12,val:92,st:"active"},
+  {n:"TeamHuddle",s:"Vertical SaaS",y:2021,st:"shutdown"},
+  {n:"Tranch",s:"Fintech",y:2022,st:"acquired"},
+  {n:"Union",s:"Defense Tech",y:2025,val:150,st:"active"},
+  {n:"Veria Labs",s:"Cybersecurity",y:2025,run:20,val:30,st:"active"},
+  {n:"Wingback",s:"Vertical SaaS",y:2022,st:"shutdown"},
+  {n:"Yofi",s:"Vertical SaaS",y:2022,st:"acquired"},
+];
+
+const ST_CFG={active:{label:"Active",bg:"#14532D",color:"#86EFAC"},shutdown:{label:"Shut Down",bg:"#3F1313",color:"#FCA5A5"},exit:{label:"Exit",bg:"#1E3A5F",color:"#93C5FD"},acquired:{label:"Acquired",bg:"#3B2A14",color:"#FDE68A"}};
+
+// Populate sector filter
+[...new Set(COS.map(c=>c.s))].sort().forEach(s=>{
+  const o=document.createElement('option');o.value=s;o.textContent=s;
+  document.getElementById('co-sector').appendChild(o);
+});
+
+// Status filter pills
+let activeStatus='all';
+const sfEl=document.getElementById('status-filters');
+[{k:'all',label:'All'},{k:'active',label:'Active'},{k:'shutdown',label:'Shut Down'},{k:'exit',label:'Exit'},{k:'acquired',label:'Acquired'}].forEach(({k,label})=>{
+  const b=document.createElement('button');
+  b.className='sp'+(k==='all'?' sel':'');
+  b.textContent=k==='all'?'All ('+COS.length+')':label+' ('+COS.filter(c=>c.st===k).length+')';
+  b.onclick=()=>{activeStatus=k;document.querySelectorAll('.sp').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');filterCos();};
+  sfEl.appendChild(b);
+});
+
+// Stats
+const active=COS.filter(c=>c.st==='active');
+const totalVal=active.filter(c=>c.val).reduce((s,c)=>s+c.val,0);
+const totalRev=COS.filter(c=>c.rev).reduce((s,c)=>s+c.rev,0);
+document.getElementById('port-stats').innerHTML=`
+  <div class="sc"><div class="sc-l">Total portfolio</div><div class="sc-v">${COS.length}</div><div class="sc-s">Companies</div></div>
+  <div class="sc"><div class="sc-l">Active</div><div class="sc-v" style="color:#34D399">${active.length}</div><div class="sc-s">${COS.filter(c=>c.st==='shutdown').length} shut down · ${COS.filter(c=>c.st==='acquired'||c.st==='exit').length} exits/acq</div></div>
+  <div class="sc"><div class="sc-l">Total Revenue</div><div class="sc-v">$${totalRev.toFixed(1)}M</div><div class="sc-s">${COS.filter(c=>c.rev).length} reporting</div></div>
+  <div class="sc"><div class="sc-l">Active Val.</div><div class="sc-v">$${(totalVal/1000).toFixed(1)}B</div><div class="sc-s">Active companies only</div></div>
+`;
+
+const fmtR=v=>v==null?'—':v>=1?'$'+v.toFixed(1)+'M':'$'+(v*1000).toFixed(0)+'K';
+const fmtV=v=>v==null?'—':'$'+v+'M';
+
+function renderCos(list){
+  document.getElementById('co-body').innerHTML=list.map(c=>{
+    const cfg=ST_CFG[c.st]||ST_CFG.active;
+    const dim=c.st!=='active';
+    return`<tr style="${dim?'opacity:0.55':''}">
+      <td style="font-weight:600;color:#F9FAFB">${c.n}</td>
+      <td><span class="badge" style="background:${(SC[c.s]||'#888')}22;color:${SC[c.s]||'#888'}">${c.s}</span></td>
+      <td style="color:var(--text3)">${c.y}</td>
+      <td style="text-align:right;color:${c.rev?'#F9FAFB':'#374151'}">${fmtR(c.rev)}</td>
+      <td style="text-align:right;color:${c.run&&c.run<12?'#F87171':c.run?'#F9FAFB':'#374151'}">${c.run?c.run+'mo':'—'}</td>
+      <td style="text-align:right;color:${c.val?'#F9FAFB':'#374151'}">${fmtV(c.val)}</td>
+      <td><span class="badge" style="background:${cfg.bg};color:${cfg.color}">${cfg.label}</span></td>
+    </tr>`;
+  }).join('');
+}
+renderCos(COS);
+function filterCos(){
+  const q=document.getElementById('co-search').value.toLowerCase();
+  const s=document.getElementById('co-sector').value;
+  renderCos(COS.filter(c=>c.n.toLowerCase().includes(q)&&(!s||c.s===s)&&(activeStatus==='all'||c.st===activeStatus)));
 }
 
-function filterJobs() {
-  const company = document.getElementById('companyFilter').value;
-  const dept = document.getElementById('deptFilter').value;
-  
-  document.querySelectorAll('.job-card').forEach(card => {
-    const matchCompany = !company || card.dataset.company === company;
-    const matchDept = !dept || card.dataset.dept === dept;
-    card.style.display = matchCompany && matchDept ? 'block' : 'none';
-  });
+// Recent deals
+document.getElementById('recent-deals').innerHTML=[
+  {n:"Stronghold",stage:"Docket",src:"Jigney's Connection",sec:"Defense Tech",d:"Apr 1"},
+  {n:"Intertwined Bio",stage:"Docket",src:"Jigney's Connection",sec:"—",d:"Apr 1"},
+  {n:"Hicap",stage:"Docket",src:"Jigney's Connection",sec:"AI Infra",d:"Apr 1"},
+  {n:"Sublime Nuclear",stage:"Docket",src:"Cold Outreach",sec:"Climate Tech",d:"Apr 1"},
+  {n:"Ternion",stage:"Docket",src:"Jigney's Connection",sec:"Cybersecurity",d:"Mar 31"},
+  {n:"Centumake",stage:"Docket",src:"Cold Outreach",sec:"SaaS",d:"Mar 31"},
+  {n:"Neptune",stage:"Docket",src:"Jigney's Connection",sec:"—",d:"Mar 26"},
+].map((r,i,a)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;${i<a.length-1?'border-bottom:0.5px solid var(--border)':''}">
+  <div><div style="font-size:12px;font-weight:500;color:#F9FAFB">${r.n}</div><div style="font-size:11px;color:var(--text3)">${r.sec} · ${r.src}</div></div>
+  <div style="text-align:right"><span class="badge" style="background:#14532D;color:#86EFAC">${r.stage}</span><div style="font-size:10px;color:var(--text3);margin-top:3px">${r.d}</div></div>
+</div>`).join('');
+
+// Press
+document.getElementById('press-list').innerHTML=[
+  {co:"NET (Awoo)",d:"Feb 28, 2026",title:"Awoo app launch announced — co-founder posts App Store screenshots",outlet:"TechCrunch",t1:true},
+  {co:"Taiv",d:"Jan 14, 2026",title:"Taiv raises $10M Series A to expand AI-powered venue solutions",outlet:"VentureBeat",t1:true},
+  {co:"BIOPTIC",d:"Dec 21, 2025",title:"AI to accelerate renewable startups to EU Act compliance",outlet:"EU Act Journal",t1:false},
+  {co:"Readyly",d:"Nov 30, 2025",title:"Readyly trains the first government services AI",outlet:"GovTech",t1:false},
+  {co:"Andromeda Surgical",d:"Aug 11, 2025",title:"Andromeda Surgical announces strategic partnership with Richard Wolf",outlet:"MedicalNewsNetwork",t1:false},
+  {co:"Superorder",d:"Aug 19, 2025",title:"Superorder raises $20M Series A to streamline restaurant ordering",outlet:"TechCrunch",t1:true},
+].map(p=>`<div class="press-item">
+  <div style="display:flex;gap:7px;align-items:center;margin-bottom:4px">
+    <span style="font-size:12px;font-weight:600;color:var(--amber)">${p.co}</span>
+    ${p.t1?'<span class="badge" style="background:#78350F;color:#FCD34D">Tier 1</span>':''}
+  </div>
+  <div style="font-size:13px;margin-bottom:4px;line-height:1.4">${p.title}</div>
+  <div style="font-size:11px;color:var(--text3)">📰 ${p.outlet} · ${p.d}</div>
+</div>`).join('');
+
+// Requests
+document.getElementById('req-list').innerHTML=[
+  {co:"Keep",type:"Investor Intro",req:"Looking for Series C lead — fintech specialists. $30M+ round planned",d:"Dec 15, 2025",st:"Open"},
+  {co:"Taiv",type:"Customer Intro",req:"Needs intro to enterprise restaurant chains (1,000+ locations)",d:"Jan 8, 2026",st:"In Progress"},
+  {co:"Bree",type:"Hiring Help",req:"Seeking VP of Marketing with fintech experience. Comp $180–220K",d:"Jan 20, 2026",st:"Open"},
+].map(r=>{
+  const bg={Open:"#422006","In Progress":"#1E3A5F",Done:"#14532D"}[r.st];
+  const tc={Open:"#FCD34D","In Progress":"#93C5FD",Done:"#86EFAC"}[r.st];
+  return`<div class="req-item">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px;flex-wrap:wrap">
+      <div><span style="font-size:13px;font-weight:600;color:#F9FAFB">${r.co}</span>
+      <span class="badge" style="background:var(--bg3);color:var(--text3);margin-left:7px">${r.type}</span>
+      <span style="font-size:11px;color:var(--text3);margin-left:7px">${r.d}</span></div>
+      <span class="badge" style="background:${bg};color:${tc}">${r.st}</span>
+    </div>
+    <div style="font-size:12px;color:var(--text2)">${r.req}</div>
+  </div>`;
+}).join('');
+
+// Jobs
+const DC={Engineering:"#60A5FA",Product:"#A78BFA",Sales:"#34D399",Operations:"#F59E0B",Design:"#F9A8D4"};
+const JOBS=[
+  {co:"Bree",t:"Software Engineer, Product",loc:"Toronto",dept:"Engineering"},
+  {co:"Bree",t:"Head of Engineering",loc:"Toronto",dept:"Engineering"},
+  {co:"Bree",t:"Mobile Engineer (iOS)",loc:"Toronto",dept:"Engineering"},
+  {co:"Bree",t:"Product Data Scientist",loc:"Toronto",dept:"Product"},
+  {co:"Bree",t:"Business Operations Analyst",loc:"Toronto",dept:"Operations"},
+  {co:"Bree",t:"People Operations Manager",loc:"Toronto",dept:"Operations"},
+  {co:"Keep",t:"Senior Software Engineer",loc:"Toronto",dept:"Engineering"},
+  {co:"Keep",t:"Backend Engineer",loc:"Toronto",dept:"Engineering"},
+  {co:"Keep",t:"Product Manager",loc:"Toronto",dept:"Product"},
+  {co:"Keep",t:"Account Executive",loc:"Toronto",dept:"Sales"},
+  {co:"Taiv",t:"Sr. Account Executive",loc:"Winnipeg",dept:"Sales"},
+  {co:"Taiv",t:"Software Engineer",loc:"Winnipeg",dept:"Engineering"},
+  {co:"Taiv",t:"Field Technician",loc:"Multiple Locations",dept:"Operations"},
+  {co:"222",t:"iOS Engineer",loc:"New York",dept:"Engineering"},
+  {co:"222",t:"Design Engineer",loc:"New York",dept:"Engineering"},
+  {co:"222",t:"ML Research Engineer",loc:"New York",dept:"Engineering"},
+  {co:"222",t:"Operations Intern",loc:"New York",dept:"Operations"},
+  {co:"Superorder",t:"Growth Account Executive",loc:"Remote",dept:"Sales"},
+  {co:"Superorder",t:"Operations Generalist",loc:"Remote",dept:"Operations"},
+  {co:"Superorder",t:"Senior Backend Engineer",loc:"Remote",dept:"Engineering"},
+  {co:"ENTR",t:"Full Stack Engineer",loc:"Remote",dept:"Engineering"},
+  {co:"ENTR",t:"Founding Product Designer",loc:"Remote",dept:"Design"},
+  {co:"ENTR",t:"Account Executive",loc:"Remote",dept:"Sales"},
+  {co:"Readyly",t:"AI/ML Engineer",loc:"Remote",dept:"Engineering"},
+  {co:"Readyly",t:"Product Manager",loc:"Remote",dept:"Product"},
+  {co:"Readyly",t:"Enterprise Sales Rep",loc:"Remote",dept:"Sales"},
+];
+function renderJobs(list){
+  document.getElementById('job-grid').innerHTML=list.map(j=>`<div class="job-card">
+    <div style="font-size:11px;color:var(--amber);font-weight:600;margin-bottom:3px">${j.co}</div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:8px;line-height:1.3">${j.t}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:11px;color:var(--text3)">📍 ${j.loc}</div>
+      <span class="badge" style="background:${(DC[j.dept]||'#888')}22;color:${DC[j.dept]||'#888'}">${j.dept}</span>
+    </div>
+  </div>`).join('');
 }
-
-// ARR Chart
-const arrCtx = document.getElementById('arrChart').getContext('2d');
-new Chart(arrCtx, {
-  type: 'bar',
-  data: {
-    labels: ['Keep', 'Bree', 'Taiv', 'Superorder', '222', 'BIOPTIC', 'Readyfy'],
-    datasets: [{
-      data: [21.2, 52, 20.7, 4.6, 3.7, 0, 0.39],
-      backgroundColor: '#4A9EFF',
-      borderRadius: 4
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: '#111',
-        titleColor: '#fff',
-        bodyColor: '#999',
-        borderColor: '#1A1A1A',
-        borderWidth: 1,
-        callbacks: {
-          label: (context) => `$${context.parsed.y}M`
-        }
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        grid: { color: '#1A1A1A' },
-        ticks: { color: '#666', callback: (value) => `$${value}M` }
-      },
-      x: {
-        grid: { display: false },
-        ticks: { color: '#666' }
-      }
-    }
-  }
-});
-
-// Growth Chart
-const growthCtx = document.getElementById('growthChart').getContext('2d');
-new Chart(growthCtx, {
-  type: 'bar',
-  data: {
-    labels: ['Bree', 'Keep', 'Taiv', 'Superorder', '222', 'ENTR', 'Readyfy'],
-    datasets: [{
-      data: [33.3, 24.7, 83.2, 8.2, 17.0, 18.3, 8.3],
-      backgroundColor: '#00C896',
-      borderRadius: 4
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: '#111',
-        titleColor: '#fff',
-        bodyColor: '#999',
-        borderColor: '#1A1A1A',
-        borderWidth: 1,
-        callbacks: {
-          label: (context) => `${context.parsed.y}%`
-        }
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        grid: { color: '#1A1A1A' },
-        ticks: { color: '#666', callback: (value) => `${value}%` }
-      },
-      x: {
-        grid: { display: false },
-        ticks: { color: '#666' }
-      }
-    }
-  }
-});
-
-window.addEventListener('load', () => {
-  document.querySelectorAll('.bar-fill').forEach(bar => {
-    const width = bar.style.width;
-    bar.style.width = '0%';
-    setTimeout(() => { bar.style.width = width; }, 100);
-  });
-});
+renderJobs(JOBS);
+function filterJobs(){
+  const q=document.getElementById('job-search').value.toLowerCase();
+  const co=document.getElementById('job-co').value;
+  const d=document.getElementById('job-dept').value;
+  renderJobs(JOBS.filter(j=>(!q||j.t.toLowerCase().includes(q)||j.co.toLowerCase().includes(q))&&(!co||j.co===co)&&(!d||j.dept===d)));
+}
+function show(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
 </script>
 </body>
 </html>
