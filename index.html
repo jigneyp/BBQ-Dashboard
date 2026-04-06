@@ -8,7 +8,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0F0F0E;--bg2:#1A1A18;--bg3:#111110;--text:#F9FAFB;--text2:#9CA3AF;--text3:#6B7280;--border:#1F2937;--border2:#374151;--amber:#F59E0B;--green:#34D399;--red:#F87171;--blue:#60A5FA;--radius:10px;--radius-sm:6px}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,-apple-system,sans-serif;min-height:100vh}
-.wrap{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px 60px}
 .header{display:flex;align-items:center;justify-content:space-between;padding:22px 0 18px;border-bottom:0.5px solid var(--border);margin-bottom:20px;flex-wrap:wrap;gap:10px}
 .logo{display:flex;align-items:center;gap:12px}
 .logo-icon{width:36px;height:36px;background:var(--amber);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
@@ -32,7 +32,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,-app
 .search-row input,.search-row select{font-size:13px;padding:8px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none}
 .search-row input{flex:1;min-width:160px}
 .tbl-wrap{overflow-x:auto;border-radius:var(--radius);border:0.5px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:780px}
 th{padding:10px 12px;background:var(--bg3);color:var(--text3);font-weight:500;text-align:left;font-size:10px;letter-spacing:.07em;text-transform:uppercase;border-bottom:0.5px solid var(--border);white-space:nowrap}
 td{padding:9px 12px;border-bottom:0.5px solid var(--border);color:var(--text2)}
 tr:last-child td{border-bottom:none}
@@ -65,7 +65,7 @@ tr:hover td{background:var(--bg3)}
     <div class="logo-icon">🔥</div>
     <div><div class="logo-name">BBQ Capital</div><div class="logo-sub">Portfolio Dashboard</div></div>
   </div>
-  <div class="sync"><div class="sync-dot"></div><span id="sync-date"></span></div>
+  <div class="sync"><div class="sync-dot"></div>Updated Apr 6, 2026</div>
 </div>
 
 <div class="tabs">
@@ -87,8 +87,12 @@ tr:hover td{background:var(--bg3)}
   <div class="tbl-wrap">
     <table>
       <thead><tr>
-        <th>Company</th><th>Sector</th><th>Year</th>
+        <th>Company</th>
+        <th>Sector</th>
+        <th>Year</th>
         <th style="text-align:right">Revenue</th>
+        <th style="text-align:right">Burn</th>
+        <th style="text-align:right">Cash on Hand</th>
         <th style="text-align:right">Runway</th>
         <th style="text-align:right">Valuation</th>
         <th>Status</th>
@@ -96,7 +100,7 @@ tr:hover td{background:var(--bg3)}
       <tbody id="co-body"></tbody>
     </table>
   </div>
-  <div class="note">⚡ Grey = no data yet · Red runway = &lt;12mo · Cowork auto-fills from Gmail investor updates → Notion</div>
+  <div class="note">⚡ Grey = no data yet · Red runway = &lt;12mo · Burn &amp; Cash on Hand auto-filled by Cowork from Gmail investor updates</div>
 </div>
 
 <!-- DEALFLOW -->
@@ -189,10 +193,9 @@ tr:hover td{background:var(--bg3)}
 </div>
 
 <script>
-document.getElementById('sync-date').textContent='Updated Apr 6, 2026';
-
 const SC={"Fintech":"#F59E0B","Vertical SaaS":"#60A5FA","Consumer":"#34D399","Cybersecurity":"#F87171","Healthcare":"#A78BFA","Robotics":"#FB923C","Biotech":"#2DD4BF","Spacetech":"#818CF8","Climate Tech":"#4ADE80","Crypto/Web3":"#C084FC","Supply Chain":"#FCD34D","Dev Tools":"#67E8F9","Proptech":"#F9A8D4","Govtech":"#86EFAC","Defense Tech":"#94A3B8","Media":"#FDE68A","HR Tech":"#BAE6FD","Gaming":"#DDD6FE","Manufacturing":"#FED7AA","D2C":"#FCA5A5"};
 
+// n=name, s=sector, y=year, rev=revenue($M), burn=burn($M), cash=cash-on-hand($M), run=runway(mo), val=valuation($M), st=status
 const COS=[
   {n:"222",s:"Consumer",y:2023,rev:3.7,run:38,val:60,st:"active"},
   {n:"Agency",s:"Cybersecurity",y:2022,val:20,st:"active"},
@@ -266,7 +269,12 @@ const COS=[
   {n:"Yofi",s:"Vertical SaaS",y:2022,st:"acquired"},
 ];
 
-const ST_CFG={active:{label:"Active",bg:"#14532D",color:"#86EFAC"},shutdown:{label:"Shut Down",bg:"#3F1313",color:"#FCA5A5"},exit:{label:"Exit",bg:"#1E3A5F",color:"#93C5FD"},acquired:{label:"Acquired",bg:"#3B2A14",color:"#FDE68A"}};
+const ST_CFG={
+  active:{label:"Active",bg:"#14532D",color:"#86EFAC"},
+  shutdown:{label:"Shut Down",bg:"#3F1313",color:"#FCA5A5"},
+  exit:{label:"Exit",bg:"#1E3A5F",color:"#93C5FD"},
+  acquired:{label:"Acquired",bg:"#3B2A14",color:"#FDE68A"}
+};
 
 // Populate sector filter
 [...new Set(COS.map(c=>c.s))].sort().forEach(s=>{
@@ -298,23 +306,28 @@ document.getElementById('port-stats').innerHTML=`
 
 const fmtR=v=>v==null?'—':v>=1?'$'+v.toFixed(1)+'M':'$'+(v*1000).toFixed(0)+'K';
 const fmtV=v=>v==null?'—':'$'+v+'M';
+const dim='#374151';
+const bright='#F9FAFB';
 
 function renderCos(list){
   document.getElementById('co-body').innerHTML=list.map(c=>{
     const cfg=ST_CFG[c.st]||ST_CFG.active;
-    const dim=c.st!=='active';
-    return`<tr style="${dim?'opacity:0.55':''}">
-      <td style="font-weight:600;color:#F9FAFB">${c.n}</td>
+    const op=c.st!=='active'?'opacity:0.55;':'';
+    return `<tr style="${op}">
+      <td style="font-weight:600;color:${bright}">${c.n}</td>
       <td><span class="badge" style="background:${(SC[c.s]||'#888')}22;color:${SC[c.s]||'#888'}">${c.s}</span></td>
       <td style="color:var(--text3)">${c.y}</td>
-      <td style="text-align:right;color:${c.rev?'#F9FAFB':'#374151'}">${fmtR(c.rev)}</td>
-      <td style="text-align:right;color:${c.run&&c.run<12?'#F87171':c.run?'#F9FAFB':'#374151'}">${c.run?c.run+'mo':'—'}</td>
-      <td style="text-align:right;color:${c.val?'#F9FAFB':'#374151'}">${fmtV(c.val)}</td>
+      <td style="text-align:right;color:${c.rev?bright:dim}">${fmtR(c.rev)}</td>
+      <td style="text-align:right;color:${dim}">—</td>
+      <td style="text-align:right;color:${dim}">—</td>
+      <td style="text-align:right;color:${c.run&&c.run<12?'#F87171':c.run?bright:dim}">${c.run?c.run+'mo':'—'}</td>
+      <td style="text-align:right;color:${c.val?bright:dim}">${fmtV(c.val)}</td>
       <td><span class="badge" style="background:${cfg.bg};color:${cfg.color}">${cfg.label}</span></td>
     </tr>`;
   }).join('');
 }
 renderCos(COS);
+
 function filterCos(){
   const q=document.getElementById('co-search').value.toLowerCase();
   const s=document.getElementById('co-sector').value;
