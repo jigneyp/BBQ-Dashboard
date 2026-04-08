@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BBQ Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F5F2EC;--surface:#FFFFFF;--nav:#1C2B1E;
+  --green:#2D5A35;--green-lt:#E8F0E9;
+  --text:#1A1A1A;--muted:#6B7280;--faint:#9CA3AF;
+  --border:#E5E0D8;--accent:#C8A96E;--radius:8px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+
+/* NAV */
+nav{background:var(--nav);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.logo{font-family:'DM Serif Display',serif;color:#fff;font-size:20px}.logo span{color:var(--accent)}
+.tabs{display:flex;gap:2px}
+.tab{color:rgba(255,255,255,.5);background:none;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;transition:.15s}
+.tab:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.07)}
+.tab.active{color:#fff;background:rgba(255,255,255,.12)}
+.live{font-size:11px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;display:flex;align-items:center;gap:6px}
+.dot{width:6px;height:6px;background:#22C55E;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* LAYOUT */
+main{padding:32px;max-width:1400px;margin:0 auto}
+.section{display:none}.section.active{display:block}
+
+/* STATS ROW */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:28px}
+.stat{background:var(--surface);padding:24px 28px}
+.stat-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stat-val{font-family:'DM Serif Display',serif;font-size:36px;line-height:1;margin-bottom:4px}
+.stat-val.green{color:var(--green)}
+.stat-sub{font-size:12px;color:var(--faint);margin-top:4px}
+
+/* FILTERS */
+.filters{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.pills{display:flex;gap:8px}
+.pill{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;transition:.15s}
+.pill:hover{border-color:var(--green);color:var(--green)}
+.pill.active{background:var(--text);color:#fff;border-color:var(--text)}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 12px;width:240px}
+.search input{border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:transparent;width:100%}
+.search input::placeholder{color:var(--faint)}
+
+/* TABLE */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{padding:12px 16px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap}
+thead th:first-child{padding-left:24px}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#FAFAF8}
+tbody td{padding:16px;font-size:13px;vertical-align:middle}
+tbody td:first-child{padding-left:24px}
+.co-name{font-weight:600;margin-bottom:2px}
+.co-desc{font-size:11px;color:var(--faint);max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:500;background:var(--green-lt);color:var(--green)}
+.mono{font-family:'DM Mono',monospace;font-size:12px}
+.dash{color:var(--faint)}
+.badge{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:600}
+.badge-active{background:#E6F4E8;color:#1F7A30;border:1px solid #B8DFBd}
+.badge-shut{background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA}
+.badge-exit{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A}
+
+/* LOADING / EMPTY */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px;gap:16px;color:var(--muted)}
+.spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:60px;color:var(--faint)}
+
+/* DEALFLOW */
+.deal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px}
+.deal-card .n{font-family:'DM Serif Display',serif;font-size:32px;margin-bottom:4px}
+.deal-card .l{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pipeline-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pipe-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.pipe-col h3{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.pipe-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text)}
+.pipe-item:last-child{border-bottom:none}
+.pipe-item .pname{font-weight:600;margin-bottom:2px}
+.pipe-item .pmeta{color:var(--faint);font-size:11px}
+
+/* PRESS */
+.press-company{margin-bottom:28px}
+.press-co-name{font-weight:700;font-size:15px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.press-links{display:flex;flex-wrap:wrap;gap:8px}
+.press-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;color:var(--text);text-decoration:none;transition:.15s}
+.press-link:hover{border-color:var(--green);color:var(--green);background:var(--green-lt)}
+.press-source{color:var(--muted);font-size:11px}
+
+/* REQUESTS */
+.req-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:28px}
+.req-col h3{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px}
+.cnt{background:var(--text);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px}
+.req-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
+.req-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.req-co{font-weight:600;font-size:13px;margin-bottom:4px}
+.req-ask{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px}
+.req-meta{display:flex;align-items:center;justify-content:space-between}
+.req-date{font-size:11px;color:var(--faint);font-family:'DM Mono',monospace}
+.req-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--green-lt);color:var(--green)}
+.req-status.done{background:#F3F4F6;color:var(--muted)}
+
+/* JOBS */
+.jobs-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.jobs-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.jobs-header h2{font-family:'DM Serif Display',serif;font-size:20px}
+.job-row{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;transition:.1s}
+.job-row:last-child{border-bottom:none}
+.job-row:hover{background:#FAFAF8}
+.job-co{font-weight:600;font-size:13px}
+.job-role{font-size:12px;color:var(--muted);margin-top:2px}
+.job-link{padding:6px 16px;border:1.5px solid var(--green);border-radius:6px;font-size:12px;font-weight:600;color:var(--green);text-decoration:none;transition:.15s}
+.job-link:hover{background:var(--green);color:#fff}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">BBQ <span>Capital</span></div>
+  <div class="tabs">
+    <button class="tab active" onclick="show('portfolio',this)">Portfolio</button>
+    <button class="tab" onclick="show('dealflow',this)">Dealflow</button>
+    <button class="tab" onclick="show('press',this)">Press</button>
+    <button class="tab" onclick="show('requests',this)">Requests</button>
+    <button class="tab" onclick="show('jobs',this)">Jobs</button>
+  </div>
+  <div class="live"><span class="dot"></span><span id="updated">Loading...</span></div>
+</nav>
+
+<main>
+
+<!-- ═══ PORTFOLIO ═══ -->
+<div class="section active" id="s-portfolio">
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Total Portfolio</div><div class="stat-val" id="s-total">—</div><div class="stat-sub">Companies</div></div>
+    <div class="stat"><div class="stat-label">Active</div><div class="stat-val green" id="s-active">—</div><div class="stat-sub" id="s-active-sub">—</div></div>
+    <div class="stat"><div class="stat-label">Avg Runway</div><div class="stat-val" id="s-runway">—</div><div class="stat-sub">months (reporting cos.)</div></div>
+    <div class="stat"><div class="stat-label">Open Requests</div><div class="stat-val" id="s-reqs">—</div><div class="stat-sub">awaiting action</div></div>
+  </div>
+  <div class="filters">
+    <div class="pills">
+      <button class="pill active" onclick="filterStatus('all',this)">All</button>
+      <button class="pill" onclick="filterStatus('active',this)">Active</button>
+      <button class="pill" onclick="filterStatus('shut',this)">Shut Down</button>
+      <button class="pill" onclick="filterStatus('exit',this)">Exited</button>
+    </div>
+    <div class="search">
+      <svg width="14" height="14" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search companies..." oninput="filterSearch(this.value)">
+    </div>
+  </div>
+  <div class="table-wrap">
+    <div class="loading" id="p-loading"><div class="spinner"></div><span>Loading portfolio...</span></div>
+    <table id="p-table" style="display:none">
+      <thead><tr>
+        <th>Company</th><th>Sector</th><th>Stage</th>
+        <th>Revenue</th><th>Burn</th><th>Cash on Hand</th><th>Runway</th>
+        <th>Valuation</th><th>Status</th>
+      </tr></thead>
+      <tbody id="p-body"></tbody>
+    </table>
+    <div class="empty" id="p-empty" style="display:none">No companies match.</div>
+  </div>
+</div>
+
+<!-- ═══ DEALFLOW ═══ -->
+<div class="section" id="s-dealflow">
+  <div class="loading" id="d-loading"><div class="spinner"></div><span>Loading pipeline...</span></div>
+  <div id="d-content" style="display:none">
+    <div class="deal-stats">
+      <div class="deal-card"><div class="n" id="d-total">—</div><div class="l">Total Seen</div></div>
+      <div class="deal-card"><div class="n" id="d-docket">—</div><div class="l">In Docket</div></div>
+      <div class="deal-card"><div class="n" id="d-diligence">—</div><div class="l">In Diligence</div></div>
+      <div class="deal-card"><div class="n" id="d-invested">—</div><div class="l">Invested</div></div>
+    </div>
+    <div class="pipeline-grid">
+      <div class="pipe-col"><h3>🔍 Docket / Discovery</h3><div id="d-col-docket"></div></div>
+      <div class="pipe-col"><h3>📞 In Diligence</h3><div id="d-col-diligence"></div></div>
+      <div class="pipe-col"><h3>👀 One to Watch</h3><div id="d-col-watch"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PRESS ═══ -->
+<div class="section" id="s-press">
+  <div class="loading" id="pr-loading"><div class="spinner"></div><span>Loading press coverage...</span></div>
+  <div id="pr-content" style="display:none"></div>
+</div>
+
+<!-- ═══ REQUESTS ═══ -->
+<div class="section" id="s-requests">
+  <div class="loading" id="r-loading"><div class="spinner"></div><span>Loading requests...</span></div>
+  <div id="r-content" style="display:none">
+    <div class="req-grid">
+      <div><h3>Customer Intros <span class="cnt" id="rc-cust">0</span></h3><div id="rc-cust-col"></div></div>
+      <div><h3>Investor Intros <span class="cnt" id="rc-inv">0</span></h3><div id="rc-inv-col"></div></div>
+      <div><h3>Hiring <span class="cnt" id="rc-hire">0</span></h3><div id="rc-hire-col"></div></div>
+    </div>
+    <div><h3 style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Other <span class="cnt" id="rc-other">0</span></h3>
+    <div id="rc-other-col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"></div></div>
+  </div>
+</div>
+
+<!-- ═══ JOBS ═══ -->
+<div class="section" id="s-jobs">
+  <div class="loading" id="j-loading"><div class="spinner"></div><span>Loading jobs...</span></div>
+  <div id="j-content" style="display:none">
+    <div class="jobs-wrap">
+      <div class="jobs-header"><h2>Portfolio Jobs Board</h2><span id="j-count" style="font-size:13px;color:var(--muted)"></span></div>
+      <div id="j-list"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── State ───────────────────────────────────────────
+let portfolio=[], metrics=[], requests=[], dealflow=[];
+let statusFilter='all', searchQ='';
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ─── Nav ─────────────────────────────────────────────
+function show(name, btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── Fetch ───────────────────────────────────────────
+async function fetchDB(db){ const r=await fetch(`/api/notion?database=${db}`); return (await r.json()).results||[]; }
+async function fetchPage(pg){ const r=await fetch(`/api/notion?page=${pg}`); return (await r.json()).results||[]; }
+
+// ─── Helpers ─────────────────────────────────────────
+function gT(prop){
+  if(!prop)return'';
+  if(prop.type==='title')return prop.title?.[0]?.plain_text||'';
+  if(prop.type==='rich_text')return prop.rich_text?.[0]?.plain_text||'';
+  if(prop.type==='select')return prop.select?.name||'';
+  if(prop.type==='multi_select')return prop.multi_select?.map(o=>o.name).join(', ')||'';
+  if(prop.type==='number')return prop.number;
+  if(prop.type==='checkbox')return prop.checkbox;
+  if(prop.type==='date')return prop.date?.start||'';
+  if(prop.type==='email')return prop.email||'';
+  return'';
+}
+function fmt(v){
+  if(v===null||v===undefined||v==='')return`<span class="dash">—</span>`;
+  const n=Number(v);if(isNaN(n))return`<span class="dash">—</span>`;
+  if(n>=1e6)return`<span class="mono">$${(n/1e6).toFixed(1)}M</span>`;
+  if(n>=1e3)return`<span class="mono">$${(n/1e3).toFixed(0)}K</span>`;
+  return`<span class="mono">$${n.toLocaleString()}</span>`;
+}
+function fmtR(v){ return(v===null||v===undefined||v==='') ? `<span class="dash">—</span>` : `<span class="mono">${Math.round(v)} mo</span>`; }
+
+function latestMetric(name){
+  const rows=metrics.filter(r=>gT(r.properties['Company']).toLowerCase()===name.toLowerCase());
+  if(!rows.length)return null;
+  rows.sort((a,b)=>{
+    const ya=parseInt(gT(a.properties['Year']))||0, yb=parseInt(gT(b.properties['Year']))||0;
+    if(ya!==yb)return yb-ya;
+    return MONTHS.indexOf(gT(b.properties['Month']))-MONTHS.indexOf(gT(a.properties['Month']));
+  });
+  return rows[0];
+}
+
+function statusBadge(stages){
+  const s=(stages||[]).join(' ').toLowerCase();
+  if(s.includes('shut'))return`<span class="badge badge-shut">Shut Down</span>`;
+  if(s.includes('acquir')||s.includes('exit')||s.includes('second'))return`<span class="badge badge-exit">Exited</span>`;
+  return`<span class="badge badge-active">Active</span>`;
+}
+
+// ─── PORTFOLIO ────────────────────────────────────────
+function renderPortfolio(){
+  const body=document.getElementById('p-body');
+  const tbl=document.getElementById('p-table');
+  const empty=document.getElementById('p-empty');
+
+  const stages=c=>c.properties['Current Stage']?.multi_select?.map(s=>s.name)||[];
+  const isShut=c=>stages(c).some(s=>s.toLowerCase().includes('shut'));
+  const isExit=c=>stages(c).some(s=>s.toLowerCase().includes('acquir')||s.toLowerCase().includes('exit')||s.toLowerCase().includes('second'));
+  const isActive=c=>!isShut(c)&&!isExit(c);
+
+  // pill counts
+  const all=portfolio.length, act=portfolio.filter(isActive).length;
+  const shut=portfolio.filter(isShut).length, exit=portfolio.filter(isExit).length;
+  document.querySelectorAll('.pill')[0].textContent=`All (${all})`;
+  document.querySelectorAll('.pill')[1].textContent=`Active (${act})`;
+  document.querySelectorAll('.pill')[2].textContent=`Shut Down (${shut})`;
+  document.querySelectorAll('.pill')[3].textContent=`Exited (${exit})`;
+
+  // stats
+  document.getElementById('s-total').textContent=all;
+  document.getElementById('s-active').textContent=act;
+  document.getElementById('s-active-sub').textContent=`${shut} shut down · ${exit} exited`;
+  const runways=metrics.map(r=>gT(r.properties['Runway (months)'])).filter(v=>v!==null&&v!==''&&!isNaN(v));
+  document.getElementById('s-runway').textContent=runways.length?Math.round(runways.reduce((a,b)=>a+Number(b),0)/runways.length)+' mo':'—';
+  document.getElementById('s-reqs').textContent=requests.filter(r=>!gT(r.properties['Completed'])).length;
+
+  let list=portfolio.filter(c=>{
+    if(statusFilter==='active'&&!isActive(c))return false;
+    if(statusFilter==='shut'&&!isShut(c))return false;
+    if(statusFilter==='exit'&&!isExit(c))return false;
+    if(searchQ){
+      const n=gT(c.properties['Company Name']).toLowerCase();
+      const d=gT(c.properties['Company Description']).toLowerCase();
+      if(!n.includes(searchQ)&&!d.includes(searchQ))return false;
+    }
+    return true;
+  });
+
+  if(!list.length){tbl.style.display='none';empty.style.display='block';return;}
+  tbl.style.display='table';empty.style.display='none';
+
+  body.innerHTML=list.map(c=>{
+    const name=gT(c.properties['Company Name']);
+    const desc=gT(c.properties['Company Description']);
+    const sector=gT(c.properties['Business Model']);
+    const stageAtInvest=c.properties['Stage at Time of Investment']?.multi_select?.map(s=>s.name).join(', ')||'';
+    const val=gT(c.properties['Latest Post-Money Valuation']);
+    const m=latestMetric(name);
+    return`<tr>
+      <td><div class="co-name">${name}</div>${desc?`<div class="co-desc">${desc}</div>`:''}</td>
+      <td>${sector?`<span class="tag">${sector}</span>`:'<span class="dash">—</span>'}</td>
+      <td><span class="mono" style="font-size:11px;color:var(--muted)">${stageAtInvest||'—'}</span></td>
+      <td>${fmt(m?gT(m.properties['Revenue']):null)}</td>
+      <td>${fmt(m?gT(m.properties['Burn']):null)}</td>
+      <td>${fmt(m?gT(m.properties['Cash on Hand']):null)}</td>
+      <td>${fmtR(m?gT(m.properties['Runway (months)']):null)}</td>
+      <td>${val?`<span class="mono">${val}</span>`:'<span class="dash">—</span>'}</td>
+      <td>${statusBadge(stages(c))}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterStatus(f,btn){
+  statusFilter=f;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  renderPortfolio();
+}
+function filterSearch(v){searchQ=v.toLowerCase();renderPortfolio();}
+
+// ─── DEALFLOW ─────────────────────────────────────────
+function renderDealflow(){
+  const total=dealflow.length;
+  const docket=dealflow.filter(c=>c.properties['Investment Team Decision']?.multi_select?.some(d=>['Docket','Discovery','Next Docket'].includes(d.name)));
+  const diligence=dealflow.filter(c=>c.properties['Investment Team Decision']?.multi_select?.some(d=>['Move to Diligence','Move to Second Call','Move to IC'].includes(d.name)));
+  const invested=dealflow.filter(c=>c.properties['Investment Team Decision']?.multi_select?.some(d=>d.name==='Invest!'));
+  const watch=dealflow.filter(c=>c.properties['Investment Team Decision']?.multi_select?.some(d=>d.name==='One to Watch'));
+
+  document.getElementById('d-total').textContent=total;
+  document.getElementById('d-docket').textContent=docket.length;
+  document.getElementById('d-diligence').textContent=diligence.length;
+  document.getElementById('d-invested').textContent=invested.length;
+
+  const mkItem=c=>{
+    const name=gT(c.properties['Company Name']);
+    const stage=gT(c.properties['Latest Stage/Valuation']);
+    const sector=c.properties['Business Model']?.multi_select?.[0]?.name||'';
+    return`<div class="pipe-item"><div class="pname">${name}</div><div class="pmeta">${[sector,stage].filter(Boolean).join(' · ')}</div></div>`;
+  };
+
+  document.getElementById('d-col-docket').innerHTML=docket.slice(0,8).map(mkItem).join('')||'<div class="pmeta" style="padding:8px 0">None currently</div>';
+  document.getElementById('d-col-diligence').innerHTML=diligence.slice(0,8).map(mkItem).join('')||'<div class="pmeta" style="padding:8px 0">None currently</div>';
+  document.getElementById('d-col-watch').innerHTML=watch.slice(0,8).map(mkItem).join('')||'<div class="pmeta" style="padding:8px 0">None currently</div>';
+
+  document.getElementById('d-loading').style.display='none';
+  document.getElementById('d-content').style.display='block';
+}
+
+// ─── PRESS ───────────────────────────────────────────
+function renderPress(blocks){
+  const container=document.getElementById('pr-content');
+  // Parse the block structure: paragraph with company name, then bulleted list with links
+  let html='';
+  let currentCo='';
+  let links=[];
+
+  const flush=()=>{
+    if(currentCo&&links.length){
+      html+=`<div class="press-company">
+        <div class="press-co-name">${currentCo}</div>
+        <div class="press-links">${links.join('')}</div>
+      </div>`;
+    }
+    links=[];
+  };
+
+  blocks.forEach(b=>{
+    if(b.type==='paragraph'){
+      const text=b.paragraph?.rich_text?.map(t=>t.plain_text).join('')||'';
+      if(text.trim()){flush();currentCo=text.trim();}
+    } else if(b.type==='bulleted_list_item'){
+      const rt=b.bulleted_list_item?.rich_text||[];
+      const text=rt.map(t=>t.plain_text).join('');
+      const url=rt.find(t=>t.href)?.href||'#';
+      if(text)links.push(`<a href="${url}" target="_blank" class="press-link">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        ${text}
+      </a>`);
+    }
+  });
+  flush();
+
+  container.innerHTML=html||'<div class="empty">No press coverage found.</div>';
+  document.getElementById('pr-loading').style.display='none';
+  document.getElementById('pr-content').style.display='block';
+}
+
+// ─── REQUESTS ────────────────────────────────────────
+function renderRequests(){
+  const cols={
+    'Customer Introduction':{col:'rc-cust-col',cnt:'rc-cust'},
+    'Investor Introduction':{col:'rc-inv-col', cnt:'rc-inv'},
+    'Hiring':               {col:'rc-hire-col',cnt:'rc-hire'},
+    'Other':                {col:'rc-other-col',cnt:'rc-other'},
+  };
+  Object.values(cols).forEach(c=>{document.getElementById(c.col).innerHTML='';document.getElementById(c.cnt).textContent='0';});
+
+  requests.forEach(r=>{
+    const co=gT(r.properties['Namekick']);
+    const ask=gT(r.properties['Ask']);
+    const types=r.properties['Type of Ask']?.multi_select?.map(t=>t.name)||['Other'];
+    const done=gT(r.properties['Completed']);
+    const date=gT(r.properties['Date']);
+    const type=types[0]||'Other';
+    const col=cols[type]||cols['Other'];
+    document.getElementById(col.col).innerHTML+=`<div class="req-card">
+      <div class="req-co">${co}</div>
+      <div class="req-ask">${ask||'No details provided'}</div>
+      <div class="req-meta">
+        <span class="req-date">${date||''}</span>
+        <span class="req-status ${done?'done':''}">${done?'Done':'Open'}</span>
+      </div>
+    </div>`;
+    const el=document.getElementById(col.cnt);
+    el.textContent=parseInt(el.textContent||0)+1;
+  });
+
+  document.getElementById('r-loading').style.display='none';
+  document.getElementById('r-content').style.display='block';
+}
+
+// ─── JOBS ────────────────────────────────────────────
+function renderJobs(blocks){
+  const list=document.getElementById('j-list');
+  let jobs=[];
+  let currentCo='';
+
+  blocks.forEach(b=>{
+    if(b.type==='heading_2'||b.type==='heading_3'){
+      currentCo=b[b.type]?.rich_text?.map(t=>t.plain_text).join('')||'';
+    } else if(b.type==='bulleted_list_item'||b.type==='paragraph'){
+      const rt=b[b.type]?.rich_text||[];
+      const text=rt.map(t=>t.plain_text).join('');
+      const url=rt.find(t=>t.href)?.href;
+      if(text&&currentCo){
+        jobs.push({co:currentCo,role:text,url:url||null});
+      }
+    }
+  });
+
+  document.getElementById('j-count').textContent=`${jobs.length} open positions`;
+  list.innerHTML=jobs.length
+    ? jobs.map(j=>`<div class="job-row">
+        <div><div class="job-co">${j.co}</div><div class="job-role">${j.role}</div></div>
+        ${j.url?`<a href="${j.url}" target="_blank" class="job-link">Apply →</a>`:'<span style="font-size:12px;color:var(--faint)">See Notion</span>'}
+      </div>`).join('')
+    : '<div class="empty">No jobs data found. Check the Notion jobs page format.</div>';
+
+  document.getElementById('j-loading').style.display='none';
+  document.getElementById('j-content').style.display='block';
+}
+
+// ─── Bootstrap ───────────────────────────────────────
+async function init(){
+  try{
+    const [port,met,reqs,deal,press,jobs]=await Promise.all([
+      fetchDB('portfolio'),fetchDB('metrics'),fetchDB('requests'),fetchDB('dealflow'),
+      fetchPage('press'),fetchPage('jobs')
+    ]);
+
+    portfolio=port.sort((a,b)=>gT(a.properties['Company Name']).localeCompare(gT(b.properties['Company Name'])));
+    metrics=met; requests=reqs; dealflow=deal;
+
+    document.getElementById('p-loading').style.display='none';
+    document.getElementById('p-table').style.display='table';
+
+    renderPortfolio();
+    renderDealflow();
+    renderPress(press);
+    renderRequests();
+    renderJobs(jobs);
+
+    const now=new Date();
+    document.getElementById('updated').textContent=`Updated ${now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+  }catch(err){
+    document.getElementById('p-loading').innerHTML=`<div class="empty">Error loading data.<br><small>${err.message}</small></div>`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>
