@@ -7,16 +7,17 @@ export default async function handler(req, res) {
   const { database, page } = req.query;
   const token = process.env.NOTION_TOKEN;
 
+  // These are the actual DATABASE IDs (not collection/data source IDs)
   const dbMap = {
-    portfolio: '08d1e1d7-d908-4071-930b-f6c74a35da6d',  // PORTFOLIO
-    metrics:   '219f73f7835a4098a2ffb3e97e580905',        // PORTFOLIO METRICS (new)
-    requests:  'd60645e5cd144d589bcbeb2ebb330d17',        // Requests from Portfolio Companies (new)
-    dealflow:  '8d61bda5-989c-46b6-b8f2-36e540b2fdb7',   // DEALFLOW PIPELINE
+    portfolio: '2d5acf13c45b4eb39c9b817b4aaf70a6',  // PORTFOLIO
+    metrics:   '219f73f7835a4098a2ffb3e97e580905',    // PORTFOLIO METRICS
+    requests:  'd60645e5cd144d589bcbeb2ebb330d17',    // Requests from Portfolio Companies
+    dealflow:  '1820943b0d80451a807b3010318caabe',    // DEALFLOW PIPELINE
   };
 
   const pageMap = {
-    press: '33c6d1ccd46881329c41e80a12f30d5a',  // Media Coverage (new)
-    jobs:  '33c6d1ccd468810f866bc9247a2a552f',  // Portfolio Jobs Board (new)
+    press: '33c6d1ccd46881329c41e80a12f30d5a',
+    jobs:  '33c6d1ccd468810f866bc9247a2a552f',
   };
 
   const headers = {
@@ -37,6 +38,7 @@ export default async function handler(req, res) {
           method: 'POST', headers, body: JSON.stringify(body)
         });
         const d = await r.json();
+        if (d.status === 400 || d.status === 404) return res.status(d.status).json(d);
         allResults = allResults.concat(d.results || []);
         cursor = d.has_more ? d.next_cursor : undefined;
       } while (cursor);
