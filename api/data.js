@@ -27,7 +27,7 @@ function prop(page, name, type) {
   return null;
 }
  
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate");
  
@@ -37,13 +37,8 @@ module.exports = async function handler(req, res) {
  
   try {
     const monthOrder = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    
-    const [portRows, dfRows] = await Promise.all([
-      queryNotion(PORTFOLIO_DB),
-      queryNotion(DEALFLOW_DB)
-    ]);
+    const [portRows, dfRows] = await Promise.all([queryNotion(PORTFOLIO_DB), queryNotion(DEALFLOW_DB)]);
  
-    // Portfolio metrics
     const metrics = {};
     for (const row of portRows) {
       const company = prop(row, "Company", "title");
@@ -61,14 +56,12 @@ module.exports = async function handler(req, res) {
           cash: prop(row, "Cash on Hand", "number"),
           runway: prop(row, "Runway (months)", "number"),
           fte: prop(row, "FTE", "number"),
-          month, year: prop(row, "Year", "select"),
-          _y: year, _m: month
+          month, year: prop(row, "Year", "select"), _y: year, _m: month
         };
       }
     }
     for (const k of Object.keys(metrics)) { delete metrics[k]._y; delete metrics[k]._m; }
  
-    // Dealflow
     const stageCount = {}, sourceCount = {}, sectorCount = {}, recent = [];
     for (const page of dfRows) {
       const name = prop(page, "Company Name", "title");
@@ -95,9 +88,7 @@ module.exports = async function handler(req, res) {
       syncedAt: new Date().toISOString(),
       status: "ok"
     });
- 
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
-};
- 
+}
