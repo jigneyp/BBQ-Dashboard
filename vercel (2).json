@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/data.js": { "runtime": "edge" },
+    "api/ingest.js": { "runtime": "edge" }
+  }
+}
