@@ -458,7 +458,7 @@ const COS=[
 ];
 
 let notionMetrics={}, activeStatus='all';
-const fmtR=v=>v==null?null:v>=1?'$'+v.toFixed(1)+'M':'$'+(v*1000).toFixed(0)+'K';
+const fmtR=v=>v==null?null:v>=1000000?'$'+(v/1000000).toFixed(1)+'M':v>=1000?'$'+(v/1000).toFixed(0)+'K':'$'+v.toFixed(0);
 const fmtV=v=>v==null?'—':'$'+v+'M';
 
 [...new Set(COS.map(c=>c.s))].sort().forEach(s=>{
@@ -666,13 +666,13 @@ async function loadLiveData(){
         .map(([s,v])=>`<div class="stage-pill"><div class="sdot" style="background:var(--sage)"></div>${s}<strong style="margin-left:5px;color:var(--charcoal)">${v}</strong></div>`).join('');
     }
 
-    dot.classList.remove('loading');
+    dot.classList.remove('loading');dot.style.background='#2D6A4F';
     lbl.textContent='Live · Notion synced '+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 
   }catch(e){
     console.error(e);
     dot.classList.remove('loading');dot.classList.add('error');
-    lbl.textContent='Showing static data — Notion not connected';
+    lbl.textContent='Could not connect to Notion';
   }
 }
 loadLiveData();
