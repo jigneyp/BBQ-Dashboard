@@ -65,8 +65,6 @@ function prop(page, name, type) {
   return null;
 }
 
-const toM = v => v == null ? null : v / 1000000;
-
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   // Short cache: 30s fresh, serve stale up to 5min while revalidating
@@ -99,9 +97,9 @@ export default async function handler(req, res) {
       const exM = ex ? monthOrder.indexOf(ex._m || "") : -1;
       if (!ex || year > exY || (year === exY && monthIdx > exM)) {
         metrics[company] = {
-          revenue: toM(prop(row, "Revenue", "number")),
-          burn: toM(prop(row, "Burn", "number")),
-          cash: toM(prop(row, "Cash on Hand", "number")),
+          revenue: prop(row, "Revenue", "number"),
+          burn: prop(row, "Burn", "number"),
+          cash: prop(row, "Cash on Hand", "number"),
           runway: prop(row, "Runway (months)", "number"),
           fte: prop(row, "FTE", "number"),
           month, year: prop(row, "Year", "select"),

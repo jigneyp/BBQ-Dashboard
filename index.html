@@ -642,7 +642,7 @@ async function loadLiveData(){
     const reporting=Object.keys(notionMetrics).length;
     if(reporting>0){
       const totalRev=Object.values(notionMetrics).filter(m=>m.revenue).reduce((s,m)=>s+m.revenue,0);
-      document.getElementById('stat-rev').textContent=totalRev>0?'$'+totalRev.toFixed(1)+'M':'—';
+      document.getElementById('stat-rev').textContent=totalRev>0?'$'+(totalRev/1000000).toFixed(1)+'M':'—';
       document.getElementById('stat-rev-sub').textContent=reporting+' companies reporting';
     }
  
