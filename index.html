@@ -506,7 +506,7 @@ function renderCos(){
 function filterCos(){renderCos();}
 renderCos();
 
-document.getElementById('recent-deals').innerHTML=[
+const rdEl=document.getElementById('recent-deals');if(rdEl)rdEl.innerHTML=[
   {n:"Stronghold",stage:"Docket",src:"Jigney's Connection",sec:"Defense Tech",d:"Apr 1, 2026"},
   {n:"Intertwined Bio",stage:"Docket",src:"Jigney's Connection",sec:"Biotech",d:"Apr 1, 2026"},
   {n:"Hicap",stage:"Docket",src:"Jigney's Connection",sec:"AI Infrastructure",d:"Apr 1, 2026"},
@@ -641,20 +641,20 @@ async function loadLiveData(){
     const df=data.dealflow;
     if(df){
       const passed=Object.entries(df.stages||{}).filter(([s])=>s.startsWith('Passing')).reduce((t,[,v])=>t+v,0);
-      document.getElementById('df-stats').innerHTML=`
+      const dfStEl=document.getElementById('df-stats');if(dfStEl)dfStEl.innerHTML=`
         <div class="stat-card"><div class="stat-label">Total Seen</div><div class="stat-val">${df.total}</div><div class="stat-sub">All time</div></div>
         <div class="stat-card"><div class="stat-label">In Docket</div><div class="stat-val" style="color:var(--sage)">${df.stages?.Docket||0}</div><div class="stat-sub">Active review</div></div>
         <div class="stat-card"><div class="stat-label">Passed</div><div class="stat-val" style="color:#8B2020">${passed}</div><div class="stat-sub">Not a fit</div></div>
         <div class="stat-card"><div class="stat-label">Pass Rate</div><div class="stat-val">${df.total>0?(passed/df.total*100).toFixed(0)+'%':'—'}</div><div class="stat-sub">Of reviewed</div></div>
       `;
       const maxSrc=(df.sources||[[,1]])[0]?.[1]||1;
-      document.getElementById('df-sources').innerHTML=(df.sources||[]).map(([s,v])=>`
+      const dfSrcEl=document.getElementById('df-sources');if(dfSrcEl)dfSrcEl.innerHTML=(df.sources||[]).map(([s,v])=>`
         <div class="bar-row"><div class="bar-lbl">${s}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxSrc*100)}%"></div></div><div class="bar-n">${v}</div></div>`).join('');
       const colors=['#2D6A4F','#2563a8','#C17F3A','#7A6E64','#8B2020','#5c3d8b'];
       const maxSec=(df.sectors||[[,1]])[0]?.[1]||1;
-      document.getElementById('df-sectors').innerHTML=(df.sectors||[]).map(([s,v],i)=>`
+      const dfSecEl=document.getElementById('df-sectors');if(dfSecEl)dfSecEl.innerHTML=(df.sectors||[]).map(([s,v],i)=>`
         <div class="bar-row"><div class="bar-lbl">${s}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxSec*100)}%;background:${colors[i%colors.length]}"></div></div><div class="bar-n">${v}</div></div>`).join('');
-      document.getElementById('recent-deals').innerHTML=(df.recent||[]).map((r,i,a)=>`
+      const rdEl=document.getElementById('recent-deals');if(rdEl)rdEl.innerHTML=(df.recent||[]).map((r,i,a)=>`
         <div class="recent-row" style="${i===a.length-1?'border:none':''}">
           <div><div style="font-family:'Lora',serif;font-size:14px;font-weight:500;color:var(--charcoal)">${r.name}</div>
           <div style="font-size:11px;color:var(--midtone);margin-top:2px">${r.sector||'—'} · ${r.source||'—'}</div></div>
@@ -663,7 +663,7 @@ async function loadLiveData(){
             <div style="font-size:10px;color:var(--midtone);margin-top:4px">${r.date}</div>
           </div>
         </div>`).join('');
-      document.getElementById('df-stages').innerHTML=Object.entries(df.stages||{}).filter(([,v])=>v>0).slice(0,6)
+      const dsEl=document.getElementById('df-stages');if(dsEl)dsEl.innerHTML=Object.entries(df.stages||{}).filter(([,v])=>v>0).slice(0,6)
         .map(([s,v])=>`<div class="stage-pill"><div class="sdot" style="background:var(--sage)"></div>${s}<strong style="margin-left:5px;color:var(--charcoal)">${v}</strong></div>`).join('');
     }
 
