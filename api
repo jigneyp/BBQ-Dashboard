@@ -54,9 +54,9 @@ export default async function handler(req, res) {
       const exM = ex ? monthOrder.indexOf(ex._m || "") : -1;
       if (!ex || year > exY || (year === exY && monthIdx > exM)) {
         metrics[company] = {
-          revenue: toM(prop(row, "Revenue", "number")),
-          burn:    toM(prop(row, "Burn", "number")),
-          cash:    toM(prop(row, "Cash on Hand", "number")),
+          revenue: (prop(row, "Revenue", "number") ?? 0) / 1000000,
+burn:    (prop(row, "Burn", "number") ?? 0) / 1000000,
+cash:    (prop(row, "Cash on Hand", "number") ?? 0) / 1000000,
           runway:  prop(row, "Runway (months)", "number"),
           fte:     prop(row, "FTE", "number"),
           month,
