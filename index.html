@@ -250,34 +250,28 @@ td:first-child{padding-left:28px}
       <div class="charts-grid">
         <div class="chart-card">
           <div class="chart-title">Pipeline stages</div>
-          <div class="stage-pills">
-            <div class="stage-pill"><div class="sdot" style="background:var(--sage)"></div>Docket<strong style="margin-left:5px;color:var(--charcoal)">11</strong></div>
-            <div class="stage-pill"><div class="sdot" style="background:#2563a8"></div>Move to 2nd Call<strong style="margin-left:5px;color:var(--charcoal)">1</strong></div>
-            <div class="stage-pill"><div class="sdot" style="background:#C17F3A"></div>Hold – Not Raising<strong style="margin-left:5px;color:var(--charcoal)">1</strong></div>
-            <div class="stage-pill"><div class="sdot" style="background:#8B2020"></div>Passing<strong style="margin-left:5px;color:var(--charcoal)">33</strong></div>
+          <div class="stage-pills" id="df-stages">
+            <div class="stage-pill"><div class="sdot" style="background:var(--sage)"></div>Docket<strong style="margin-left:5px;color:var(--charcoal)">—</strong></div>
           </div>
-          <div class="funnel-row">
-            <div><div class="funnel-stat-v" style="color:var(--sage)">11%</div><div class="funnel-stat-l">Active rate</div></div>
-            <div><div class="funnel-stat-v" style="color:#8B2020">33%</div><div class="funnel-stat-l">Pass rate</div></div>
-            <div><div class="funnel-stat-v" style="color:var(--midtone)">56%</div><div class="funnel-stat-l">Pending</div></div>
+          <div class="funnel-row" id="df-funnel">
+            <div><div class="funnel-stat-v" style="color:var(--sage)">—</div><div class="funnel-stat-l">Active rate</div></div>
+            <div><div class="funnel-stat-v" style="color:#8B2020">—</div><div class="funnel-stat-l">Pass rate</div></div>
+            <div><div class="funnel-stat-v" style="color:var(--midtone)">—</div><div class="funnel-stat-l">Pending</div></div>
           </div>
         </div>
         <div class="chart-card">
           <div class="chart-title">By source</div>
-          <div class="bar-row"><div class="bar-lbl">Jigney's Connection</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-n">33</div></div>
-          <div class="bar-row"><div class="bar-lbl">YC</div><div class="bar-track"><div class="bar-fill" style="width:79%"></div></div><div class="bar-n">26</div></div>
-          <div class="bar-row"><div class="bar-lbl">Cold Outreach</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><div class="bar-n">18</div></div>
-          <div class="bar-row"><div class="bar-lbl">Nemke Connection</div><div class="bar-track"><div class="bar-fill" style="width:6%"></div></div><div class="bar-n">2</div></div>
+          <div id="df-sources">
+            <div style="color:var(--midtone);font-size:12px;padding:8px 0">Loading…</div>
+          </div>
         </div>
       </div>
       <div class="charts-grid">
         <div class="chart-card">
           <div class="chart-title">By sector</div>
-          <div class="bar-row"><div class="bar-lbl">SaaS</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#2563a8"></div></div><div class="bar-n">12</div></div>
-          <div class="bar-row"><div class="bar-lbl">Robotics</div><div class="bar-track"><div class="bar-fill" style="width:33%;background:#C17F3A"></div></div><div class="bar-n">4</div></div>
-          <div class="bar-row"><div class="bar-lbl">Defense Tech</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--midtone)"></div></div><div class="bar-n">3</div></div>
-          <div class="bar-row"><div class="bar-lbl">Climate Tech</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><div class="bar-n">3</div></div>
-          <div class="bar-row"><div class="bar-lbl">Fintech</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#C17F3A"></div></div><div class="bar-n">3</div></div>
+          <div id="df-sectors">
+            <div style="color:var(--midtone);font-size:12px;padding:8px 0">Loading…</div>
+          </div>
         </div>
         <div class="chart-card">
           <div class="chart-title">Recent deals</div>
@@ -702,8 +696,18 @@ async function loadLiveData(){
             <div style="font-size:10px;color:var(--midtone);margin-top:4px">${r.date}</div>
           </div>
         </div>`).join('');
-      const dsEl=document.getElementById('df-stages');if(dsEl)dsEl.innerHTML=Object.entries(df.stages||{}).filter(([,v])=>v>0).slice(0,6)
-        .map(([s,v])=>`<div class="stage-pill"><div class="sdot" style="background:var(--sage)"></div>${s}<strong style="margin-left:5px;color:var(--charcoal)">${v}</strong></div>`).join('');
+      const stageColors={'Docket':'var(--sage)','Move to 2nd Call':'#2563a8','Hold – Not Raising':'#C17F3A','Hold - Not Raising':'#C17F3A','Passing':'#8B2020','Pass':'#8B2020','Portfolio':'#5c3d8b'};
+      const dsEl=document.getElementById('df-stages');if(dsEl)dsEl.innerHTML=Object.entries(df.stages||{}).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1])
+        .map(([s,v])=>`<div class="stage-pill"><div class="sdot" style="background:${stageColors[s]||'var(--sage)'}"></div>${s}<strong style="margin-left:5px;color:var(--charcoal)">${v}</strong></div>`).join('');
+      // Update funnel row
+      const docket=df.stages?.Docket||df.stages?.['In Docket']||0;
+      const passing=Object.entries(df.stages||{}).filter(([s])=>s.toLowerCase().includes('pass')).reduce((t,[,v])=>t+v,0);
+      const pending=df.total>0?df.total-Object.values(df.stages||{}).reduce((t,v)=>t+v,0):0;
+      const dfFEl=document.getElementById('df-funnel');if(dfFEl&&df.total>0)dfFEl.innerHTML=`
+        <div><div class="funnel-stat-v" style="color:var(--sage)">${Math.round(docket/df.total*100)}%</div><div class="funnel-stat-l">Active rate</div></div>
+        <div><div class="funnel-stat-v" style="color:#8B2020">${Math.round(passing/df.total*100)}%</div><div class="funnel-stat-l">Pass rate</div></div>
+        <div><div class="funnel-stat-v" style="color:var(--midtone)">${Math.max(0,Math.round(pending/df.total*100))}%</div><div class="funnel-stat-l">Pending</div></div>
+      `;
     }
  
     dot.classList.remove('loading');dot.style.background='#2D6A4F';
