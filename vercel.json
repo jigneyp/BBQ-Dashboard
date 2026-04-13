@@ -1,7 +1,1 @@
-{
-  "functions": {
-    "api/data.js": {
-      "runtime": "edge"
-    }
-  }
-}
+{"functions":{"api/data.js":{"memory":256}}}
