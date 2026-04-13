@@ -22,7 +22,7 @@
 }
 html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--parchment);color:var(--charcoal);font-size:14px;line-height:1.65}
 .layout{display:flex;height:100vh;overflow:hidden}
-
+ 
 /* ── SIDEBAR ── */
 .sidebar{width:240px;flex-shrink:0;background:var(--forest);display:flex;flex-direction:column;overflow-y:auto}
 .sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,0.08)}
@@ -38,10 +38,10 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--
 .user-avatar{width:28px;height:28px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0;font-family:'Lora',serif}
 .user-name{font-size:12px;color:#fff;font-weight:500}
 .user-role{font-size:10px;color:var(--pale-sage);letter-spacing:0.05em;text-transform:uppercase}
-
+ 
 /* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-
+ 
 /* ── TOPBAR ── */
 .topbar{padding:12px 28px;border-bottom:1px solid var(--hairline);background:var(--parchment);display:flex;align-items:center;gap:16px;flex-shrink:0}
 .search-wrap{flex:1;max-width:420px;position:relative}
@@ -53,11 +53,11 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--
 .topbar-tab{padding:6px 14px;border-radius:var(--radius);border:1px solid var(--hairline);font-size:11px;font-weight:500;cursor:pointer;color:var(--midtone);background:transparent;transition:all .12s;font-family:'Inter',sans-serif;letter-spacing:0.02em}
 .topbar-tab.active{background:var(--charcoal);color:var(--parchment);border-color:var(--charcoal)}
 .topbar-tab:not(.active):hover{background:var(--warm-linen)}
-
+ 
 /* ── CONTENT ── */
 .content{flex:1;overflow-y:auto;background:var(--parchment)}
 .panel{display:none}.panel.active{display:block}
-
+ 
 /* ── STAT STRIP ── */
 .stat-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));border-bottom:1px solid var(--hairline)}
 .stat-card{padding:20px 28px;border-right:1px solid var(--hairline)}
@@ -65,14 +65,14 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--
 .stat-label{font-size:9px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--midtone);margin-bottom:8px}
 .stat-val{font-family:'Lora',serif;font-size:28px;font-weight:500;color:var(--charcoal);line-height:1}
 .stat-sub{font-size:11px;color:var(--midtone);margin-top:5px}
-
+ 
 /* ── TABLE HEADER ── */
 .table-controls{padding:12px 28px;border-bottom:1px solid var(--hairline);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .filter-pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--hairline);color:var(--midtone);background:transparent;transition:all .1s;font-family:'Inter',sans-serif}
 .filter-pill.active{background:var(--charcoal);color:var(--parchment);border-color:var(--charcoal)}
 .filter-pill:not(.active):hover{background:var(--warm-linen)}
 .sector-sel{padding:4px 10px;border:1px solid var(--hairline);border-radius:var(--radius);font-size:11px;color:var(--midtone);background:var(--parchment);outline:none;cursor:pointer;font-family:'Inter',sans-serif;margin-left:auto}
-
+ 
 /* ── TABLE ── */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:720px}
@@ -93,7 +93,7 @@ td:first-child{padding-left:28px}
 .st-active{background:#EDF5EF;color:#1A5C38;border-color:#B0D4BA}
 .st-shutdown{background:#FAEAEA;color:#8B2020;border-color:#E8B4B4}
 .st-exited{background:#EAF0F8;color:#1A3A6A;border-color:#B0C4DC}
-
+ 
 /* ── CHARTS ── */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--hairline)}
 .chart-card{padding:20px 28px;border-right:1px solid var(--hairline)}
@@ -112,7 +112,7 @@ td:first-child{padding-left:28px}
 .funnel-stat-l{font-size:10px;color:var(--midtone);margin-top:2px}
 .recent-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--hairline)}
 .recent-row:last-child{border-bottom:none}
-
+ 
 /* ── PRESS ── */
 .press-item{padding:16px 28px;border-bottom:1px solid var(--hairline)}
 .press-item:last-child{border-bottom:none}
@@ -120,7 +120,7 @@ td:first-child{padding-left:28px}
 .press-title{font-family:'Lora',serif;font-size:15px;font-weight:500;color:var(--charcoal);margin-bottom:5px;line-height:1.4}
 .press-meta{font-size:11px;color:var(--midtone)}
 .t1-badge{display:inline-flex;padding:1px 7px;border-radius:var(--radius);font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm-linen);color:var(--sage);border:1px solid var(--hairline);margin-left:8px}
-
+ 
 /* ── REQUESTS ── */
 .req-item{padding:16px 28px;border-bottom:1px solid var(--hairline)}
 .req-item:last-child{border-bottom:none}
@@ -131,7 +131,7 @@ td:first-child{padding-left:28px}
 .req-open{padding:2px 9px;border-radius:var(--radius);font-size:10px;font-weight:500;background:#FEF6EC;color:#8B4500;border:1px solid #E8C88A}
 .req-prog{padding:2px 9px;border-radius:var(--radius);font-size:10px;font-weight:500;background:#EAF0F8;color:#1A3A6A;border:1px solid #B0C4DC}
 .req-done{padding:2px 9px;border-radius:var(--radius);font-size:10px;font-weight:500;background:#EDF5EF;color:#1A5C38;border:1px solid #B0D4BA}
-
+ 
 /* ── JOBS ── */
 .jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;border-top:none}
 .job-card{padding:18px 28px;border-bottom:1px solid var(--hairline);border-right:1px solid var(--hairline)}
@@ -139,7 +139,7 @@ td:first-child{padding-left:28px}
 .job-title{font-family:'Lora',serif;font-size:14px;font-weight:500;color:var(--charcoal);margin-bottom:8px;line-height:1.3}
 .job-meta{font-size:11px;color:var(--midtone)}
 .dept-tag{display:inline-flex;padding:2px 8px;border-radius:var(--radius);font-size:10px;font-weight:500;border:1px solid var(--hairline);background:var(--warm-linen);color:var(--midtone)}
-
+ 
 /* ── FOOTER ── */
 .footer{padding:8px 28px;border-top:1px solid var(--hairline);background:var(--warm-linen);display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--midtone);flex-shrink:0;letter-spacing:0.03em}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);display:inline-block;margin-right:6px}
@@ -150,14 +150,14 @@ td:first-child{padding-left:28px}
 </head>
 <body>
 <div class="layout">
-
+ 
 <!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-logo">
     <div class="logo-wordmark">BBQ</div>
     <div class="logo-sub">Capital</div>
   </div>
-
+ 
   <div class="sidebar-section">Portfolio</div>
   <div class="nav-item active" onclick="switchTab('portfolio',this)">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="1" width="5" height="5" rx="0.5"/><rect x="8" y="1" width="5" height="5" rx="0.5"/><rect x="1" y="8" width="5" height="5" rx="0.5"/><rect x="8" y="8" width="5" height="5" rx="0.5"/></svg>
@@ -175,14 +175,14 @@ td:first-child{padding-left:28px}
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3l1.5 1.5"/></svg>
     Requests
   </div>
-
+ 
   <div class="nav-divider"></div>
   <div class="sidebar-section">Talent</div>
   <div class="nav-item" onclick="switchTab('jobs',this)">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="4" width="10" height="8" rx="0.5"/><path d="M5 4V3a1 1 0 011-1h2a1 1 0 011 1v1"/></svg>
     Open Positions
   </div>
-
+ 
   <div class="sidebar-bottom">
     <div class="user-row">
       <div class="user-avatar">J</div>
@@ -193,7 +193,7 @@ td:first-child{padding-left:28px}
     </div>
   </div>
 </nav>
-
+ 
 <!-- MAIN -->
 <div class="main">
   <div class="topbar">
@@ -209,9 +209,9 @@ td:first-child{padding-left:28px}
       <button class="topbar-tab" onclick="switchTopTab('jobs',this)">Jobs</button>
     </div>
   </div>
-
+ 
   <div class="content">
-
+ 
     <!-- PORTFOLIO -->
     <div id="panel-portfolio" class="panel active">
       <div class="stat-strip" id="port-stats">
@@ -238,7 +238,7 @@ td:first-child{padding-left:28px}
         </table>
       </div>
     </div>
-
+ 
     <!-- DEALFLOW -->
     <div id="panel-dealflow" class="panel">
       <div class="stat-strip" id="df-stats">
@@ -285,7 +285,7 @@ td:first-child{padding-left:28px}
         </div>
       </div>
     </div>
-
+ 
     <!-- PRESS -->
     <div id="panel-press" class="panel">
       <div class="stat-strip">
@@ -295,7 +295,7 @@ td:first-child{padding-left:28px}
       </div>
       <div id="press-list"></div>
     </div>
-
+ 
     <!-- REQUESTS -->
     <div id="panel-requests" class="panel">
       <div class="stat-strip" id="port-requests-stats">
@@ -306,7 +306,7 @@ td:first-child{padding-left:28px}
       </div>
       <div id="req-list"></div>
     </div>
-
+ 
     <!-- JOBS -->
     <div id="panel-jobs" class="panel">
       <div class="stat-strip">
@@ -321,16 +321,16 @@ td:first-child{padding-left:28px}
       </div>
       <div class="jobs-grid" id="job-grid"></div>
     </div>
-
+ 
   </div>
-
+ 
   <div class="footer">
     <div><span class="live-dot loading" id="sync-dot"></span><span id="sync-label">Connecting to Notion…</span></div>
     <div>BBQ Capital · Portfolio Dashboard · 70 companies</div>
   </div>
 </div>
 </div>
-
+ 
 <script>
 const DESCS={
   "222":"Social app for ambient connection with close friends",
@@ -384,7 +384,7 @@ const DESCS={
   "Wingback":"Pricing and entitlements infrastructure for B2B SaaS",
   "Yofi":"Detects and filters bot traffic in e-commerce",
 };
-
+ 
 const COS=[
   {n:"222",s:"Consumer",y:2023,val:60,st:"active"},
   {n:"Agency",s:"Cybersecurity",y:2022,val:20,st:"active"},
@@ -457,30 +457,30 @@ const COS=[
   {n:"Wingback",s:"Vertical SaaS",y:2022,st:"shutdown"},
   {n:"Yofi",s:"Vertical SaaS",y:2022,st:"exited"},
 ];
-
+ 
 let notionMetrics={}, activeStatus='all';
 const fmtR=v=>v==null?null:v>=1000000?'$'+(v/1000000).toFixed(1)+'M':v>=1000?'$'+(v/1000).toFixed(1)+'K':'$'+v.toFixed(0);
 const fmtV=v=>v==null?'—':'$'+v+'M';
-
+ 
 [...new Set(COS.map(c=>c.s))].sort().forEach(s=>{
   const o=document.createElement('option');o.value=s;o.textContent=s;
   document.getElementById('co-sector').appendChild(o);
 });
-
+ 
 function setStatus(s,btn){
   activeStatus=s;
   document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
   renderCos();
 }
-
+ 
 function getCosM(){
   return COS.map(c=>{
     const m=notionMetrics[c.n]||{};
     return{...c,rev:m.revenue??null,burn:m.burn??null,cash:m.cash??null,run:c.run??m.runway??null,fte:m.fte??null};
   });
 }
-
+ 
 function renderCos(){
   const q=document.getElementById('global-search').value.toLowerCase();
   const sec=document.getElementById('co-sector').value;
@@ -505,7 +505,7 @@ function renderCos(){
 }
 function filterCos(){renderCos();}
 renderCos();
-
+ 
 const rdEl=document.getElementById('recent-deals');if(rdEl)rdEl.innerHTML=[
   {n:"Stronghold",stage:"Docket",src:"Jigney's Connection",sec:"Defense Tech",d:"Apr 1, 2026"},
   {n:"Intertwined Bio",stage:"Docket",src:"Jigney's Connection",sec:"Biotech",d:"Apr 1, 2026"},
@@ -523,7 +523,7 @@ const rdEl=document.getElementById('recent-deals');if(rdEl)rdEl.innerHTML=[
     <div style="font-size:10px;color:var(--midtone);margin-top:4px">${r.d}</div>
   </div>
 </div>`).join('');
-
+ 
 document.getElementById('press-list').innerHTML=[
   {co:"NET (Awoo)",d:"Feb 28, 2026",title:"Awoo app launch announced — co-founder posts App Store screenshots",outlet:"TechCrunch",t1:true},
   {co:"Taiv",d:"Jan 14, 2026",title:"Taiv raises $10M Series A to expand AI-powered venue solutions to restaurants",outlet:"VentureBeat",t1:true},
@@ -536,22 +536,37 @@ document.getElementById('press-list').innerHTML=[
   <div class="press-title">${p.title}</div>
   <div class="press-meta">${p.outlet} · ${p.d}</div>
 </div>`).join('');
-
+ 
 document.getElementById('req-list').innerHTML=[
-  {co:"Keep",type:"Investor Intro",req:"Looking for Series C lead — ideally growth-stage fintech specialists. $30M+ round planned",d:"Dec 15, 2025",st:"Open"},
-  {co:"Taiv",type:"Customer Intro",req:"Needs intro to enterprise restaurant chains (1,000+ locations)",d:"Jan 8, 2026",st:"In Progress"},
-  {co:"Bree",type:"Hiring Help",req:"Seeking VP of Marketing with fintech experience. Comp $180–220K",d:"Jan 20, 2026",st:"Open"},
+  {co:"Readyly",type:"Investor Intro",req:"Warm intros to strategic investors aligned with GovTech and applied AI. Series A round is open with strong momentum — over 50% already allocated.",d:"Apr 1, 2026",st:"Open"},
+  {co:"Readyly",type:"Customer Intro",req:"Warm intros to cities or counties exploring AI for 311 or resident services, telecom systems integrators, and GovTech-focused AI consultants or firms.",d:"Apr 1, 2026",st:"Open"},
+  {co:"Mederva",type:"Investor Intro",req:"Warm investor intros for $5M seed round — targeting $10M ARR before Series A. Calendar booking out fast.",d:"Apr 5, 2026",st:"Open"},
+  {co:"Superpower",type:"Hiring Help",req:"Looking for Head of Marketing / CMO referrals — top priority hire right now.",d:"Apr 8, 2026",st:"Open"},
+  {co:"Superpower",type:"Hiring Help",req:"Also seeking referrals for: Chief of Staff, Marketing generalists, Designers, Strategic Finance (ex-bankers/PE/VC/consulting).",d:"Apr 8, 2026",st:"Open"},
+  {co:"Avec (Net)",type:"Other",req:"Help amplifying App Store launch announcement — Jonathan will send instructions the day before launch with sample messaging to share.",d:"Apr 1, 2026",st:"Open"},
+  {co:"BIOPTIC",type:"Fundraising",req:"Beginning early discussions about a new raise. Happy to chat with any investors interested in staying in the loop as they build momentum.",d:"Feb 2, 2026",st:"Open"},
+  {co:"Keep",type:"Investor Intro",req:"Looking for Series C lead — ideally growth-stage fintech specialists. $30M+ round planned.",d:"Dec 15, 2025",st:"Open"},
+  {co:"Taiv",type:"Customer Intro",req:"Needs intro to enterprise restaurant chains (1,000+ locations).",d:"Jan 8, 2026",st:"In Progress"},
+  {co:"Bree",type:"Hiring Help",req:"Seeking VP of Marketing with fintech experience. Comp $180–220K.",d:"Jan 20, 2026",st:"Open"},
 ].map(r=>`<div class="req-item">
   <div class="req-top">
     <div>
       <span class="req-co">${r.co}</span><span class="req-type">${r.type}</span>
       <span style="font-size:11px;color:var(--midtone);margin-left:8px">${r.d}</span>
     </div>
-    <span class="${r.st==='Open'?'req-open':'req-prog'}">${r.st}</span>
+    <span class="${r.st==='Open'?'req-open':r.st==='Done'?'req-done':'req-prog'}">${r.st}</span>
   </div>
   <div class="req-text">${r.req}</div>
 </div>`).join('');
-
+ 
+// Also update the stats
+document.querySelector('#panel-requests .stat-strip').innerHTML=`
+  <div class="stat-card"><div class="stat-label">Total Requests</div><div class="stat-val">10</div></div>
+  <div class="stat-card"><div class="stat-label">Open</div><div class="stat-val" style="color:#8B4500">9</div></div>
+  <div class="stat-card"><div class="stat-label">In Progress</div><div class="stat-val" style="color:#1A3A6A">1</div></div>
+  <div class="stat-card"><div class="stat-label">Done</div><div class="stat-val" style="color:var(--sage)">0</div></div>
+`;
+ 
 const JOBS=[
   {co:"Bree",t:"Software Engineer, Product",loc:"Toronto, ON",dept:"Engineering"},
   {co:"Bree",t:"Head of Engineering",loc:"Toronto, ON",dept:"Engineering"},
@@ -596,7 +611,7 @@ function filterJobs(){
   const d=document.getElementById('job-dept').value;
   renderJobs(JOBS.filter(j=>(!co||j.co===co)&&(!d||j.dept===d)));
 }
-
+ 
 function switchTab(id,el){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
@@ -618,7 +633,7 @@ function switchTopTab(id,btn){
   const navItems=document.querySelectorAll('.nav-item');
   if(navItems[order.indexOf(id)]) navItems[order.indexOf(id)].classList.add('active');
 }
-
+ 
 async function loadLiveData(){
   const dot=document.getElementById('sync-dot');
   const lbl=document.getElementById('sync-label');
@@ -626,17 +641,41 @@ async function loadLiveData(){
     const res=await fetch('/api/data');
     if(!res.ok) throw new Error('API '+res.status);
     const data=await res.json();
-
+ 
     // Portfolio metrics
     notionMetrics=data.metrics||{};
     renderCos();
     const reporting=Object.keys(notionMetrics).length;
     if(reporting>0){
       const totalRev=Object.values(notionMetrics).filter(m=>m.revenue).reduce((s,m)=>s+m.revenue,0);
-      document.getElementById('stat-rev').textContent=totalRev>0?'$'+(totalRev/1000000).toFixed(1)+'M':'—';
+      document.getElementById('stat-rev').textContent=totalRev>0?'$'+totalRev.toFixed(1)+'M':'—';
       document.getElementById('stat-rev-sub').textContent=reporting+' companies reporting';
     }
-
+ 
+    // Requests from Notion
+    if(data.requests&&data.requests.length>0){
+      const reqs=data.requests;
+      const open=reqs.filter(r=>r.status==='Open').length;
+      const prog=reqs.filter(r=>r.status==='In Progress').length;
+      const done=reqs.filter(r=>r.status==='Done').length;
+      const rsEl=document.getElementById('port-requests-stats');
+      if(rsEl)rsEl.innerHTML=`
+        <div class="stat-card"><div class="stat-label">Total Requests</div><div class="stat-val">${reqs.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Open</div><div class="stat-val" style="color:#8B4500">${open}</div></div>
+        <div class="stat-card"><div class="stat-label">In Progress</div><div class="stat-val" style="color:#1A3A6A">${prog}</div></div>
+        <div class="stat-card"><div class="stat-label">Done</div><div class="stat-val" style="color:var(--sage)">${done}</div></div>
+      `;
+      const rlEl=document.getElementById('req-list');
+      if(rlEl)rlEl.innerHTML=reqs.map(r=>`<div class="req-item">
+        <div class="req-top">
+          <div><span class="req-co">${r.company}</span><span class="req-type">${r.type||'Other'}</span>
+          <span style="font-size:11px;color:var(--midtone);margin-left:8px">${r.date||''}</span></div>
+          <span class="${r.status==='Open'?'req-open':r.status==='Done'?'req-done':'req-prog'}">${r.status||'Open'}</span>
+        </div>
+        <div class="req-text">${r.request||''}</div>
+      </div>`).join('');
+    }
+ 
     // Dealflow
     const df=data.dealflow;
     if(df){
@@ -666,10 +705,10 @@ async function loadLiveData(){
       const dsEl=document.getElementById('df-stages');if(dsEl)dsEl.innerHTML=Object.entries(df.stages||{}).filter(([,v])=>v>0).slice(0,6)
         .map(([s,v])=>`<div class="stage-pill"><div class="sdot" style="background:var(--sage)"></div>${s}<strong style="margin-left:5px;color:var(--charcoal)">${v}</strong></div>`).join('');
     }
-
+ 
     dot.classList.remove('loading');dot.style.background='#2D6A4F';
     lbl.textContent='Live · Notion synced '+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-
+ 
   }catch(e){
     console.error(e);
     dot.classList.remove('loading');dot.classList.add('error');
