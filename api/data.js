@@ -12,18 +12,23 @@ async function queryNotion(dbId) {
       "Notion-Version": NOTION_VERSION,
       "Content-Type": "application/json",
     },
-    body: "{}",
+    body: JSON.stringify({ page_size: 100 }),
   });
-  if (!res.ok) return [];
+  if (!res.ok) {
+    console.error(`queryNotion ${dbId} failed: ${res.status}`);
+    return [];
+  }
   return (await res.json()).results || [];
 }
 
-async function queryNotionAll(dbId, maxPages = 20) {
+async function queryNotionAll(dbId, maxPages = 25) {
   let results = [];
   let cursor = undefined;
   let pages = 0;
   while (pages < maxPages) {
-    const body = cursor ? JSON.stringify({ start_cursor: cursor }) : "{}";
+    const body = cursor
+      ? JSON.stringify({ page_size: 100, start_cursor: cursor })
+      : JSON.stringify({ page_size: 100 });
     const res = await fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
       method: "POST",
       headers: {
@@ -33,13 +38,17 @@ async function queryNotionAll(dbId, maxPages = 20) {
       },
       body,
     });
-    if (!res.ok) break;
+    if (!res.ok) {
+      console.error(`queryNotionAll page ${pages} failed: ${res.status} ${await res.text()}`);
+      break;
+    }
     const json = await res.json();
     results = results.concat(json.results || []);
     pages++;
     if (!json.has_more) break;
     cursor = json.next_cursor;
   }
+  console.log(`queryNotionAll ${dbId}: fetched ${results.length} records in ${pages} pages`);
   return results;
 }
 
@@ -60,7 +69,8 @@ const toM = v => v == null ? null : v / 1000000;
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate");
+  // Short cache: 30s fresh, serve stale up to 5min while revalidating
+  res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=300");
 
   if (!NOTION_TOKEN) {
     return res.status(200).json({ metrics: {}, dealflow: null, requests: [], status: "no_token" });
@@ -68,13 +78,15 @@ export default async function handler(req, res) {
 
   try {
     const monthOrder = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const [portRows, dfRows, reqRows] = await Promise.all([
+
+    // Fetch portfolio + requests quickly; fetch dealflow with full pagination
+    const [portRows, reqRows, dfRows] = await Promise.all([
       queryNotion(PORTFOLIO_DB),
+      queryNotion(REQUESTS_DB),
       queryNotionAll(DEALFLOW_DB),
-      queryNotion(REQUESTS_DB)
     ]);
 
-    // Portfolio metrics
+    // Portfolio metrics — latest month per company
     const metrics = {};
     for (const row of portRows) {
       const company = prop(row, "Company", "title");
@@ -99,7 +111,7 @@ export default async function handler(req, res) {
     }
     for (const k of Object.keys(metrics)) { delete metrics[k]._y; delete metrics[k]._m; }
 
-    // Requests
+    // Requests — sorted newest first
     const requests = reqRows.map(row => ({
       company: prop(row, "Company", "title"),
       type: prop(row, "Type", "select"),
@@ -108,7 +120,7 @@ export default async function handler(req, res) {
       date: prop(row, "Date", "date"),
     })).filter(r => r.company).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
-    // Dealflow
+    // Dealflow — aggregate across all fetched pages
     const stageCount = {}, sourceCount = {}, sectorCount = {}, recent = [];
     for (const page of dfRows) {
       const name = prop(page, "Company Name", "title");
@@ -121,7 +133,7 @@ export default async function handler(req, res) {
       sectors.forEach(s => sectorCount[s] = (sectorCount[s] || 0) + 1);
       if (name) recent.push({ name, stage: stages[0] || "", source: sources[0] || "", sector: sectors[0] || "", date });
     }
-    recent.sort((a, b) => b.date.localeCompare(a.date));
+    recent.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
     return res.status(200).json({
       metrics,
@@ -129,14 +141,15 @@ export default async function handler(req, res) {
       dealflow: {
         total: dfRows.length,
         stages: stageCount,
-        sources: Object.entries(sourceCount).sort((a,b) => b[1]-a[1]).slice(0,8),
-        sectors: Object.entries(sectorCount).sort((a,b) => b[1]-a[1]).slice(0,8),
-        recent: recent.slice(0, 8),
+        sources: Object.entries(sourceCount).sort((a,b) => b[1]-a[1]).slice(0,10),
+        sectors: Object.entries(sectorCount).sort((a,b) => b[1]-a[1]).slice(0,10),
+        recent: recent.slice(0, 10),
       },
       syncedAt: new Date().toISOString(),
       status: "ok"
     });
   } catch (err) {
+    console.error("handler error:", err);
     return res.status(500).json({ error: err.message });
   }
 }

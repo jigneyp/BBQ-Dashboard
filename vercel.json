@@ -1,1 +1,1 @@
-{"functions":{"api/data.js":{"memory":256}}}
+{"functions":{"api/data.js":{"memory":1024,"maxDuration":60}}}
