@@ -2,7 +2,8 @@ const NOTION_TOKEN = process.env.NOTION_TOKEN;
 const NOTION_VERSION = "2022-06-28";
 const PORTFOLIO_DB = "eb52de58478a4550ba49da89d7441ca9";
 const DEALFLOW_DB = "1820943b0d80451a807b3010318caabe";
- 
+const REQUESTS_DB = "1681305d81de4ff7bcd4a43e32f877c3";
+
 async function queryNotion(dbId) {
   const res = await fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
     method: "POST",
@@ -16,7 +17,7 @@ async function queryNotion(dbId) {
   if (!res.ok) return [];
   return (await res.json()).results || [];
 }
- 
+
 function prop(page, name, type) {
   const p = page.properties?.[name];
   if (!p) return null;
@@ -24,24 +25,31 @@ function prop(page, name, type) {
   if (type === "number") return p.number ?? null;
   if (type === "select") return p.select?.name || null;
   if (type === "multi") return p.multi_select?.map(s => s.name) || [];
+  if (type === "text") return p.rich_text?.[0]?.plain_text || null;
+  if (type === "date") return p.date?.start || null;
+  if (type === "url") return p.url || null;
   return null;
 }
- 
-// Convert raw dollars to millions for the dashboard formatter
+
 const toM = v => v == null ? null : v / 1000000;
- 
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate");
- 
+
   if (!NOTION_TOKEN) {
-    return res.status(200).json({ metrics: {}, dealflow: null, status: "no_token" });
+    return res.status(200).json({ metrics: {}, dealflow: null, requests: [], status: "no_token" });
   }
- 
+
   try {
     const monthOrder = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const [portRows, dfRows] = await Promise.all([queryNotion(PORTFOLIO_DB), queryNotion(DEALFLOW_DB)]);
- 
+    const [portRows, dfRows, reqRows] = await Promise.all([
+      queryNotion(PORTFOLIO_DB),
+      queryNotion(DEALFLOW_DB),
+      queryNotion(REQUESTS_DB)
+    ]);
+
+    // Portfolio metrics
     const metrics = {};
     for (const row of portRows) {
       const company = prop(row, "Company", "title");
@@ -54,19 +62,28 @@ export default async function handler(req, res) {
       const exM = ex ? monthOrder.indexOf(ex._m || "") : -1;
       if (!ex || year > exY || (year === exY && monthIdx > exM)) {
         metrics[company] = {
-          revenue: (prop(row, "Revenue", "number") ?? 0) / 1000000,
-burn:    (prop(row, "Burn", "number") ?? 0) / 1000000,
-cash:    (prop(row, "Cash on Hand", "number") ?? 0) / 1000000,
-          runway:  prop(row, "Runway (months)", "number"),
-          fte:     prop(row, "FTE", "number"),
-          month,
-          year: prop(row, "Year", "select"),
+          revenue: toM(prop(row, "Revenue", "number")),
+          burn: toM(prop(row, "Burn", "number")),
+          cash: toM(prop(row, "Cash on Hand", "number")),
+          runway: prop(row, "Runway (months)", "number"),
+          fte: prop(row, "FTE", "number"),
+          month, year: prop(row, "Year", "select"),
           _y: year, _m: month
         };
       }
     }
     for (const k of Object.keys(metrics)) { delete metrics[k]._y; delete metrics[k]._m; }
- 
+
+    // Requests
+    const requests = reqRows.map(row => ({
+      company: prop(row, "Company", "title"),
+      type: prop(row, "Type", "select"),
+      request: prop(row, "Request", "text"),
+      status: prop(row, "Status", "select"),
+      date: prop(row, "Date", "date"),
+    })).filter(r => r.company).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+    // Dealflow
     const stageCount = {}, sourceCount = {}, sectorCount = {}, recent = [];
     for (const page of dfRows) {
       const name = prop(page, "Company Name", "title");
@@ -80,9 +97,10 @@ cash:    (prop(row, "Cash on Hand", "number") ?? 0) / 1000000,
       if (name) recent.push({ name, stage: stages[0] || "", source: sources[0] || "", sector: sectors[0] || "", date });
     }
     recent.sort((a, b) => b.date.localeCompare(a.date));
- 
+
     return res.status(200).json({
       metrics,
+      requests,
       dealflow: {
         total: dfRows.length,
         stages: stageCount,
