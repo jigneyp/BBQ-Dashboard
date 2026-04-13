@@ -18,6 +18,31 @@ async function queryNotion(dbId) {
   return (await res.json()).results || [];
 }
 
+async function queryNotionAll(dbId, maxPages = 20) {
+  let results = [];
+  let cursor = undefined;
+  let pages = 0;
+  while (pages < maxPages) {
+    const body = cursor ? JSON.stringify({ start_cursor: cursor }) : "{}";
+    const res = await fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${NOTION_TOKEN}`,
+        "Notion-Version": NOTION_VERSION,
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+    if (!res.ok) break;
+    const json = await res.json();
+    results = results.concat(json.results || []);
+    pages++;
+    if (!json.has_more) break;
+    cursor = json.next_cursor;
+  }
+  return results;
+}
+
 function prop(page, name, type) {
   const p = page.properties?.[name];
   if (!p) return null;
@@ -45,7 +70,7 @@ export default async function handler(req, res) {
     const monthOrder = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const [portRows, dfRows, reqRows] = await Promise.all([
       queryNotion(PORTFOLIO_DB),
-      queryNotion(DEALFLOW_DB),
+      queryNotionAll(DEALFLOW_DB),
       queryNotion(REQUESTS_DB)
     ]);
 
