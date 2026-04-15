@@ -394,25 +394,28 @@ function switchTab(tab, sidebarEl, topbarEl) {
 }
 
 // ── TABLE ─────────────────────────────────────────────────────────────────────
+let visibleCompanies = []; // track filtered list so data-idx maps correctly
+
 function renderTable() {
   const q = document.getElementById('search-input').value.toLowerCase();
   const sector = document.getElementById('sector-select').value;
   const tbody = document.getElementById('co-tbody');
-  let cos = COMPANIES;
+  let cos = COMPANIES.slice();
   if (filter !== 'all') cos = cos.filter(c => c.status === filter);
   if (sector) cos = cos.filter(c => c.sector === sector);
   if (q) cos = cos.filter(c => c.name.toLowerCase().includes(q) || c.founders.some(f => f.name.toLowerCase().includes(q)));
+  visibleCompanies = cos;
 
   const statusLabels = {active:'Active',shut:'Shut Down',exited:'Exited'};
   const statusClasses = {active:'pill-active',shut:'pill-shut',exited:'pill-exited'};
 
-  tbody.innerHTML = cos.map(c => {
+  tbody.innerHTML = cos.map((c, idx) => {
     const m = notionMetrics[c.name] || {};
     const rev = m.rev ? '$'+(m.rev/1e6).toFixed(1)+'M' : '<span class="metric-dim">—</span>';
     const burn = m.burn ? '$'+(m.burn/1e3).toFixed(0)+'K' : '<span class="metric-dim">—</span>';
     const cash = m.cash ? '$'+(m.cash/1e6).toFixed(1)+'M' : '<span class="metric-dim">—</span>';
     const runway = m.runway ? m.runway+'mo' : '<span class="metric-dim">—</span>';
-    return `<tr onclick="openPanel('${escQ(c.name)}')">
+    return `<tr data-idx="${idx}">
       <td><span class="co-name">${esc(c.name)}</span></td>
       <td><span class="metric-dim">${esc(c.sector||'')}</span></td>
       <td><span class="metric-dim">${c.year||'—'}</span></td>
@@ -424,11 +427,26 @@ function renderTable() {
   }).join('');
 }
 
+// ── INIT — everything in one DOMContentLoaded so order is guaranteed ──────────
+document.addEventListener('DOMContentLoaded', function() {
+  // Attach click delegation on the table body (survives innerHTML re-renders)
+  document.getElementById('co-tbody').addEventListener('click', function(e) {
+    const row = e.target.closest('tr[data-idx]');
+    if (!row) return;
+    const idx = parseInt(row.getAttribute('data-idx'), 10);
+    const company = visibleCompanies[idx];
+    if (company) openPanel(company);
+  });
+
+  renderTable();
+  renderRequests();
+  loadLiveData();
+});
+
 // ── PANEL ─────────────────────────────────────────────────────────────────────
-function openPanel(name) {
-  const c = COMPANIES.find(x => x.name === name);
+function openPanel(c) {
   if (!c) return;
-  const m = notionMetrics[name] || {};
+  const m = notionMetrics[c.name] || {};
 
   const founderCards = c.founders.map(f => `
     <div class="founder-card">
@@ -502,7 +520,6 @@ function closePanel() {
 function handleEsc(e) { if (e.key === 'Escape') closePanel(); }
 
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escQ(s) { return String(s||'').replace(/'/g,"\\'"); }
 
 // ── REQUESTS TAB ──────────────────────────────────────────────────────────────
 const REQUESTS = [
@@ -545,10 +562,7 @@ async function loadLiveData() {
   }
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-renderTable();
-renderRequests();
-loadLiveData();
+// (init is handled in DOMContentLoaded above)
 </script>
 </body>
 </html>
