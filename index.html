@@ -11,29 +11,24 @@
 :root{
   --bg:#F5EFE4;--warm:#EDE8DE;--sidebar:#1A3A2A;--sidebar-text:#A8C5B0;--sidebar-active:#2D6A4F;
   --charcoal:#1E1A14;--midtone:#7A7265;--hairline:#D9CFC4;--sage:#2D6A4F;--amber:#C17F3A;
-  --amber-dim:#F5EFE4;--red:#8B2020;--green:#2D6A4F;--radius:6px;
+  --red:#8B2020;--radius:6px;
 }
 body{background:var(--bg);color:var(--charcoal);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
 .layout{display:flex;flex:1;height:100vh;overflow:hidden}
-
-/* SIDEBAR */
 nav.sidebar{width:200px;background:var(--sidebar);display:flex;flex-direction:column;flex-shrink:0;padding:0 0 16px}
 .sidebar-logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:8px}
 .logo-wordmark{font-family:'Lora',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:-.01em}
 .logo-sub{font-size:10px;color:var(--sidebar-text);letter-spacing:.12em;text-transform:uppercase;margin-top:1px}
 .sidebar-section{font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(168,197,176,.5);padding:12px 20px 4px}
-.nav-item{display:flex;align-items:center;gap:9px;padding:8px 20px;font-size:12.5px;color:var(--sidebar-text);cursor:pointer;transition:all .15s;border-radius:0;position:relative}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 20px;font-size:12.5px;color:var(--sidebar-text);cursor:pointer;transition:all .15s}
 .nav-item:hover{color:#fff;background:rgba(255,255,255,.05)}
 .nav-item.active{color:#fff;background:var(--sidebar-active)}
 .nav-item svg{flex-shrink:0;opacity:.7}
 .nav-item.active svg{opacity:1}
 .sidebar-footer{margin-top:auto;padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px}
 .avatar{width:28px;height:28px;border-radius:50%;background:var(--sidebar-active);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.avatar-info{flex:1;min-width:0}
-.avatar-name{font-size:11px;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.avatar-name{font-size:11px;font-weight:500;color:#fff;white-space:nowrap}
 .avatar-role{font-size:9px;color:var(--sidebar-text);letter-spacing:.05em}
-
-/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-bottom:1px solid var(--hairline);background:var(--warm);flex-shrink:0}
 .topbar-tabs{display:flex;gap:0}
@@ -43,22 +38,16 @@ nav.sidebar{width:200px;background:var(--sidebar);display:flex;flex-direction:co
 .search-bar input{border:none;background:transparent;font-size:12.5px;color:var(--charcoal);width:100%;outline:none;font-family:inherit}
 .search-bar input::placeholder{color:var(--midtone)}
 .content{flex:1;overflow-y:auto;padding:24px 28px}
-
-/* STAT CARDS */
 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
 .stat-card{background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);padding:16px}
 .stat-label{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--midtone);margin-bottom:6px}
 .stat-val{font-family:'Lora',serif;font-size:26px;font-weight:500;color:var(--charcoal);line-height:1}
 .stat-sub{font-size:11px;color:var(--midtone);margin-top:4px}
-
-/* FILTER TABS */
 .filter-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .filter-tabs{display:flex;gap:2px;background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);padding:3px}
 .filter-tab{padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;border-radius:4px;color:var(--midtone);border:none;background:transparent;transition:all .15s}
 .filter-tab.active{background:#fff;color:var(--charcoal);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .sector-select{font-size:12px;border:1px solid var(--hairline);border-radius:var(--radius);padding:5px 10px;background:var(--warm);color:var(--charcoal);font-family:inherit;cursor:pointer;outline:none}
-
-/* TABLE */
 .table-wrap{background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);overflow:hidden}
 table{width:100%;border-collapse:collapse}
 thead th{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--midtone);padding:10px 16px;text-align:left;background:var(--warm);border-bottom:1px solid var(--hairline);white-space:nowrap}
@@ -73,49 +62,46 @@ tbody td{padding:11px 16px;font-size:13px;vertical-align:middle}
 .pill-exited{color:#6B4F2A;background:#FBF3E8;border-color:#E8C89A}
 .metric-val{color:var(--charcoal);font-variant-numeric:tabular-nums}
 .metric-dim{color:var(--midtone);font-size:12px}
+.metric-red{color:#C0392B;font-variant-numeric:tabular-nums}
 .chevron{color:var(--midtone);font-size:16px;float:right}
 
-/* COMPANY DETAIL PANEL */
+/* PANEL */
 .panel-overlay{position:fixed;inset:0;background:rgba(30,26,20,.35);z-index:100;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(2px)}
 .panel-overlay.open{opacity:1;pointer-events:all}
-.panel{position:fixed;top:0;right:0;height:100vh;width:420px;background:var(--bg);border-left:1px solid var(--hairline);z-index:101;overflow-y:auto;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.08)}
+.panel{position:fixed;top:0;right:0;height:100vh;width:440px;background:var(--bg);border-left:1px solid var(--hairline);z-index:101;overflow-y:auto;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.08)}
 .panel.open{transform:translateX(0)}
 .panel-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--bg);z-index:1}
 .panel-close{width:28px;height:28px;border-radius:50%;border:1px solid var(--hairline);background:var(--warm);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--midtone);font-size:16px;line-height:1;transition:all .15s}
 .panel-close:hover{background:var(--charcoal);color:#fff;border-color:var(--charcoal)}
 .panel-body{padding:24px}
 .panel-co-name{font-family:'Lora',serif;font-size:24px;font-weight:500;color:var(--charcoal);margin-bottom:4px}
-.panel-url{font-size:12px;color:var(--sage);margin-bottom:20px;word-break:break-all}
-.panel-url a{color:var(--sage);text-decoration:none}
+.panel-url a{font-size:12px;color:var(--sage);text-decoration:none;word-break:break-all}
 .panel-url a:hover{text-decoration:underline}
+.panel-url{margin-bottom:20px}
 .panel-section{margin-bottom:20px}
 .panel-section-label{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--midtone);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--hairline)}
 .kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.kv-item{}
 .kv-key{font-size:10px;color:var(--midtone);margin-bottom:3px}
 .kv-val{font-size:14px;font-weight:500;color:var(--charcoal);font-family:'Lora',serif}
-.founder-list{display:flex;flex-direction:column;gap:10px}
+.founder-list{display:flex;flex-direction:column;gap:8px}
 .founder-card{display:flex;align-items:center;justify-content:space-between;background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);padding:10px 14px}
 .founder-name{font-size:13px;font-weight:500;color:var(--charcoal)}
 .li-link{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--sage);text-decoration:none;background:rgba(45,106,79,.08);border:1px solid rgba(45,106,79,.2);border-radius:4px;padding:3px 8px;transition:all .15s}
 .li-link:hover{background:var(--sage);color:#fff}
-.li-link svg{flex-shrink:0}
 .email-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--sage);text-decoration:none}
 .email-link:hover{text-decoration:underline}
-.panel-requests{display:flex;flex-direction:column;gap:8px}
-.req-item{background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);padding:10px 14px}
+.no-requests{font-size:12px;color:var(--midtone);font-style:italic}
+.req-item{background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);padding:10px 14px;margin-bottom:8px}
 .req-type{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
 .req-text{font-size:12.5px;color:var(--charcoal);line-height:1.4}
 .req-date{font-size:10px;color:var(--midtone);margin-top:4px}
-.no-requests{font-size:12px;color:var(--midtone);font-style:italic}
 
-/* OTHER TABS */
+/* REQUESTS TAB */
 .tab-content{display:none}
 .tab-content.active{display:block}
 .section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
 .section-title{font-family:'Lora',serif;font-size:18px;font-weight:500}
-.section-count{font-size:12px;color:var(--midtone)}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
 .card{background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);padding:16px}
 .card-label{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--midtone);margin-bottom:6px}
 .card-val{font-family:'Lora',serif;font-size:20px;font-weight:500;margin-bottom:4px}
@@ -130,8 +116,29 @@ tbody td{padding:11px 16px;font-size:13px;vertical-align:middle}
 .req-card-text{font-size:13px;color:var(--charcoal);line-height:1.45;margin-bottom:6px}
 .req-card-meta{font-size:11px;color:var(--midtone)}
 
+/* FUNDS TAB */
+.fund-section{margin-bottom:32px}
+.fund-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--hairline)}
+.fund-title{font-family:'Lora',serif;font-size:20px;font-weight:500}
+.fund-meta{display:flex;gap:16px}
+.fund-stat{text-align:right}
+.fund-stat-val{font-family:'Lora',serif;font-size:16px;font-weight:500;color:var(--charcoal)}
+.fund-stat-label{font-size:10px;color:var(--midtone);margin-top:1px}
+.fund-table-wrap{background:var(--warm);border:1px solid var(--hairline);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.fund-table{width:100%;border-collapse:collapse}
+.fund-table thead th{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--midtone);padding:8px 14px;background:var(--warm);border-bottom:1px solid var(--hairline);text-align:left}
+.fund-table tbody tr{border-bottom:.5px solid var(--hairline)}
+.fund-table tbody tr:last-child{border-bottom:none}
+.fund-table tbody td{padding:10px 14px;font-size:12.5px;vertical-align:middle}
+.fund-co-name{font-family:'Lora',serif;font-size:13px;font-weight:500;color:var(--charcoal)}
+.fund-co-dim{color:var(--midtone)}
+.moic-pill{display:inline-flex;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600}
+.moic-up{background:#E8F5EE;color:#2D6A4F}
+.moic-flat{background:#F5F0E8;color:#7A7265}
+.moic-down{background:#FFF0F0;color:#8B2020}
+
 /* FOOTER */
-.footer{padding:8px 28px;border-top:1px solid var(--hairline);background:var(--warm);display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--midtone);flex-shrink:0;letter-spacing:.03em}
+.footer{padding:8px 28px;border-top:1px solid var(--hairline);background:var(--warm);display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--midtone);flex-shrink:0}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);display:inline-block;margin-right:6px;vertical-align:middle}
 .live-dot.loading{background:var(--amber);animation:pulse 1s infinite}
 .live-dot.error{background:var(--red)}
@@ -140,324 +147,436 @@ tbody td{padding:11px 16px;font-size:13px;vertical-align:middle}
 </head>
 <body>
 <div class="layout">
-
-<!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-logo">
     <div class="logo-wordmark">BBQ</div>
     <div class="logo-sub">Capital</div>
   </div>
   <div class="sidebar-section">Portfolio</div>
-  <div class="nav-item active" onclick="switchTab('portfolio',this)">
+  <div class="nav-item active" data-tab="portfolio">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="1" width="5" height="5" rx=".5"/><rect x="8" y="1" width="5" height="5" rx=".5"/><rect x="1" y="8" width="5" height="5" rx=".5"/><rect x="8" y="8" width="5" height="5" rx=".5"/></svg>
     Browse Portfolio
   </div>
-  <div class="nav-item" onclick="switchTab('dealflow',this)">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M1 3.5h12M1 7h8M1 10.5h5"/></svg>
-    Dealflow Pipeline
-  </div>
-  <div class="nav-item" onclick="switchTab('press',this)">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="1" width="12" height="12" rx=".5"/><path d="M4 5h6M4 7.5h4"/></svg>
-    Press & Media
+  <div class="nav-item" data-tab="funds">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M1 10.5h12M3 10.5V5M7 10.5V2M11 10.5V7"/></svg>
+    Funds
   </div>
   <div class="sidebar-section">Portfolio</div>
-  <div class="nav-item" onclick="switchTab('requests',this)">
+  <div class="nav-item" data-tab="requests">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3l1.5 1.5"/></svg>
     Requests
   </div>
   <div class="sidebar-section">Talent</div>
-  <div class="nav-item" onclick="switchTab('jobs',this)">
+  <div class="nav-item" data-tab="jobs">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="4" width="10" height="8" rx=".5"/><path d="M5 4V3a1 1 0 011-1h2a1 1 0 011 1v1"/></svg>
     Open Positions
   </div>
   <div class="sidebar-footer">
     <div class="avatar">J</div>
-    <div class="avatar-info">
+    <div>
       <div class="avatar-name">Jigney Pathak</div>
       <div class="avatar-role">General Partner</div>
     </div>
   </div>
 </nav>
 
-<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="topbar-tabs">
-      <button class="topbar-tab active" onclick="switchTab('portfolio',null,this)">Portfolio</button>
-      <button class="topbar-tab" onclick="switchTab('dealflow',null,this)">Dealflow</button>
-      <button class="topbar-tab" onclick="switchTab('press',null,this)">Press</button>
-      <button class="topbar-tab" onclick="switchTab('requests',null,this)">Requests</button>
-      <button class="topbar-tab" onclick="switchTab('jobs',null,this)">Jobs</button>
+      <button class="topbar-tab active" data-tab="portfolio">Portfolio</button>
+      <button class="topbar-tab" data-tab="funds">Funds</button>
+      <button class="topbar-tab" data-tab="requests">Requests</button>
+      <button class="topbar-tab" data-tab="jobs">Jobs</button>
     </div>
     <div class="search-bar">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="#7A7265" stroke-width="1.4"><circle cx="5.5" cy="5.5" r="4.5"/><path d="M9.5 9.5l2.5 2.5"/></svg>
-      <input type="text" id="search-input" placeholder="Search companies…" oninput="renderTable()">
+      <input type="text" id="search-input" placeholder="Search companies…">
     </div>
   </div>
 
   <div class="content">
 
-    <!-- PORTFOLIO TAB -->
+    <!-- PORTFOLIO -->
     <div id="tab-portfolio" class="tab-content active">
-      <div class="stat-row" id="stat-row">
-        <div class="stat-card"><div class="stat-label">Total Portfolio</div><div class="stat-val" id="stat-total">70</div><div class="stat-sub">Companies</div></div>
-        <div class="stat-card"><div class="stat-label">Active</div><div class="stat-val" id="stat-active">47</div><div class="stat-sub" id="stat-active-sub">16 shut down · 7 exited</div></div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-label">Total Portfolio</div><div class="stat-val">70</div><div class="stat-sub">Companies</div></div>
+        <div class="stat-card"><div class="stat-label">Active</div><div class="stat-val" id="stat-active-count">—</div><div class="stat-sub" id="stat-active-sub">Loading…</div></div>
         <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-val" id="stat-rev">—</div><div class="stat-sub" id="stat-rev-sub">Awaiting email updates</div></div>
-        <div class="stat-card"><div class="stat-label">Active Valuation</div><div class="stat-val" id="stat-val">$3.7B</div><div class="stat-sub">Active companies</div></div>
+        <div class="stat-card"><div class="stat-label">Active Valuation</div><div class="stat-val" id="stat-val">—</div><div class="stat-sub">Active companies</div></div>
       </div>
       <div class="filter-row">
-        <div class="filter-tabs">
-          <button class="filter-tab active" onclick="setFilter('all',this)">All (70)</button>
-          <button class="filter-tab" onclick="setFilter('active',this)">Active (47)</button>
-          <button class="filter-tab" onclick="setFilter('shut',this)">Shut Down (16)</button>
-          <button class="filter-tab" onclick="setFilter('exited',this)">Exited (7)</button>
-        </div>
-        <select class="sector-select" id="sector-select" onchange="renderTable()">
+        <div style="font-size:12px;color:var(--midtone)">Showing active companies only</div>
+        <select class="sector-select" id="sector-select">
           <option value="">All Sectors</option>
-          <option>AI / ML</option><option>Fintech</option><option>HealthTech</option><option>Robotics</option><option>Consumer</option><option>Enterprise SaaS</option><option>Marketplace</option><option>Climate</option><option>Bio / Life Sciences</option><option>Media</option><option>Space</option>
+          <option>AI / ML</option><option>Fintech</option><option>HealthTech</option><option>Robotics</option>
+          <option>Consumer</option><option>Enterprise SaaS</option><option>Marketplace</option>
+          <option>Climate</option><option>Bio / Life Sciences</option><option>Media</option><option>Space</option>
         </select>
       </div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Company</th><th>Sector</th><th>Year</th><th>Revenue</th><th>Burn</th><th>Cash on Hand</th><th>Runway</th><th>Valuation</th><th>Status</th><th></th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th>Company</th><th>Sector</th><th>Year</th><th>Revenue</th><th>Burn</th>
+            <th>FTE</th><th>Cash on Hand</th><th>Runway</th><th>Valuation</th>
+          </tr></thead>
           <tbody id="co-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- DEALFLOW TAB -->
-    <div id="tab-dealflow" class="tab-content">
-      <div class="section-head"><div class="section-title">Dealflow Pipeline</div><div class="section-count" id="df-count"></div></div>
-      <div class="cards-grid">
-        <div class="card"><div class="card-label">Total Seen</div><div class="card-val" id="df-seen">100</div><div class="card-sub">This view</div></div>
-        <div class="card"><div class="card-label">In Docket</div><div class="card-val" id="df-docket">11</div><div class="card-sub">Active review</div></div>
-        <div class="card"><div class="card-label">Passed</div><div class="card-val" id="df-passed">33</div><div class="card-sub">Not a fit</div></div>
-        <div class="card"><div class="card-label">Pass Rate</div><div class="card-val" id="df-rate">33%</div><div class="card-sub">Of reviewed</div></div>
-      </div>
-      <div style="margin-top:24px;font-size:12px;color:var(--midtone);font-style:italic">Connect Notion to see live pipeline stages and recent deals.</div>
+    <!-- FUNDS -->
+    <div id="tab-funds" class="tab-content">
+      <div id="funds-content"></div>
     </div>
 
-    <!-- PRESS TAB -->
-    <div id="tab-press" class="tab-content">
-      <div class="section-head"><div class="section-title">Press & Media</div></div>
-      <div class="cards-grid">
-        <div class="card"><div class="card-label">Total Coverage</div><div class="card-val">6</div><div class="card-sub">Articles</div></div>
-        <div class="card"><div class="card-label">Tier 1</div><div class="card-val">3</div><div class="card-sub">TechCrunch, VentureBeat</div></div>
-        <div class="card"><div class="card-label">Companies Featured</div><div class="card-val">6</div><div class="card-sub"></div></div>
-      </div>
-    </div>
-
-    <!-- REQUESTS TAB -->
+    <!-- REQUESTS -->
     <div id="tab-requests" class="tab-content">
       <div class="section-head"><div class="section-title">Portfolio Requests</div></div>
-      <div class="cards-grid" style="margin-bottom:20px">
-        <div class="card"><div class="card-label">Total Requests</div><div class="card-val" id="req-total">3</div><div class="card-sub">Open</div></div>
-        <div class="card"><div class="card-label">In Progress</div><div class="card-val">1</div></div>
-        <div class="card"><div class="card-label">Done</div><div class="card-val">0</div></div>
+      <div class="cards-grid">
+        <div class="card"><div class="card-label">Open</div><div class="card-val" id="req-open">—</div></div>
+        <div class="card"><div class="card-label">In Progress</div><div class="card-val" id="req-prog">—</div></div>
+        <div class="card"><div class="card-label">Done</div><div class="card-val" id="req-done">—</div></div>
       </div>
       <div id="req-list"></div>
     </div>
 
-    <!-- JOBS TAB -->
+    <!-- JOBS -->
     <div id="tab-jobs" class="tab-content">
       <div class="section-head"><div class="section-title">Open Positions</div></div>
-      <div class="cards-grid" style="margin-bottom:20px">
+      <div class="cards-grid">
         <div class="card"><div class="card-label">Open Positions</div><div class="card-val">26</div><div class="card-sub">Across portfolio</div></div>
         <div class="card"><div class="card-label">Companies Hiring</div><div class="card-val">7</div></div>
-        <div class="card"><div class="card-label">Engineering Roles</div><div class="card-val">11</div></div>
+        <div class="card"><div class="card-label">Engineering</div><div class="card-val">11</div></div>
       </div>
-      <div style="font-size:12px;color:var(--midtone);font-style:italic">Connect Notion to see live job listings.</div>
+      <p style="font-size:12px;color:var(--midtone);font-style:italic">Connect Notion to see live job listings.</p>
     </div>
 
-  </div><!-- /content -->
+  </div>
 
   <div class="footer">
     <div><span class="live-dot loading" id="sync-dot"></span><span id="sync-label">Connecting to Notion…</span></div>
     <div>BBQ Capital · Portfolio Dashboard · 70 companies</div>
   </div>
-</div><!-- /main -->
-</div><!-- /layout -->
+</div>
+</div>
 
-<!-- COMPANY DETAIL PANEL -->
-<div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+<!-- PANEL -->
+<div class="panel-overlay" id="panel-overlay"></div>
 <div class="panel" id="company-panel">
   <div class="panel-header">
     <div style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--midtone)">Company Profile</div>
-    <button class="panel-close" onclick="closePanel()">×</button>
+    <button class="panel-close" id="panel-close-btn">×</button>
   </div>
   <div class="panel-body" id="panel-body"></div>
 </div>
 
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────────
+// investVal = valuation at time of BBQ's investment
+// currentVal = latest known valuation (from fund pages)
 const COMPANIES = [
-  {name:"222",check:"$25K",val:"$25M",founders:[{name:"Keyan Kezamian",li:"https://www.linkedin.com/in/kaaazemian/"},{name:"Danial Hashemi",li:"https://www.linkedin.com/in/danialhashemi/"},{name:"Arman Roshannai",li:"https://www.linkedin.com/in/arman-roshannai/"}],email:"keyan@222.place",url:"https://222.place/",sector:"Consumer",year:2023,status:"active"},
-  {name:"Agency",check:"$75K",val:"$30M",founders:[{name:"Amir Tarighat",li:"https://www.linkedin.com/in/atarighat/"},{name:"Tyler Carbone",li:"https://www.linkedin.com/in/tylercarbone/"}],email:"amir@getagency.com",url:"https://getagency.com/",sector:"AI / ML",year:2022,status:"active"},
-  {name:"Alga Biosciences",check:"$50K",val:"$20M",founders:[{name:"Alex Brown",li:"https://www.linkedin.com/in/alex-brown-5ba620113/"},{name:"Daria Balatsky",li:"https://www.linkedin.com/in/daria-balatsky-842356121"},{name:"Caroline McKeon",li:"https://www.linkedin.com/in/carolineamckeon/"}],email:"alex@alga.bio",url:"https://www.alga.bio/",sector:"Bio / Life Sciences",year:2022,status:"active"},
-  {name:"Andi",check:"$25K",val:"$50M",founders:[{name:"Angela Hoover",li:"https://www.linkedin.com/in/angela-hoover/"},{name:"Jed White",li:"https://www.linkedin.com/in/jedwhite"}],email:"angela@andisearch.com",url:"https://andiai.com/",sector:"AI / ML",year:2022,status:"active"},
-  {name:"Andromeda Surgical",check:"$50K",val:"$22M",founders:[{name:"Nick Damiano",li:"https://www.linkedin.com/in/nickdamiano/"},{name:"Kartik Tiwari",li:"https://www.linkedin.com/in/kartik-tiwari-b2a10668/"}],email:"nick@andromedasurgical.com",url:"https://www.andromedasurgical.com/",sector:"HealthTech",year:2023,status:"active"},
-  {name:"Arch",check:"$50K",val:"$16M",founders:[{name:"Himanshu Sahay",li:"https://www.linkedin.com/in/himanshusahay/"},{name:"Dhruv Patel",li:"https://www.linkedin.com/in/dhruv-patel-34166163/"}],email:"dhruv@archlending.com",url:"https://archlending.com/",sector:"Fintech",year:2022,status:"active"},
-  {name:"Argo",check:"$50K",val:"Uncapped",founders:[{name:"Arcadiy Golubovich",li:"https://www.linkedin.com/in/arcadiy-golubovich-9a515125/"}],email:"arcadiy@argomedia.co",url:"https://argo.la/",sector:"Media",year:2022,status:"shut"},
-  {name:"AstroForge",check:"$50K",val:"$50M",founders:[{name:"Matt Gialich",li:"https://www.linkedin.com/in/matthew-gialich/"}],email:"matt@astroforge.io",url:"https://www.astroforge.com/",sector:"Space",year:2022,status:"active"},
-  {name:"Aviato",check:"$15K",val:"$1.25M",founders:[{name:"Konrad Pucharski",li:"https://www.linkedin.com/in/konrad-kucharski-18140065/"}],email:"konrad@aviato.co",url:"https://aviato.co",sector:"Enterprise SaaS",year:2022,status:"active"},
-  {name:"BIOPTIC",check:"$10K",val:"$55M",founders:[{name:"Andrey Dobriy",li:"https://www.linkedin.com/in/doronichev/"}],email:"da@optic.inc",url:"https://optic.inc",sector:"Enterprise SaaS",year:2022,status:"active"},
-  {name:"Bonzai",check:"$50K",val:"$15M",founders:[{name:"Matthew Tabbiner",li:"https://www.linkedin.com/in/matthew-tabbiner-a1246b207/"},{name:"Carl Arnold",li:"https://www.linkedin.com/in/carldarnold/"}],email:"",url:"",sector:"Climate",year:2024,status:"shut"},
-  {name:"Bree",check:"$50K",val:"$15M",founders:[{name:"Alexander Li",li:"https://www.linkedin.com/in/alexander-li-19900783/"},{name:"Adam Kang",li:"https://www.linkedin.com/in/adamkang/"}],email:"adam@trybree.com",url:"https://www.trybree.com/",sector:"Fintech",year:2022,status:"active"},
-  {name:"Brella",check:"$100K",val:"$5M",founders:[{name:"Melanie Wolff",li:"https://www.linkedin.com/in/melaniewolff/"},{name:"Darien Williams",li:"https://www.linkedin.com/in/darien-williams-33442b7/"}],email:"melanie@brellaspace.com",url:"",sector:"Consumer",year:2018,status:"active"},
-  {name:"Cache",check:"$50K",val:"$36M",founders:[{name:"Srikanth Narayan",li:"https://www.linkedin.com/in/srikanth-narayan/"}],email:"srikanth@usecache.com",url:"https://usecache.com/",sector:"Fintech",year:2022,status:"active"},
-  {name:"Centered",check:"$50K",val:"$21M",founders:[{name:"Ulf Schwekediek",li:"https://www.linkedin.com/in/sulfme/"}],email:"",url:"",sector:"Consumer",year:2022,status:"shut"},
-  {name:"Cobbery",check:"$25K",val:"$15M",founders:[{name:"Dan Goodman",li:"https://www.linkedin.com/in/daniel-goodman-7a813214a/"},{name:"Alex Pickett",li:"https://www.linkedin.com/in/alex-pickett-a5a268191/"}],email:"dan@cobbery.com",url:"https://cobbery.com/",sector:"Enterprise SaaS",year:2022,status:"active"},
-  {name:"Coco Robotics",check:"$25K",val:"$5M",founders:[{name:"Zach Rash",li:"https://www.linkedin.com/in/zachrash/"},{name:"Brad Squicciarini",li:"https://www.linkedin.com/in/brad-squicciarini-478954126/"}],email:"zach@cocodelivery.com",url:"https://www.cocodelivery.com/",sector:"Robotics",year:2019,status:"active"},
-  {name:"Coherence",check:"$25K",val:"$16M",founders:[{name:"Zan Faruqui",li:"https://www.linkedin.com/in/zanfaruqui/"},{name:"Zach Zaro",li:"https://www.linkedin.com/in/zacharyzaro/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"shut"},
-  {name:"Copilot",check:"$50K",val:"$35M",founders:[{name:"Andres Ugarte",li:"https://www.linkedin.com/in/andresugarte/"}],email:"andres@copilot.money",url:"https://www.copilot.money/",sector:"Consumer",year:2022,status:"active"},
-  {name:"CreatorDAO",check:"$25K",val:"$100M",founders:[{name:"Michael Ma",li:"https://www.linkedin.com/in/michaelma8/"}],email:"m@district.xyz",url:"",sector:"Media",year:2022,status:"active"},
-  {name:"Duplo",check:"$25K",val:"$30M",founders:[{name:"Tunde Akinnuwa",li:"https://www.linkedin.com/in/bbtunde"},{name:"Yele Oyekola",li:"https://www.linkedin.com/in/yelew/"}],email:"yele@tryduplo.com",url:"https://tryduplo.com/",sector:"Fintech",year:2022,status:"active"},
-  {name:"Durin",check:"$50K",val:"$9M",founders:[{name:"Ted Feldmann",li:"https://www.linkedin.com/in/tedfeldmann/"}],email:"ted@durin.com",url:"https://www.durin.com/",sector:"Robotics",year:2024,status:"active"},
-  {name:"ENTR",check:"$50K",val:"$6M",founders:[{name:"Chelsea Hawk",li:"https://www.linkedin.com/in/chelsea-hawk-entr/"},{name:"Kristin Allen",li:"https://www.linkedin.com/in/kristinallen4/"},{name:"Nicolas Zaatar",li:"https://www.linkedin.com/in/nicolaszaatar/"}],email:"kristin@entrtechnologies.com",url:"https://entrtechnologies.com",sector:"Enterprise SaaS",year:2023,status:"active"},
-  {name:"Evolv",check:"$50K",val:"$7M",founders:[{name:"Cory Henderson",li:"https://www.linkedin.com/in/cory-henderson/"},{name:"Becca McCarthy",li:"https://www.linkedin.com/in/becca-mccarthy-88b4b33/"}],email:"cory@evolvlife.com",url:"https://evolvlife.com",sector:"Bio / Life Sciences",year:2024,status:"active"},
-  {name:"Exits Media",check:"$10K",val:"$10M",founders:[{name:"Zach White",li:""}],email:"",url:"",sector:"Media",year:2023,status:"shut"},
-  {name:"Factory",check:"$45K",val:"$30M",founders:[{name:"Matan Grinberg",li:"https://www.linkedin.com/in/matan-grinberg/"},{name:"Eno Reyes",li:"https://www.linkedin.com/in/enoreyes/"}],email:"matan@factory.ai",url:"https://factory.ai",sector:"AI / ML",year:2023,status:"active"},
-  {name:"Fuse",check:"$50K",val:"$10M",founders:[{name:"Tunde Alao",li:"https://www.linkedin.com/in/tundealao/"},{name:"Landon Vago-Hughes",li:"https://www.linkedin.com/in/landon-vago-hughes/"},{name:"Boateng Opoku-Yeboah",li:"https://www.linkedin.com/in/byeboah/"}],email:"",url:"",sector:"Fintech",year:2019,status:"shut"},
-  {name:"GenLogs",check:"$100K",val:"$12M",founders:[{name:"Ryan Joyce",li:"https://www.linkedin.com/in/ryanjoyce-/"},{name:"Blake Balch",li:"https://www.linkedin.com/in/blake-balch/"},{name:"Joe Sherman",li:"https://www.linkedin.com/in/joe-sherman-3070893a/"}],email:"ryan.joyce@genlogs.io",url:"https://www.genlogs.io/",sector:"Enterprise SaaS",year:2023,status:"active"},
-  {name:"Headroom",check:"$50K",val:"$40M",founders:[{name:"Andrew Rabinovich",li:"https://www.linkedin.com/in/andrew-rabinovich-28556014/"}],email:"",url:"",sector:"AI / ML",year:2022,status:"exited"},
-  {name:"Hippo Build",check:"$25K",val:"$15M",founders:[{name:"Mads Schmidt Petersen",li:"https://www.linkedin.com/in/madsschmidtpetersen/"}],email:"mads@hippo.build",url:"https://hippo.build/",sector:"Enterprise SaaS",year:2022,status:"active"},
-  {name:"HomeOptions",check:"$100K",val:"$50M",founders:[{name:"Kevin Li",li:"https://www.linkedin.com/in/kevinli423/"}],email:"",url:"",sector:"Marketplace",year:2022,status:"shut"},
-  {name:"HomeRoom",check:"$75K",val:"$20M",founders:[{name:"Johnny Wolff",li:"https://www.linkedin.com/in/johnnywolff/"},{name:"Thomas Hornbeck",li:"https://www.linkedin.com/in/thornbeck/"}],email:"",url:"",sector:"Marketplace",year:2022,status:"exited"},
-  {name:"Humand",check:"$50K",val:"Uncapped",founders:[{name:"Nicolas Benenzon",li:"https://www.linkedin.com/in/benenzon/"},{name:"Geronimo Maspero",li:"https://www.linkedin.com/in/geronimomaspero/"}],email:"nico@humand.co",url:"https://humand.co/en/",sector:"Enterprise SaaS",year:2022,status:"active"},
-  {name:"Innerworld",check:"$25K",val:"$10M",founders:[{name:"Noah Robinson",li:"https://www.linkedin.com/in/psychnoah/"}],email:"",url:"",sector:"HealthTech",year:2022,status:"exited"},
-  {name:"K-Scale Labs",check:"$25K",val:"$50M",founders:[{name:"Benjamin Bolte",li:"https://www.linkedin.com/in/benjaminbolte"}],email:"",url:"",sector:"Robotics",year:2024,status:"shut"},
-  {name:"Kairn",check:"$50K",val:"$10M",founders:[{name:"Patricia Bernasconi",li:"https://www.linkedin.com/in/patriciabernasconi/"}],email:"",url:"",sector:"HealthTech",year:2022,status:"shut"},
-  {name:"Keep",check:"$50K",val:"$30M",founders:[{name:"Oliver Takach",li:"https://www.linkedin.com/in/oliver-takach-a5499b68/"},{name:"Helson Tavares",li:"https://www.linkedin.com/in/helsontaveras/"}],email:"oliver@trykeep.com",url:"https://www.trykeep.com/",sector:"Fintech",year:2021,status:"active"},
-  {name:"Kick",check:"$50K",val:"$20M",founders:[{name:"Conrad Wadowski",li:"https://www.linkedin.com/in/conradwadowski/"}],email:"conrad@kick.co",url:"https://kick.co",sector:"Consumer",year:2023,status:"active"},
-  {name:"Lavo Life Sciences",check:"$25K",val:"$15M",founders:[{name:"Scott Swarthout",li:"https://www.linkedin.com/in/scottswarthout"},{name:"Zach Glick",li:"https://www.linkedin.com/in/zach-glick-800b75219/"},{name:"Derek Metcalf",li:"https://www.linkedin.com/in/derekmetcalf/"}],email:"",url:"",sector:"Bio / Life Sciences",year:2023,status:"shut"},
-  {name:"Lingo Health",check:"$45K",val:"$5.9M",founders:[{name:"Jessica Chao",li:"https://www.linkedin.com/in/chaojessicaj/"}],email:"",url:"",sector:"HealthTech",year:2021,status:"shut"},
-  {name:"Lotus",check:"$25K",val:"$15M",founders:[{name:"Mikael Nida",li:"https://www.linkedin.com/in/mikaelnida/"},{name:"Diego Escobed",li:"https://www.linkedin.com/in/diegoesc"}],email:"",url:"",sector:"Fintech",year:2022,status:"shut"},
-  {name:"Makini",check:"$25K",val:"Uncapped",founders:[{name:"George Surovtsev",li:"https://www.linkedin.com/in/georgiy-surovtsev/"}],email:"george@makini.io",url:"https://makini.io",sector:"Enterprise SaaS",year:2022,status:"active"},
-  {name:"Meadow",check:"$100K",val:"$30M",founders:[{name:"David Hua",li:"https://www.linkedin.com/in/davidhua/"},{name:"Rick Harrison",li:"https://www.linkedin.com/in/rickharrison/"}],email:"hua@getmeadow.com",url:"https://getmeadow.com/",sector:"Marketplace",year:2019,status:"active"},
-  {name:"Mederva Health",check:"$25K",val:"$30M",founders:[{name:"Sabih Mir",li:"https://www.linkedin.com/in/sabihmir"},{name:"Mohammed Kaleel",li:"https://www.linkedin.com/in/drkaleel/"}],email:"sabih@medervahealth.com",url:"https://medervahealth.com/",sector:"HealthTech",year:2022,status:"active"},
-  {name:"Nabis",check:"$100K",val:"$30M",founders:[{name:"Vince Ning",li:"https://www.linkedin.com/in/vincecning/"},{name:"Jun Lee",li:"https://www.linkedin.com/in/junsup/"}],email:"vince@nabis.com",url:"https://www.nabis.com/",sector:"Marketplace",year:2019,status:"active"},
-  {name:"Navi",check:"$200K",val:"$8M",founders:[{name:"Nik Kostic",li:"https://www.linkedin.com/in/nikola-kostic-7b0582159/"},{name:"Vivek Velivela",li:"https://www.linkedin.com/in/vivekvelivela/"}],email:"nk@gonavi.ai",url:"https://gonavi.ai/",sector:"Enterprise SaaS",year:2024,status:"active"},
-  {name:"AVEC",check:"$100K",val:"$16M",founders:[{name:"Jonathan Unikowski",li:"https://www.linkedin.com/in/junikowski/"}],email:"jonathan@net.inc",url:"https://www.avec.ai/",sector:"Consumer",year:2024,status:"active"},
-  {name:"Operant",check:"$25K",val:"$16M",founders:[{name:"Vrajesh Bhavsar",li:"https://www.linkedin.com/in/vrajeshio/"},{name:"Ashley Roof",li:"https://www.linkedin.com/in/ashleyroof/"},{name:"Priyanka Tembey",li:"https://www.linkedin.com/in/priyanka-tembey-a1947611/"}],email:"vrajesh@operant.ai",url:"https://www.operant.ai/",sector:"Enterprise SaaS",year:2023,status:"active"},
-  {name:"Pallando Therapeutics",check:"$50K",val:"$9M",founders:[{name:"Miro Brajenovic",li:"https://www.linkedin.com/in/mirobrajenovic/"}],email:"mbrajenovic@pallandotx.com",url:"https://pallandotx.com/",sector:"Bio / Life Sciences",year:2024,status:"active"},
-  {name:"Portal AI",check:"$250K",val:"$50M",founders:[{name:"Vlad Panchenko",li:"https://www.linkedin.com/in/vlad-panchenko/"}],email:"v@portal.ai",url:"https://portal.ai",sector:"HealthTech",year:2024,status:"active"},
-  {name:"Quinn",check:"$10K",val:"$14M",founders:[{name:"Caroline Spiegel",li:"https://www.linkedin.com/in/caroline-spiegel-907a2111a/"}],email:"caroline@tryquinn.com",url:"https://www.tryquinn.com/",sector:"Consumer",year:2019,status:"active"},
-  {name:"Rainmaker",check:"$50K",val:"$20M",founders:[{name:"Augustus Doricko",li:"https://www.linkedin.com/in/augustus-doricko-660b20145/"}],email:"augustus@makerain.com",url:"https://makerain.com",sector:"Climate",year:2023,status:"active"},
-  {name:"Readyly",check:"$50K",val:"$10M",founders:[{name:"Kris Sandor",li:"https://www.linkedin.com/in/kristofersandor/"}],email:"kris@readyly.com",url:"https://readyly.com",sector:"Enterprise SaaS",year:2024,status:"active"},
-  {name:"Reforge",check:"$50K",val:"$450M",founders:[{name:"Brian Balfour",li:"https://www.linkedin.com/in/bbalfour/"}],email:"bbalfour@reforge.com",url:"https://reforge.com",sector:"Enterprise SaaS",year:2022,status:"active"},
-  {name:"Regression Games",check:"$50K",val:"$24M",founders:[{name:"Aaron Vontell",li:"https://www.linkedin.com/in/aaron-vontell/"}],email:"",url:"",sector:"AI / ML",year:2022,status:"shut"},
-  {name:"Senra Systems",check:"$50K",val:"$30M",founders:[{name:"Jordan Black",li:"https://www.linkedin.com/in/jordan-black-138419a1/"},{name:"Benjamin Shanahan",li:"https://www.linkedin.com/in/benshanahan/"}],email:"jordan@senrasystems.us",url:"https://www.senrasystems.us/",sector:"Enterprise SaaS",year:2023,status:"active"},
-  {name:"Skylink",check:"$25K",val:"$25M",founders:[{name:"Atyab Bhatti",li:"https://www.linkedin.com/in/atyab/"},{name:"Kush Maheshwari",li:"https://www.linkedin.com/in/kushmaheshwari"}],email:"",url:"",sector:"Space",year:2022,status:"exited"},
-  {name:"Starpath Robotics",check:"$50K",val:"$11M",founders:[{name:"Saurav Shroff",li:"https://www.linkedin.com/in/saurav-shroff/"},{name:"Mihir Gondhalekar",li:"https://www.linkedin.com/in/mihir-gondhalekar-a262bb170/"}],email:"saurav@starpath.space",url:"https://starpath.space",sector:"Space",year:2022,status:"active"},
-  {name:"Superorder",check:"$15K",val:"$12M",founders:[{name:"Raghav Poddar",li:"https://www.linkedin.com/in/bypoddar/"}],email:"raghav@superorder.com",url:"https://www.superorder.com/",sector:"Enterprise SaaS",year:2019,status:"active"},
-  {name:"Superpower",check:"$50K",val:"$80M",founders:[{name:"Max Marchione",li:"https://www.linkedin.com/in/maxmarchione/"},{name:"Jacob Peter",li:"https://www.linkedin.com/in/jacobdpeters/"}],email:"jacob@superpower.com",url:"https://superpower.com",sector:"HealthTech",year:2024,status:"active"},
-  {name:"Swapstack",check:"$50K",val:"$8M",founders:[{name:"Jake Schonberger",li:"https://www.linkedin.com/in/jakeschonberger/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"exited"},
-  {name:"Tags",check:"$50K",val:"$17.5M",founders:[{name:"Daniel Abas",li:"https://www.linkedin.com/in/dannyabas/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"shut"},
-  {name:"Taiv",check:"$100K",val:"$25M",founders:[{name:"Noah Palansky",li:"https://www.linkedin.com/in/noahpalansky/"},{name:"Jordan Davis",li:"https://www.linkedin.com/in/jordan-davis-b6894b162/"},{name:"Avi Stoller",li:"https://www.linkedin.com/in/avistoller/"}],email:"noah@taiv.tv",url:"https://www.taiv.tv/",sector:"Enterprise SaaS",year:2023,status:"active"},
-  {name:"TeamHuddle",check:"$25K",val:"$10M",founders:[{name:"Rob Smith",li:"https://www.linkedin.com/in/robpecabu/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"shut"},
-  {name:"Tranch",check:"$25K",val:"$25M",founders:[{name:"Philip Kelvin",li:"https://www.linkedin.com/in/philipkelvin/"}],email:"",url:"",sector:"Fintech",year:2022,status:"exited"},
-  {name:"Union",check:"$134K",val:"$150M",founders:[{name:"Jonathan Reiland",li:"https://www.linkedin.com/in/jonathan-reiland-39a5b858/"},{name:"Garrett Unclebach",li:"https://www.linkedin.com/in/garrettunclebach/"},{name:"Joe Musselman",li:"https://www.linkedin.com/in/joemusselman/"}],email:"joe@bv.vc",url:"https://union.tech/",sector:"Enterprise SaaS",year:2025,status:"active"},
-  {name:"Veria Labs",check:"$50K",val:"$30M",founders:[{name:"Stephen Xu",li:"https://www.linkedin.com/in/stuxf/"},{name:"Jayden Sarveshkumar",li:"https://www.linkedin.com/in/jayden-s/"},{name:"Cayden Liao",li:"https://www.linkedin.com/in/cayden-liao-6b018a272/"}],email:"stephen@verialabs.com",url:"https://verialabs.com/",sector:"Enterprise SaaS",year:2025,status:"active"},
-  {name:"Wingback",check:"$25K",val:"Uncapped",founders:[{name:"Torben Friehe",li:"https://www.linkedin.com/in/tfriehe/"}],email:"",url:"",sector:"Enterprise SaaS",year:2022,status:"shut"},
-  {name:"Yofi",check:"$10K",val:"$10.5M",founders:[{name:"Jordan Shamir",li:"https://www.linkedin.com/in/jordan-shamir/"},{name:"Alex Shamir",li:"https://www.linkedin.com/in/amshamir/"}],email:"",url:"",sector:"Enterprise SaaS",year:2022,status:"exited"},
-  {name:"Array Labs",check:"$50K",val:"$20M",founders:[{name:"Andrew Peterson",li:"https://www.linkedin.com/in/andrew-peterson-array-labs/"},{name:"Jose Isaac Robledo",li:"https://www.linkedin.com/in/isaac-arraylabs/"}],email:"andrew@arraylabs.io",url:"https://www.arraylabs.io/",sector:"Space",year:2022,status:"active"},
+  {name:"222",fund:3,check:"$25K",investVal:"$25M",currentVal:"$60M",founders:[{name:"Keyan Kezamian",li:"https://www.linkedin.com/in/kaaazemian/"},{name:"Danial Hashemi",li:"https://www.linkedin.com/in/danialhashemi/"},{name:"Arman Roshannai",li:"https://www.linkedin.com/in/arman-roshannai/"}],email:"keyan@222.place",url:"https://222.place/",sector:"Consumer",year:2023,status:"active"},
+  {name:"Agency",fund:2,check:"$75K",investVal:"$30M",currentVal:"$30M",founders:[{name:"Amir Tarighat",li:"https://www.linkedin.com/in/atarighat/"},{name:"Tyler Carbone",li:"https://www.linkedin.com/in/tylercarbone/"}],email:"amir@getagency.com",url:"https://getagency.com/",sector:"AI / ML",year:2022,status:"active"},
+  {name:"Alga Biosciences",fund:2,check:"$50K",investVal:"$20M",currentVal:"$20M",founders:[{name:"Alex Brown",li:"https://www.linkedin.com/in/alex-brown-5ba620113/"},{name:"Daria Balatsky",li:"https://www.linkedin.com/in/daria-balatsky-842356121"},{name:"Caroline McKeon",li:"https://www.linkedin.com/in/carolineamckeon/"}],email:"alex@alga.bio",url:"https://www.alga.bio/",sector:"Bio / Life Sciences",year:2022,status:"active"},
+  {name:"Andi",fund:2,check:"$25K",investVal:"$50M",currentVal:"$50M",founders:[{name:"Angela Hoover",li:"https://www.linkedin.com/in/angela-hoover/"},{name:"Jed White",li:"https://www.linkedin.com/in/jedwhite"}],email:"angela@andisearch.com",url:"https://andiai.com/",sector:"AI / ML",year:2022,status:"active"},
+  {name:"Andromeda Surgical",fund:3,check:"$50K",investVal:"$20M",currentVal:"$67M",founders:[{name:"Nick Damiano",li:"https://www.linkedin.com/in/nickdamiano/"},{name:"Kartik Tiwari",li:"https://www.linkedin.com/in/kartik-tiwari-b2a10668/"}],email:"nick@andromedasurgical.com",url:"https://www.andromedasurgical.com/",sector:"HealthTech",year:2023,status:"active"},
+  {name:"Arch",fund:2,check:"$50K",investVal:"$16M",currentVal:"$21M",founders:[{name:"Himanshu Sahay",li:"https://www.linkedin.com/in/himanshusahay/"},{name:"Dhruv Patel",li:"https://www.linkedin.com/in/dhruv-patel-34166163/"}],email:"dhruv@archlending.com",url:"https://archlending.com/",sector:"Fintech",year:2022,status:"active"},
+  {name:"Argo",fund:2,check:"$50K",investVal:"Uncapped",currentVal:"Uncapped",founders:[{name:"Arcadiy Golubovich",li:"https://www.linkedin.com/in/arcadiy-golubovich-9a515125/"}],email:"arcadiy@argomedia.co",url:"https://argo.la/",sector:"Media",year:2022,status:"shut"},
+  {name:"Array Labs",fund:2,check:"$50K",investVal:"$20M",currentVal:"$145M",founders:[{name:"Andrew Peterson",li:"https://www.linkedin.com/in/andrew-peterson-array-labs/"},{name:"Jose Isaac Robledo",li:"https://www.linkedin.com/in/isaac-arraylabs/"}],email:"andrew@arraylabs.io",url:"https://www.arraylabs.io/",sector:"Space",year:2022,status:"active"},
+  {name:"AstroForge",fund:2,check:"$50K",investVal:"$50M",currentVal:"$150M",founders:[{name:"Matt Gialich",li:"https://www.linkedin.com/in/matthew-gialich/"}],email:"matt@astroforge.io",url:"https://www.astroforge.com/",sector:"Space",year:2022,status:"active"},
+  {name:"Aviato",fund:2,check:"$15K",investVal:"$1.25M",currentVal:"$15M",founders:[{name:"Konrad Pucharski",li:"https://www.linkedin.com/in/konrad-kucharski-18140065/"}],email:"konrad@aviato.co",url:"https://aviato.co",sector:"Enterprise SaaS",year:2022,status:"active"},
+  {name:"BIOPTIC",fund:2,check:"$10K",investVal:"$55M",currentVal:"$110M",founders:[{name:"Andrey Dobriy",li:"https://www.linkedin.com/in/doronichev/"}],email:"da@optic.inc",url:"https://optic.inc",sector:"Enterprise SaaS",year:2022,status:"active"},
+  {name:"Bonzai",fund:3,check:"$50K",investVal:"$15M",currentVal:"Shut Down",founders:[{name:"Matthew Tabbiner",li:"https://www.linkedin.com/in/matthew-tabbiner-a1246b207/"},{name:"Carl Arnold",li:"https://www.linkedin.com/in/carldarnold/"}],email:"",url:"",sector:"Climate",year:2024,status:"shut"},
+  {name:"Bree",fund:2,check:"$50K",investVal:"$15M",currentVal:"$15M",founders:[{name:"Alexander Li",li:"https://www.linkedin.com/in/alexander-li-19900783/"},{name:"Adam Kang",li:"https://www.linkedin.com/in/adamkang/"}],email:"adam@trybree.com",url:"https://www.trybree.com/",sector:"Fintech",year:2022,status:"active"},
+  {name:"Brella",fund:1,check:"$100K",investVal:"$5M",currentVal:"$21M",founders:[{name:"Melanie Wolff",li:"https://www.linkedin.com/in/melaniewolff/"},{name:"Darien Williams",li:"https://www.linkedin.com/in/darien-williams-33442b7/"}],email:"melanie@brellaspace.com",url:"",sector:"Consumer",year:2018,status:"active"},
+  {name:"Cache",fund:2,check:"$50K",investVal:"$36M",currentVal:"$125M",founders:[{name:"Srikanth Narayan",li:"https://www.linkedin.com/in/srikanth-narayan/"}],email:"srikanth@usecache.com",url:"https://usecache.com/",sector:"Fintech",year:2022,status:"active"},
+  {name:"Centered",fund:2,check:"$50K",investVal:"$21M",currentVal:"Shut Down",founders:[{name:"Ulf Schwekediek",li:"https://www.linkedin.com/in/sulfme/"}],email:"",url:"",sector:"Consumer",year:2022,status:"shut"},
+  {name:"Cobbery",fund:2,check:"$25K",investVal:"$15M",currentVal:"$15M",founders:[{name:"Dan Goodman",li:"https://www.linkedin.com/in/daniel-goodman-7a813214a/"},{name:"Alex Pickett",li:"https://www.linkedin.com/in/alex-pickett-a5a268191/"}],email:"dan@cobbery.com",url:"https://cobbery.com/",sector:"Enterprise SaaS",year:2022,status:"active"},
+  {name:"Coco Robotics",fund:1,check:"$25K",investVal:"$5M",currentVal:"$215M",founders:[{name:"Zach Rash",li:"https://www.linkedin.com/in/zachrash/"},{name:"Brad Squicciarini",li:"https://www.linkedin.com/in/brad-squicciarini-478954126/"}],email:"zach@cocodelivery.com",url:"https://www.cocodelivery.com/",sector:"Robotics",year:2019,status:"active"},
+  {name:"Coherence",fund:2,check:"$25K",investVal:"$12M",currentVal:"Shut Down",founders:[{name:"Zan Faruqui",li:"https://www.linkedin.com/in/zanfaruqui/"},{name:"Zach Zaro",li:"https://www.linkedin.com/in/zacharyzaro/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"shut"},
+  {name:"Copilot",fund:2,check:"$50K",investVal:"$35M",currentVal:"$65M",founders:[{name:"Andres Ugarte",li:"https://www.linkedin.com/in/andresugarte/"}],email:"andres@copilot.money",url:"https://www.copilot.money/",sector:"Consumer",year:2022,status:"active"},
+  {name:"CreatorDAO",fund:2,check:"$25K",investVal:"$100M",currentVal:"$100M",founders:[{name:"Michael Ma",li:"https://www.linkedin.com/in/michaelma8/"}],email:"m@district.xyz",url:"",sector:"Media",year:2022,status:"active"},
+  {name:"Duplo",fund:2,check:"$25K",investVal:"$30M",currentVal:"$34.5M",founders:[{name:"Tunde Akinnuwa",li:"https://www.linkedin.com/in/bbtunde"},{name:"Yele Oyekola",li:"https://www.linkedin.com/in/yelew/"}],email:"yele@tryduplo.com",url:"https://tryduplo.com/",sector:"Fintech",year:2022,status:"active"},
+  {name:"Durin",fund:3,check:"$50K",investVal:"$9M",currentVal:"$75M",founders:[{name:"Ted Feldmann",li:"https://www.linkedin.com/in/tedfeldmann/"}],email:"ted@durin.com",url:"https://www.durin.com/",sector:"Robotics",year:2024,status:"active"},
+  {name:"ENTR",fund:3,check:"$50K",investVal:"$6M",currentVal:"$6M",founders:[{name:"Chelsea Hawk",li:"https://www.linkedin.com/in/chelsea-hawk-entr/"},{name:"Kristin Allen",li:"https://www.linkedin.com/in/kristinallen4/"},{name:"Nicolas Zaatar",li:"https://www.linkedin.com/in/nicolaszaatar/"}],email:"kristin@entrtechnologies.com",url:"https://entrtechnologies.com",sector:"Enterprise SaaS",year:2023,status:"active"},
+  {name:"Evolv",fund:3,check:"$50K",investVal:"$7M",currentVal:"$18M",founders:[{name:"Cory Henderson",li:"https://www.linkedin.com/in/cory-henderson/"},{name:"Becca McCarthy",li:"https://www.linkedin.com/in/becca-mccarthy-88b4b33/"}],email:"cory@evolvlife.com",url:"https://evolvlife.com",sector:"Bio / Life Sciences",year:2024,status:"active"},
+  {name:"Exits Media",fund:2,check:"$10K",investVal:"$10M",currentVal:"Shut Down",founders:[{name:"Zach White",li:""}],email:"",url:"",sector:"Media",year:2023,status:"shut"},
+  {name:"Factory",fund:3,check:"$45K",investVal:"$30M",currentVal:"$1.5B",founders:[{name:"Matan Grinberg",li:"https://www.linkedin.com/in/matan-grinberg/"},{name:"Eno Reyes",li:"https://www.linkedin.com/in/enoreyes/"}],email:"matan@factory.ai",url:"https://factory.ai",sector:"AI / ML",year:2023,status:"active"},
+  {name:"Fuse",fund:1,check:"$50K",investVal:"$10M",currentVal:"Shut Down",founders:[{name:"Tunde Alao",li:"https://www.linkedin.com/in/tundealao/"},{name:"Landon Vago-Hughes",li:"https://www.linkedin.com/in/landon-vago-hughes/"},{name:"Boateng Opoku-Yeboah",li:"https://www.linkedin.com/in/byeboah/"}],email:"",url:"",sector:"Fintech",year:2019,status:"shut"},
+  {name:"GenLogs",fund:3,check:"$100K",investVal:"$12.5M",currentVal:"$375M",founders:[{name:"Ryan Joyce",li:"https://www.linkedin.com/in/ryanjoyce-/"},{name:"Blake Balch",li:"https://www.linkedin.com/in/blake-balch/"},{name:"Joe Sherman",li:"https://www.linkedin.com/in/joe-sherman-3070893a/"}],email:"ryan.joyce@genlogs.io",url:"https://www.genlogs.io/",sector:"Enterprise SaaS",year:2023,status:"active"},
+  {name:"Headroom",fund:2,check:"$50K",investVal:"$40M",currentVal:"Acquired by Upwork",founders:[{name:"Andrew Rabinovich",li:"https://www.linkedin.com/in/andrew-rabinovich-28556014/"}],email:"",url:"",sector:"AI / ML",year:2022,status:"exited"},
+  {name:"Hippo Build",fund:2,check:"$25K",investVal:"$15M",currentVal:"$15M",founders:[{name:"Mads Schmidt Petersen",li:"https://www.linkedin.com/in/madsschmidtpetersen/"}],email:"mads@hippo.build",url:"https://hippo.build/",sector:"Enterprise SaaS",year:2022,status:"active"},
+  {name:"HomeOptions",fund:2,check:"$100K",investVal:"$50M",currentVal:"Shut Down",founders:[{name:"Kevin Li",li:"https://www.linkedin.com/in/kevinli423/"}],email:"",url:"",sector:"Marketplace",year:2022,status:"shut"},
+  {name:"HomeRoom",fund:2,check:"$75K",investVal:"$20M",currentVal:"Acquired by Bungalow",founders:[{name:"Johnny Wolff",li:"https://www.linkedin.com/in/johnnywolff/"},{name:"Thomas Hornbeck",li:"https://www.linkedin.com/in/thornbeck/"}],email:"",url:"",sector:"Marketplace",year:2022,status:"exited"},
+  {name:"Humand",fund:3,check:"$50K",investVal:"$70M",currentVal:"$225M",founders:[{name:"Nicolas Benenzon",li:"https://www.linkedin.com/in/benenzon/"},{name:"Geronimo Maspero",li:"https://www.linkedin.com/in/geronimomaspero/"}],email:"nico@humand.co",url:"https://humand.co/en/",sector:"Enterprise SaaS",year:2023,status:"active"},
+  {name:"Innerworld",fund:2,check:"$25K",investVal:"$10M",currentVal:"Acquired by XRHealth",founders:[{name:"Noah Robinson",li:"https://www.linkedin.com/in/psychnoah/"}],email:"",url:"",sector:"HealthTech",year:2022,status:"exited"},
+  {name:"K-Scale Labs",fund:3,check:"$25K",investVal:"$50M",currentVal:"Shut Down",founders:[{name:"Benjamin Bolte",li:"https://www.linkedin.com/in/benjaminbolte"}],email:"",url:"",sector:"Robotics",year:2024,status:"shut"},
+  {name:"Kairn",fund:2,check:"$50K",investVal:"$10M",currentVal:"Shut Down",founders:[{name:"Patricia Bernasconi",li:"https://www.linkedin.com/in/patriciabernasconi/"}],email:"",url:"",sector:"HealthTech",year:2022,status:"shut"},
+  {name:"Keep",fund:2,check:"$50K",investVal:"$30M",currentVal:"$150M",founders:[{name:"Oliver Takach",li:"https://www.linkedin.com/in/oliver-takach-a5499b68/"},{name:"Helson Tavares",li:"https://www.linkedin.com/in/helsontaveras/"}],email:"oliver@trykeep.com",url:"https://www.trykeep.com/",sector:"Fintech",year:2021,status:"active"},
+  {name:"Kick",fund:3,check:"$50K",investVal:"$20M",currentVal:"$90M",founders:[{name:"Conrad Wadowski",li:"https://www.linkedin.com/in/conradwadowski/"}],email:"conrad@kick.co",url:"https://kick.co",sector:"Consumer",year:2023,status:"active"},
+  {name:"Lavo Life Sciences",fund:3,check:"$25K",investVal:"$15M",currentVal:"Shut Down",founders:[{name:"Scott Swarthout",li:"https://www.linkedin.com/in/scottswarthout"},{name:"Zach Glick",li:"https://www.linkedin.com/in/zach-glick-800b75219/"},{name:"Derek Metcalf",li:"https://www.linkedin.com/in/derekmetcalf/"}],email:"",url:"",sector:"Bio / Life Sciences",year:2023,status:"shut"},
+  {name:"Lingo Health",fund:2,check:"$45K",investVal:"$5.9M",currentVal:"Shut Down",founders:[{name:"Jessica Chao",li:"https://www.linkedin.com/in/chaojessicaj/"}],email:"",url:"",sector:"HealthTech",year:2021,status:"shut"},
+  {name:"Lotus",fund:2,check:"$25K",investVal:"$15M",currentVal:"Shut Down",founders:[{name:"Mikael Nida",li:"https://www.linkedin.com/in/mikaelnida/"},{name:"Diego Escobed",li:"https://www.linkedin.com/in/diegoesc"}],email:"",url:"",sector:"Fintech",year:2022,status:"shut"},
+  {name:"Makini",fund:2,check:"$25K",investVal:"Uncapped",currentVal:"$26.5M",founders:[{name:"George Surovtsev",li:"https://www.linkedin.com/in/georgiy-surovtsev/"}],email:"george@makini.io",url:"https://makini.io",sector:"Enterprise SaaS",year:2022,status:"active"},
+  {name:"Meadow",fund:1,check:"$100K",investVal:"$30M",currentVal:"$30M",founders:[{name:"David Hua",li:"https://www.linkedin.com/in/davidhua/"},{name:"Rick Harrison",li:"https://www.linkedin.com/in/rickharrison/"}],email:"hua@getmeadow.com",url:"https://getmeadow.com/",sector:"Marketplace",year:2019,status:"active"},
+  {name:"Mederva Health",fund:2,check:"$25K",investVal:"$30M",currentVal:"$30M",founders:[{name:"Sabih Mir",li:"https://www.linkedin.com/in/sabihmir"},{name:"Mohammed Kaleel",li:"https://www.linkedin.com/in/drkaleel/"}],email:"sabih@medervahealth.com",url:"https://medervahealth.com/",sector:"HealthTech",year:2022,status:"active"},
+  {name:"Nabis",fund:1,check:"$100K",investVal:"$30M",currentVal:"$155M",founders:[{name:"Vince Ning",li:"https://www.linkedin.com/in/vincecning/"},{name:"Jun Lee",li:"https://www.linkedin.com/in/junsup/"}],email:"vince@nabis.com",url:"https://www.nabis.com/",sector:"Marketplace",year:2019,status:"active"},
+  {name:"Navi",fund:3,check:"$200K",investVal:"$8M",currentVal:"$36M",founders:[{name:"Nik Kostic",li:"https://www.linkedin.com/in/nikola-kostic-7b0582159/"},{name:"Vivek Velivela",li:"https://www.linkedin.com/in/vivekvelivela/"}],email:"nk@gonavi.ai",url:"https://gonavi.ai/",sector:"Enterprise SaaS",year:2024,status:"active"},
+  {name:"AVEC",fund:3,check:"$100K",investVal:"$16M",currentVal:"$33M",founders:[{name:"Jonathan Unikowski",li:"https://www.linkedin.com/in/junikowski/"}],email:"jonathan@net.inc",url:"https://www.avec.ai/",sector:"Consumer",year:2024,status:"active"},
+  {name:"Operant",fund:3,check:"$25K",investVal:"$12M",currentVal:"$50M",founders:[{name:"Vrajesh Bhavsar",li:"https://www.linkedin.com/in/vrajeshio/"},{name:"Ashley Roof",li:"https://www.linkedin.com/in/ashleyroof/"},{name:"Priyanka Tembey",li:"https://www.linkedin.com/in/priyanka-tembey-a1947611/"}],email:"vrajesh@operant.ai",url:"https://www.operant.ai/",sector:"Enterprise SaaS",year:2023,status:"active"},
+  {name:"Pallando Therapeutics",fund:3,check:"$50K",investVal:"$18M",currentVal:"$18M",founders:[{name:"Miro Brajenovic",li:"https://www.linkedin.com/in/mirobrajenovic/"}],email:"mbrajenovic@pallandotx.com",url:"https://pallandotx.com/",sector:"Bio / Life Sciences",year:2024,status:"active"},
+  {name:"Portal AI",fund:3,check:"$250K",investVal:"$50M",currentVal:"$50M",founders:[{name:"Vlad Panchenko",li:"https://www.linkedin.com/in/vlad-panchenko/"}],email:"v@portal.ai",url:"https://portal.ai",sector:"HealthTech",year:2024,status:"active"},
+  {name:"Quinn",fund:1,check:"$10K",investVal:"$14M",currentVal:"$26M",founders:[{name:"Caroline Spiegel",li:"https://www.linkedin.com/in/caroline-spiegel-907a2111a/"}],email:"caroline@tryquinn.com",url:"https://www.tryquinn.com/",sector:"Consumer",year:2019,status:"active"},
+  {name:"Rainmaker",fund:3,check:"$50K",investVal:"$20M",currentVal:"$171M",founders:[{name:"Augustus Doricko",li:"https://www.linkedin.com/in/augustus-doricko-660b20145/"}],email:"augustus@makerain.com",url:"https://makerain.com",sector:"Climate",year:2023,status:"active"},
+  {name:"Readyly",fund:3,check:"$50K",investVal:"$12M",currentVal:"$12M",founders:[{name:"Kris Sandor",li:"https://www.linkedin.com/in/kristofersandor/"}],email:"kris@readyly.com",url:"https://readyly.com",sector:"Enterprise SaaS",year:2024,status:"active"},
+  {name:"Reforge",fund:2,check:"$50K",investVal:"$450M",currentVal:"$450M",founders:[{name:"Brian Balfour",li:"https://www.linkedin.com/in/bbalfour/"}],email:"bbalfour@reforge.com",url:"https://reforge.com",sector:"Enterprise SaaS",year:2022,status:"active"},
+  {name:"Regression Games",fund:2,check:"$50K",investVal:"$24M",currentVal:"Shut Down",founders:[{name:"Aaron Vontell",li:"https://www.linkedin.com/in/aaron-vontell/"}],email:"",url:"",sector:"AI / ML",year:2022,status:"shut"},
+  {name:"Senra Systems",fund:3,check:"$50K",investVal:"$30M",currentVal:"$145M",founders:[{name:"Jordan Black",li:"https://www.linkedin.com/in/jordan-black-138419a1/"},{name:"Benjamin Shanahan",li:"https://www.linkedin.com/in/benshanahan/"}],email:"jordan@senrasystems.us",url:"https://www.senrasystems.us/",sector:"Enterprise SaaS",year:2023,status:"active"},
+  {name:"Skylink",fund:2,check:"$25K",investVal:"$25M",currentVal:"$75M",founders:[{name:"Atyab Bhatti",li:"https://www.linkedin.com/in/atyab/"},{name:"Kush Maheshwari",li:"https://www.linkedin.com/in/kushmaheshwari"}],email:"",url:"",sector:"Space",year:2022,status:"exited"},
+  {name:"Starpath Robotics",fund:2,check:"$50K",investVal:"$11M",currentVal:"$32.5M",founders:[{name:"Saurav Shroff",li:"https://www.linkedin.com/in/saurav-shroff/"},{name:"Mihir Gondhalekar",li:"https://www.linkedin.com/in/mihir-gondhalekar-a262bb170/"}],email:"saurav@starpath.space",url:"https://starpath.space",sector:"Space",year:2022,status:"active"},
+  {name:"Superorder",fund:1,check:"$15K",investVal:"$12M",currentVal:"$45M",founders:[{name:"Raghav Poddar",li:"https://www.linkedin.com/in/bypoddar/"}],email:"raghav@superorder.com",url:"https://www.superorder.com/",sector:"Enterprise SaaS",year:2019,status:"active"},
+  {name:"Superpower",fund:3,check:"$50K",investVal:"$80M",currentVal:"$150M",founders:[{name:"Max Marchione",li:"https://www.linkedin.com/in/maxmarchione/"},{name:"Jacob Peter",li:"https://www.linkedin.com/in/jacobdpeters/"}],email:"jacob@superpower.com",url:"https://superpower.com",sector:"HealthTech",year:2024,status:"active"},
+  {name:"Swapstack",fund:2,check:"$50K",investVal:"$8M",currentVal:"Acquired by beehiiv",founders:[{name:"Jake Schonberger",li:"https://www.linkedin.com/in/jakeschonberger/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"exited"},
+  {name:"Tags",fund:2,check:"$50K",investVal:"$17.5M",currentVal:"Shut Down",founders:[{name:"Daniel Abas",li:"https://www.linkedin.com/in/dannyabas/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"shut"},
+  {name:"Taiv",fund:3,check:"$100K",investVal:"$25M",currentVal:"$92M",founders:[{name:"Noah Palansky",li:"https://www.linkedin.com/in/noahpalansky/"},{name:"Jordan Davis",li:"https://www.linkedin.com/in/jordan-davis-b6894b162/"},{name:"Avi Stoller",li:"https://www.linkedin.com/in/avistoller/"}],email:"noah@taiv.tv",url:"https://www.taiv.tv/",sector:"Enterprise SaaS",year:2023,status:"active"},
+  {name:"TeamHuddle",fund:2,check:"$25K",investVal:"$10M",currentVal:"Shut Down",founders:[{name:"Rob Smith",li:"https://www.linkedin.com/in/robpecabu/"}],email:"",url:"",sector:"Enterprise SaaS",year:2021,status:"shut"},
+  {name:"Tranch",fund:2,check:"$25K",investVal:"$25M",currentVal:"Acquired by Elite",founders:[{name:"Philip Kelvin",li:"https://www.linkedin.com/in/philipkelvin/"}],email:"",url:"",sector:"Fintech",year:2022,status:"exited"},
+  {name:"Union",fund:3,check:"$134K",investVal:"$150M",currentVal:"$150M",founders:[{name:"Jonathan Reiland",li:"https://www.linkedin.com/in/jonathan-reiland-39a5b858/"},{name:"Garrett Unclebach",li:"https://www.linkedin.com/in/garrettunclebach/"},{name:"Joe Musselman",li:"https://www.linkedin.com/in/joemusselman/"}],email:"joe@bv.vc",url:"https://union.tech/",sector:"Enterprise SaaS",year:2025,status:"active"},
+  {name:"Veria Labs",fund:3,check:"$50K",investVal:"$30M",currentVal:"$30M",founders:[{name:"Stephen Xu",li:"https://www.linkedin.com/in/stuxf/"},{name:"Jayden Sarveshkumar",li:"https://www.linkedin.com/in/jayden-s/"},{name:"Cayden Liao",li:"https://www.linkedin.com/in/cayden-liao-6b018a272/"}],email:"stephen@verialabs.com",url:"https://verialabs.com/",sector:"Enterprise SaaS",year:2025,status:"active"},
+  {name:"Wingback",fund:2,check:"$25K",investVal:"Uncapped",currentVal:"Uncapped",founders:[{name:"Torben Friehe",li:"https://www.linkedin.com/in/tfriehe/"}],email:"",url:"",sector:"Enterprise SaaS",year:2022,status:"shut"},
+  {name:"Yofi",fund:2,check:"$10K",investVal:"$10.5M",currentVal:"Acquired by NoFraud",founders:[{name:"Jordan Shamir",li:"https://www.linkedin.com/in/jordan-shamir/"},{name:"Alex Shamir",li:"https://www.linkedin.com/in/amshamir/"}],email:"",url:"",sector:"Consumer",year:2022,status:"exited"},
 ];
 
-// Live data merged from Notion (populated on load)
-let notionMetrics = {};
+// Fund breakdown data (from Notion fund pages)
+const FUND_DATA = [
+  {num:1, name:"Fund I", vintage:"2018–2019", companies:[
+    {name:"Brella", investVal:"$5M", currentVal:"$21M", status:"active"},
+    {name:"Coco Robotics", investVal:"$5M", currentVal:"$215M", status:"active"},
+    {name:"Fuse", investVal:"$10M", currentVal:"Shut Down", status:"shut"},
+    {name:"Meadow", investVal:"$30M", currentVal:"$30M", status:"active"},
+    {name:"Mellows", investVal:"$5M", currentVal:"Shut Down", status:"shut"},
+    {name:"Nabis", investVal:"$30M", currentVal:"$155M", status:"active"},
+    {name:"Quinn", investVal:"$14M", currentVal:"$26M", status:"active"},
+    {name:"Superorder", investVal:"$12M", currentVal:"$45M", status:"active"},
+  ]},
+  {num:2, name:"Fund II", vintage:"2021–2022", companies:[
+    {name:"Agency", investVal:"$30M", currentVal:"$30M", status:"active"},
+    {name:"Alga Biosciences", investVal:"$20M", currentVal:"$20M", status:"active"},
+    {name:"Andi", investVal:"$50M", currentVal:"$50M", status:"active"},
+    {name:"Arch", investVal:"$16M", currentVal:"$21M", status:"active"},
+    {name:"Argo", investVal:"Uncapped", currentVal:"Uncapped", status:"shut"},
+    {name:"Array Labs", investVal:"$20M", currentVal:"$145M", status:"active"},
+    {name:"AstroForge", investVal:"$50M", currentVal:"$150M", status:"active"},
+    {name:"Aviato", investVal:"$1.25M", currentVal:"$15M", status:"active"},
+    {name:"BIOPTIC", investVal:"$55M", currentVal:"$110M", status:"active"},
+    {name:"Bree", investVal:"$15M", currentVal:"$15M", status:"active"},
+    {name:"Cache", investVal:"$36M", currentVal:"$125M", status:"active"},
+    {name:"Centered", investVal:"$21M", currentVal:"Shut Down", status:"shut"},
+    {name:"Cobbery", investVal:"$15M", currentVal:"$15M", status:"active"},
+    {name:"Coherence", investVal:"$12M", currentVal:"Shut Down", status:"shut"},
+    {name:"Copilot", investVal:"$35M", currentVal:"$65M", status:"active"},
+    {name:"CreatorDAO", investVal:"$100M", currentVal:"$100M", status:"active"},
+    {name:"Duplo", investVal:"$30M", currentVal:"$34.5M", status:"active"},
+    {name:"Exits Media", investVal:"$10M", currentVal:"Shut Down", status:"shut"},
+    {name:"Headroom", investVal:"$40M", currentVal:"Acquired by Upwork", status:"exited"},
+    {name:"Hippo Build", investVal:"$15M", currentVal:"$15M", status:"active"},
+    {name:"HomeOptions", investVal:"$50M", currentVal:"Shut Down", status:"shut"},
+    {name:"HomeRoom", investVal:"$20M", currentVal:"Acquired by Bungalow", status:"exited"},
+    {name:"Humand", investVal:"Uncapped SAFE", currentVal:"$225M", status:"active"},
+    {name:"Innerworld", investVal:"$10M", currentVal:"Acquired by XRHealth", status:"exited"},
+    {name:"Kairn", investVal:"$10M", currentVal:"Shut Down", status:"shut"},
+    {name:"Keep", investVal:"$30M", currentVal:"$150M", status:"active"},
+    {name:"Lingo Health", investVal:"$5.9M", currentVal:"Shut Down", status:"shut"},
+    {name:"Lotus", investVal:"$15M", currentVal:"Shut Down", status:"shut"},
+    {name:"Makini", investVal:"Uncapped", currentVal:"$26.5M", status:"active"},
+    {name:"Mederva Health", investVal:"$30M", currentVal:"$30M", status:"active"},
+    {name:"Reforge", investVal:"$450M", currentVal:"$450M", status:"active"},
+    {name:"Regression Games", investVal:"$24M", currentVal:"Shut Down", status:"shut"},
+    {name:"Skylink", investVal:"$25M", currentVal:"$75M", status:"exited"},
+    {name:"Souq", investVal:"$16M", currentVal:"Shut Down", status:"shut"},
+    {name:"Starpath Robotics", investVal:"$11M", currentVal:"$32.5M", status:"active"},
+    {name:"Swapstack", investVal:"$8M", currentVal:"Acquired by beehiiv", status:"exited"},
+    {name:"Tags", investVal:"$17.5M", currentVal:"Shut Down", status:"shut"},
+    {name:"Team Huddle", investVal:"$10M", currentVal:"Shut Down", status:"shut"},
+    {name:"Tranch", investVal:"$25M", currentVal:"Acquired by Elite", status:"exited"},
+    {name:"Wingback", investVal:"Uncapped", currentVal:"Uncapped", status:"active"},
+    {name:"Yofi", investVal:"$10.5M", currentVal:"Acquired by NoFraud", status:"exited"},
+  ]},
+  {num:3, name:"Fund III", vintage:"2023–2025", companies:[
+    {name:"222", investVal:"$25M", currentVal:"$60M", status:"active"},
+    {name:"Andromeda Surgical", investVal:"$20M", currentVal:"$67M", status:"active"},
+    {name:"Bonzai", investVal:"$15M", currentVal:"Shut Down", status:"shut"},
+    {name:"Durin", investVal:"$9M", currentVal:"$75M", status:"active"},
+    {name:"ENTR", investVal:"$6M", currentVal:"$6M", status:"active"},
+    {name:"Evolv", investVal:"$7M", currentVal:"$18M", status:"active"},
+    {name:"Factory", investVal:"$30M", currentVal:"$1.5B", status:"active"},
+    {name:"GenLogs", investVal:"$12.5M", currentVal:"$375M", status:"active"},
+    {name:"Humand", investVal:"$70M", currentVal:"$225M", status:"active"},
+    {name:"K-Scale Labs", investVal:"$50M", currentVal:"Shut Down", status:"shut"},
+    {name:"Kick", investVal:"$20M", currentVal:"$90M", status:"active"},
+    {name:"Lavo Life Sciences", investVal:"$15M", currentVal:"Shut Down", status:"shut"},
+    {name:"Navi", investVal:"$8M", currentVal:"$36M", status:"active"},
+    {name:"NET (AVEC)", investVal:"$16M", currentVal:"$33M", status:"active"},
+    {name:"Operant", investVal:"$12M", currentVal:"$50M", status:"active"},
+    {name:"Pallando Therapeutics", investVal:"$18M", currentVal:"$18M", status:"active"},
+    {name:"Portal AI", investVal:"$50M", currentVal:"$50M", status:"active"},
+    {name:"Rainmaker", investVal:"$20M", currentVal:"$171M", status:"active"},
+    {name:"Readyly", investVal:"$12M", currentVal:"$12M", status:"active"},
+    {name:"Senra Systems", investVal:"$30M", currentVal:"$145M", status:"active"},
+    {name:"Superpower", investVal:"$80M", currentVal:"$150M", status:"active"},
+    {name:"Taiv", investVal:"$25M", currentVal:"$92M", status:"active"},
+    {name:"Union", investVal:"$150M", currentVal:"$150M", status:"active"},
+    {name:"Veria Labs", investVal:"$30M", currentVal:"$30M", status:"active"},
+  ]}
+];
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let filter = 'all';
+let visibleCompanies = [];
+let notionMetrics = {};
 
-function setFilter(f, btn) {
-  filter = f;
-  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  renderTable();
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function parseMoney(s){
+  if(!s||typeof s!=='string') return null;
+  const m = s.replace(/[$,B]/g,'');
+  if(s.includes('B')) return parseFloat(m)*1000;
+  if(s.includes('M')) return parseFloat(m);
+  return null;
 }
 
-function switchTab(tab, sidebarEl, topbarEl) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelectorAll('.topbar-tab').forEach(n => n.classList.remove('active'));
-  if (sidebarEl) sidebarEl.classList.add('active');
-  if (topbarEl) topbarEl.classList.add('active');
-  // sync both sidebar and topbar
-  const tabIdx = {portfolio:0,dealflow:1,press:2,requests:3,jobs:4};
-  document.querySelectorAll('.nav-item')[tabIdx[tab]]?.classList.add('active');
-  document.querySelectorAll('.topbar-tab')[tabIdx[tab]]?.classList.add('active');
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function switchTab(tab){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelectorAll('.nav-item[data-tab]').forEach(n=>n.classList.toggle('active',n.dataset.tab===tab));
+  document.querySelectorAll('.topbar-tab[data-tab]').forEach(n=>n.classList.toggle('active',n.dataset.tab===tab));
 }
 
-// ── TABLE ─────────────────────────────────────────────────────────────────────
-let visibleCompanies = []; // track filtered list so data-idx maps correctly
-
-function renderTable() {
+// ── PORTFOLIO TABLE ───────────────────────────────────────────────────────────
+function renderTable(){
   const q = document.getElementById('search-input').value.toLowerCase();
   const sector = document.getElementById('sector-select').value;
-  const tbody = document.getElementById('co-tbody');
-  let cos = COMPANIES.slice();
-  if (filter !== 'all') cos = cos.filter(c => c.status === filter);
-  if (sector) cos = cos.filter(c => c.sector === sector);
-  if (q) cos = cos.filter(c => c.name.toLowerCase().includes(q) || c.founders.some(f => f.name.toLowerCase().includes(q)));
+  // Always active only in Browse Portfolio
+  let cos = COMPANIES.filter(c=>c.status==='active');
+  if(sector) cos = cos.filter(c=>c.sector===sector);
+  if(q) cos = cos.filter(c=>c.name.toLowerCase().includes(q)||c.founders.some(f=>f.name.toLowerCase().includes(q)));
   visibleCompanies = cos;
 
-  const statusLabels = {active:'Active',shut:'Shut Down',exited:'Exited'};
-  const statusClasses = {active:'pill-active',shut:'pill-shut',exited:'pill-exited'};
+  // Update stats
+  const active = COMPANIES.filter(c=>c.status==='active');
+  document.getElementById('stat-active-count').textContent = active.length;
+  document.getElementById('stat-active-sub').textContent =
+    COMPANIES.filter(c=>c.status==='shut').length+' shut down · '+COMPANIES.filter(c=>c.status==='exited').length+' exited';
+  const totalVal = active.reduce((s,c)=>{ const v=parseMoney(c.currentVal); return s+(v||0); },0);
+  document.getElementById('stat-val').textContent = totalVal>0 ? '$'+(totalVal/1000).toFixed(1)+'B' : '—';
 
-  tbody.innerHTML = cos.map((c, idx) => {
-    const m = notionMetrics[c.name] || {};
-    const rev = m.rev ? '$'+(m.rev/1e6).toFixed(1)+'M' : '<span class="metric-dim">—</span>';
-    const burn = m.burn ? '$'+(m.burn/1e3).toFixed(0)+'K' : '<span class="metric-dim">—</span>';
-    const cash = m.cash ? '$'+(m.cash/1e6).toFixed(1)+'M' : '<span class="metric-dim">—</span>';
+  document.getElementById('co-tbody').innerHTML = cos.map((c,idx)=>{
+    const m = notionMetrics[c.name]||{};
+    const rev = m.rev ? '$'+fmtNum(m.rev) : '<span class="metric-dim">—</span>';
+    const burn = m.burn ? '<span class="metric-red">$'+fmtNum(m.burn)+'</span>' : '<span class="metric-dim">—</span>';
+    const fte = m.fte ? m.fte : '<span class="metric-dim">—</span>';
+    const cash = m.cash ? '$'+fmtNum(m.cash) : '<span class="metric-dim">—</span>';
     const runway = m.runway ? m.runway+'mo' : '<span class="metric-dim">—</span>';
     return `<tr data-idx="${idx}">
       <td><span class="co-name">${esc(c.name)}</span></td>
       <td><span class="metric-dim">${esc(c.sector||'')}</span></td>
       <td><span class="metric-dim">${c.year||'—'}</span></td>
-      <td>${rev}</td><td>${burn}</td><td>${cash}</td><td>${runway}</td>
-      <td class="metric-val">${esc(c.val)}</td>
-      <td><span class="status-pill ${statusClasses[c.status]}">${statusLabels[c.status]}</span></td>
-      <td><span class="chevron">›</span></td>
+      <td>${rev}</td><td>${burn}</td><td>${fte}</td><td>${cash}</td><td>${runway}</td>
+      <td class="metric-val">${esc(c.currentVal)}</td>
     </tr>`;
   }).join('');
 }
 
-// ── INIT — everything in one DOMContentLoaded so order is guaranteed ──────────
-document.addEventListener('DOMContentLoaded', function() {
-  // Attach click delegation on the table body (survives innerHTML re-renders)
-  document.getElementById('co-tbody').addEventListener('click', function(e) {
-    const row = e.target.closest('tr[data-idx]');
-    if (!row) return;
-    const idx = parseInt(row.getAttribute('data-idx'), 10);
-    const company = visibleCompanies[idx];
-    if (company) openPanel(company);
-  });
+function fmtNum(n){
+  if(n>=1e9) return (n/1e9).toFixed(1)+'B';
+  if(n>=1e6) return (n/1e6).toFixed(1)+'M';
+  if(n>=1e3) return (n/1e3).toFixed(0)+'K';
+  return n;
+}
 
-  renderTable();
-  renderRequests();
-  loadLiveData();
-});
+// ── FUNDS TAB ─────────────────────────────────────────────────────────────────
+function renderFunds(){
+  const statusLabels={active:'Active',shut:'Shut Down',exited:'Exited / Acquired'};
+  const statusClasses={active:'pill-active',shut:'pill-shut',exited:'pill-exited'};
+
+  document.getElementById('funds-content').innerHTML = FUND_DATA.map(fund=>{
+    const active = fund.companies.filter(c=>c.status==='active').length;
+    const shut = fund.companies.filter(c=>c.status==='shut').length;
+    const exited = fund.companies.filter(c=>c.status==='exited').length;
+
+    // Calculate total invested val and current val for active companies
+    let totalInvest=0, totalCurrent=0;
+    fund.companies.forEach(c=>{
+      const inv=parseMoney(c.investVal), cur=parseMoney(c.currentVal);
+      if(inv) totalInvest+=inv;
+      if(cur) totalCurrent+=cur;
+    });
+
+    const rows = fund.companies.map(c=>{
+      const inv=parseMoney(c.investVal), cur=parseMoney(c.currentVal);
+      // Look up check size from COMPANIES array
+      const co = COMPANIES.find(x=>x.name===c.name);
+      const checkSize = co ? co.check : '—';
+      let moicHtml='<span class="metric-dim">—</span>';
+      if(inv&&cur&&c.status==='active'){
+        const m=(cur/inv).toFixed(1);
+        const cls=m>=2?'moic-up':m>=1?'moic-flat':'moic-down';
+        moicHtml=`<span class="moic-pill ${cls}">${m}x</span>`;
+      }
+      const isShutOrAcq = c.status!=='active';
+      return `<tr style="${isShutOrAcq?'opacity:.55':''}">
+        <td><span class="fund-co-name">${esc(c.name)}</span></td>
+        <td><span class="status-pill ${statusClasses[c.status]}">${statusLabels[c.status]}</span></td>
+        <td class="metric-val">${esc(checkSize)}</td>
+        <td class="metric-val">${esc(c.investVal)}</td>
+        <td class="metric-val">${esc(c.currentVal)}</td>
+        <td>${moicHtml}</td>
+      </tr>`;
+    }).join('');
+
+    return `<div class="fund-section">
+      <div class="fund-header">
+        <div>
+          <div class="fund-title">${esc(fund.name)}</div>
+          <div style="font-size:11px;color:var(--midtone);margin-top:3px">${esc(fund.vintage)} · ${fund.companies.length} companies · ${active} active · ${shut} shut down · ${exited} exited</div>
+        </div>
+        <div class="fund-meta">
+          ${totalInvest?`<div class="fund-stat"><div class="fund-stat-val">$${totalInvest>=1000?(totalInvest/1000).toFixed(1)+'B':totalInvest.toFixed(0)+'M'}</div><div class="fund-stat-label">Total Invested At</div></div>`:''}
+          ${totalCurrent?`<div class="fund-stat"><div class="fund-stat-val">$${totalCurrent>=1000?(totalCurrent/1000).toFixed(1)+'B':totalCurrent.toFixed(0)+'M'}</div><div class="fund-stat-label">Total Current (Active)</div></div>`:''}
+        </div>
+      </div>
+      <div class="fund-table-wrap">
+        <table class="fund-table">
+          <thead><tr>
+            <th>Company</th><th>Status</th><th>BBQ Check</th><th>Valuation at Investment</th><th>Current Valuation</th><th>Multiple</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+}
 
 // ── PANEL ─────────────────────────────────────────────────────────────────────
-function openPanel(c) {
-  if (!c) return;
-  const m = notionMetrics[c.name] || {};
-
-  const founderCards = c.founders.map(f => `
+function openPanel(c){
+  if(!c) return;
+  const m = notionMetrics[c.name]||{};
+  const founderCards = c.founders.map(f=>`
     <div class="founder-card">
       <span class="founder-name">${esc(f.name)}</span>
-      ${f.li ? `<a class="li-link" href="${esc(f.li)}" target="_blank" rel="noopener">
+      ${f.li?`<a class="li-link" href="${esc(f.li)}" target="_blank" rel="noopener">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>` : ''}
+        LinkedIn</a>` : ''}
     </div>`).join('');
 
-  const reqHtml = (m.requests && m.requests.length) ? m.requests.map(r => `
+  const inv=parseMoney(c.investVal), cur=parseMoney(c.currentVal);
+  let multipleHtml='';
+  if(inv&&cur&&c.status==='active'){
+    const mult=(cur/inv).toFixed(1);
+    multipleHtml=`<div class="kv-item"><div class="kv-key">Return Multiple</div><div class="kv-val">${mult}x</div></div>`;
+  }
+
+  const reqHtml = (m.requests&&m.requests.length) ? m.requests.map(r=>`
     <div class="req-item">
       <div class="req-type">${esc(r.type||'Request')}</div>
       <div class="req-text">${esc(r.text)}</div>
@@ -466,103 +585,134 @@ function openPanel(c) {
 
   document.getElementById('panel-body').innerHTML = `
     <div class="panel-co-name">${esc(c.name)}</div>
-    ${c.url ? `<div class="panel-url"><a href="${esc(c.url)}" target="_blank" rel="noopener">↗ ${esc(c.url.replace(/https?:\/\//,''))}</a></div>` : '<div style="margin-bottom:20px"></div>'}
-
+    ${c.url?`<div class="panel-url"><a href="${esc(c.url)}" target="_blank" rel="noopener">↗ ${esc(c.url.replace(/https?:\/\//,''))}</a></div>`:'<div style="margin-bottom:20px"></div>'}
     <div class="panel-section">
       <div class="panel-section-label">Investment Details</div>
       <div class="kv-grid">
         <div class="kv-item"><div class="kv-key">BBQ Check Size</div><div class="kv-val">${esc(c.check)}</div></div>
-        <div class="kv-item"><div class="kv-key">Valuation at Investment</div><div class="kv-val">${esc(c.val)}</div></div>
-        <div class="kv-item"><div class="kv-key">Investment Year</div><div class="kv-val">${c.year||'—'}</div></div>
-        <div class="kv-item"><div class="kv-key">Sector</div><div class="kv-val" style="font-size:13px;font-family:'DM Sans',sans-serif">${esc(c.sector||'—')}</div></div>
+        <div class="kv-item"><div class="kv-key">Fund</div><div class="kv-val">Fund ${c.fund}</div></div>
+        <div class="kv-item"><div class="kv-key">Valuation at Investment</div><div class="kv-val">${esc(c.investVal)}</div></div>
+        <div class="kv-item"><div class="kv-key">Current Valuation</div><div class="kv-val">${esc(c.currentVal)}</div></div>
+        ${multipleHtml}
+        <div class="kv-item"><div class="kv-key">Year</div><div class="kv-val">${c.year||'—'}</div></div>
       </div>
     </div>
-
-    ${c.email ? `<div class="panel-section">
+    ${c.email?`<div class="panel-section">
       <div class="panel-section-label">Contact</div>
       <a class="email-link" href="mailto:${esc(c.email)}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-        ${esc(c.email)}
-      </a>
-    </div>` : ''}
-
+        ${esc(c.email)}</a>
+    </div>`:''}
     <div class="panel-section">
       <div class="panel-section-label">Founders (${c.founders.length})</div>
       <div class="founder-list">${founderCards}</div>
     </div>
-
-    ${m.rev || m.burn ? `<div class="panel-section">
-      <div class="panel-section-label">Latest Metrics</div>
+    ${m.rev||m.burn?`<div class="panel-section">
+      <div class="panel-section-label">Latest Metrics (from Notion)</div>
       <div class="kv-grid">
-        ${m.rev ? `<div class="kv-item"><div class="kv-key">Revenue</div><div class="kv-val">$${(m.rev/1e6).toFixed(1)}M</div></div>` : ''}
-        ${m.burn ? `<div class="kv-item"><div class="kv-key">Monthly Burn</div><div class="kv-val">$${(m.burn/1e3).toFixed(0)}K</div></div>` : ''}
-        ${m.cash ? `<div class="kv-item"><div class="kv-key">Cash on Hand</div><div class="kv-val">$${(m.cash/1e6).toFixed(1)}M</div></div>` : ''}
-        ${m.runway ? `<div class="kv-item"><div class="kv-key">Runway</div><div class="kv-val">${m.runway} months</div></div>` : ''}
+        ${m.rev?`<div class="kv-item"><div class="kv-key">Revenue</div><div class="kv-val">$${fmtNum(m.rev)}</div></div>`:''}
+        ${m.burn?`<div class="kv-item"><div class="kv-key">Monthly Burn</div><div class="kv-val">$${fmtNum(m.burn)}</div></div>`:''}
+        ${m.cash?`<div class="kv-item"><div class="kv-key">Cash on Hand</div><div class="kv-val">$${fmtNum(m.cash)}</div></div>`:''}
+        ${m.runway?`<div class="kv-item"><div class="kv-key">Runway</div><div class="kv-val">${m.runway} months</div></div>`:''}
       </div>
-    </div>` : ''}
-
+    </div>`:''}
     <div class="panel-section">
       <div class="panel-section-label">Open Requests</div>
-      <div class="panel-requests">${reqHtml}</div>
-    </div>
-  `;
+      <div>${reqHtml}</div>
+    </div>`;
 
   document.getElementById('panel-overlay').classList.add('open');
   document.getElementById('company-panel').classList.add('open');
-  document.addEventListener('keydown', handleEsc);
 }
 
-function closePanel() {
+function closePanel(){
   document.getElementById('panel-overlay').classList.remove('open');
   document.getElementById('company-panel').classList.remove('open');
-  document.removeEventListener('keydown', handleEsc);
-}
-function handleEsc(e) { if (e.key === 'Escape') closePanel(); }
-
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-// ── REQUESTS TAB ──────────────────────────────────────────────────────────────
-const REQUESTS = [
-  {co:'Taiv',type:'Customer Intro',text:'Looking for intros to major sports bars and restaurant chains across the US.',status:'open',date:'Apr 2026'},
-  {co:'Bree',type:'Investor Intro',text:'Raising Series A — looking for warm intros to Tier 1 fintech VCs.',status:'progress',date:'Mar 2026'},
-  {co:'Factory',type:'Hiring Help',text:'Seeking senior ML engineers with LLM fine-tuning experience.',status:'open',date:'Apr 2026'},
-];
-function renderRequests() {
-  const statusClass = {open:'badge-open',progress:'badge-progress',done:'badge-done'};
-  const statusLabel = {open:'Open',progress:'In Progress',done:'Done'};
-  document.getElementById('req-list').innerHTML = REQUESTS.map(r => `
-    <div class="req-card">
-      <div class="req-card-header">
-        <span class="req-card-co">${esc(r.co)}</span>
-        <span class="req-badge ${statusClass[r.status]}">${statusLabel[r.status]}</span>
-      </div>
-      <div class="req-card-text">${esc(r.text)}</div>
-      <div class="req-card-meta">${esc(r.type)} · ${esc(r.date)}</div>
-    </div>`).join('');
 }
 
-// ── NOTION LIVE DATA ──────────────────────────────────────────────────────────
-async function loadLiveData() {
-  try {
+// ── REQUESTS ──────────────────────────────────────────────────────────────────
+async function loadNotionRequests(){
+  try{
     const res = await fetch('/api/notion');
-    if (!res.ok) throw new Error('not ok');
+    if(!res.ok) throw new Error();
     const data = await res.json();
-    notionMetrics = data.metrics || {};
-    renderTable();
-    const dot = document.getElementById('sync-dot');
-    const lbl = document.getElementById('sync-label');
+    notionMetrics = data.metrics||{};
+    const reqs = data.requests||[];
+    document.getElementById('req-open').textContent = reqs.filter(r=>r.status==='open').length||'0';
+    document.getElementById('req-prog').textContent = reqs.filter(r=>r.status==='progress').length||'0';
+    document.getElementById('req-done').textContent = reqs.filter(r=>r.status==='done').length||'0';
+    const statusClass={open:'badge-open',progress:'badge-progress',done:'badge-done'};
+    const statusLabel={open:'Open',progress:'In Progress',done:'Done'};
+    document.getElementById('req-list').innerHTML = reqs.length ? reqs.map(r=>`
+      <div class="req-card">
+        <div class="req-card-header">
+          <span class="req-card-co">${esc(r.company||'')}</span>
+          <span class="req-badge ${statusClass[r.status]||'badge-open'}">${statusLabel[r.status]||'Open'}</span>
+        </div>
+        <div class="req-card-text">${esc(r.text||r.description||'')}</div>
+        <div class="req-card-meta">${esc(r.type||'')} · ${esc(r.date||'')}</div>
+      </div>`).join('') :
+      '<p style="font-size:12px;color:var(--midtone);font-style:italic">No open requests — Notion will populate this automatically from investor update emails.</p>';
+
+    // Update sync indicator
+    const dot=document.getElementById('sync-dot');
     dot.classList.remove('loading');
-    const d = new Date(data.syncedAt);
-    lbl.textContent = 'Live · ' + d.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const d=new Date(data.syncedAt||Date.now());
+    document.getElementById('sync-label').textContent='Live · Notion synced '+d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    renderTable(); // re-render with live metrics
+    updateRevStat();
   } catch {
-    const dot = document.getElementById('sync-dot');
+    const dot=document.getElementById('sync-dot');
     dot.classList.remove('loading');
     dot.classList.add('error');
-    document.getElementById('sync-label').textContent = 'Showing static data — Notion not connected';
+    document.getElementById('sync-label').textContent='Showing static data — Notion not connected';
+    // Still render requests section with fallback
+    document.getElementById('req-open').textContent='—';
+    document.getElementById('req-prog').textContent='—';
+    document.getElementById('req-done').textContent='—';
+    document.getElementById('req-list').innerHTML='<p style="font-size:12px;color:var(--midtone);font-style:italic">Notion not connected. Reconnect to see live requests from investor updates.</p>';
+    renderTable();
+    updateRevStat();
   }
 }
 
-// (init is handled in DOMContentLoaded above)
+function updateRevStat(){
+  let total=0, count=0;
+  Object.values(notionMetrics).forEach(m=>{ if(m.rev){total+=m.rev;count++;} });
+  if(count>0){
+    document.getElementById('stat-rev').textContent='$'+fmtNum(total);
+    document.getElementById('stat-rev-sub').textContent=count+' companies reporting';
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function(){
+  // Tab switching
+  document.querySelectorAll('[data-tab]').forEach(el=>{
+    el.addEventListener('click', ()=>switchTab(el.dataset.tab));
+  });
+
+  // Table row clicks (event delegation)
+  document.getElementById('co-tbody').addEventListener('click', function(e){
+    const row = e.target.closest('tr[data-idx]');
+    if(!row) return;
+    const company = visibleCompanies[parseInt(row.dataset.idx,10)];
+    if(company) openPanel(company);
+  });
+
+  // Search + sector
+  document.getElementById('search-input').addEventListener('input', renderTable);
+  document.getElementById('sector-select').addEventListener('change', renderTable);
+
+  // Close panel
+  document.getElementById('panel-overlay').addEventListener('click', closePanel);
+  document.getElementById('panel-close-btn').addEventListener('click', closePanel);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePanel(); });
+
+  renderTable();
+  renderFunds();
+  loadNotionRequests();
+});
 </script>
 </body>
 </html>
