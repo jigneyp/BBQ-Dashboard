@@ -636,11 +636,33 @@ async function loadNotionRequests(){
     const res = await fetch('/api/data');
     if(!res.ok) throw new Error();
     const data = await res.json();
-    notionMetrics = data.metrics||{};
-    const reqs = data.requests||[];
-    document.getElementById('req-open').textContent = reqs.filter(r=>r.status==='open').length||'0';
-    document.getElementById('req-prog').textContent = reqs.filter(r=>r.status==='progress').length||'0';
-    document.getElementById('req-done').textContent = reqs.filter(r=>r.status==='done').length||'0';
+    // Normalize — handle both old format (revenue/cashOnHand) and new (rev/cash)
+    const raw = data.metrics||{};
+    notionMetrics = {};
+    for (const [co, m] of Object.entries(raw)) {
+      notionMetrics[co] = {
+        rev:    m.rev    ?? m.revenue    ?? m.Revenue    ?? null,
+        burn:   m.burn   ?? m.Burn       ?? null,
+        cash:   m.cash   ?? m.cashOnHand ?? m['Cash on Hand'] ?? m.cash_on_hand ?? null,
+        runway: m.runway ?? m['Runway (months)'] ?? m.runwayMonths ?? null,
+        fte:    m.fte    ?? m.FTE        ?? null,
+        requests: m.requests || [],
+      };
+    }
+    // Normalize & deduplicate requests
+    const rawReqs = data.requests||[];
+    const seen = new Set();
+    const reqs = [];
+    for (const r of rawReqs) {
+      const key = `${r.company||''}|${r.type||''}|${(r.text||r.description||'').slice(0,40)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const s = (r.status||'open').toLowerCase().replace(/\s+/g,'');
+      reqs.push({...r, status: s === 'inprogress' ? 'progress' : s === 'done' ? 'done' : 'open'});
+    }
+    document.getElementById('req-open').textContent = reqs.filter(r=>r.status==='open').length;
+    document.getElementById('req-prog').textContent  = reqs.filter(r=>r.status==='progress').length;
+    document.getElementById('req-done').textContent  = reqs.filter(r=>r.status==='done').length;
     const statusClass={open:'badge-open',progress:'badge-progress',done:'badge-done'};
     const statusLabel={open:'Open',progress:'In Progress',done:'Done'};
     document.getElementById('req-list').innerHTML = reqs.length ? reqs.map(r=>`
