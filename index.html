@@ -633,7 +633,7 @@ function closePanel(){
 // ── REQUESTS ──────────────────────────────────────────────────────────────────
 async function loadNotionRequests(){
   try{
-    const res = await fetch('/api/notion');
+    const res = await fetch('/api/data');
     if(!res.ok) throw new Error();
     const data = await res.json();
     notionMetrics = data.metrics||{};
